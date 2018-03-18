@@ -3,10 +3,15 @@
 ## Team
 
 Garielle Bartomeo
+
 Binish Chandry
+
 Zach Dravis
+
 Burcu Kaniskan
+
 Niteen Kumar
+
 Betsy Rosalen
 
 ## Project Description
