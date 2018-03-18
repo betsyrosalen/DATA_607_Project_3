@@ -45,6 +45,6 @@ Visualizations: Betsy, Burcu
 
 ## Proposed potential specific research questions?
 
-1. Do  R users recommend Python more than Python users recommend R ?
+1. Is there any interaction between the Kaggle survey takers' program language use (R or Python) and their recommended program languages? (e.g. R users recommending R more than Python users recommending Python)
  
 
