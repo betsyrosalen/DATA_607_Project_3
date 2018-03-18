@@ -20,7 +20,7 @@ Betsy Rosalen
 
 Web Scraping: Niteen and Binish
 
-Cleaning and Tidying Data from Kaggle and from the web: Zach and Burcu and others?
+Cleaning and Tidying Data from Kaggle and from the web: Zach, Burcu, Betsy, and others?
 
 Storing data in MySQL: Zach
 
