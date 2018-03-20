@@ -45,6 +45,7 @@ Visualizations: Betsy, Burcu
 
 ## Proposed potential specific research questions?
 
-```1. Is there any interaction between the Kaggle survey takers' program language use (R or Python) and their recommended program languages? (e.g. R users recommending R more than Python users recommending Python)```
+``` 1. Is there any interaction between the Kaggle survey takers' program language use (R or Python) and their recommended program languages? (e.g. R users recommending R more than Python users recommending Python)```
+``` 2. Does survey takers' formal education has any relationship to the ML/DS method he or she is most excited about learning in the next year ```
  
 
