@@ -45,11 +45,12 @@ Visualizations: Betsy, Burcu
 
 ## Proposed potential specific research questions?
 
-``` 1. Is there any interaction between the Kaggle survey takers' program language use (R or Python) and their recommended program languages? (e.g. R users recommending R more than Python users recommending Python)```   (Burcu)
-``` 2. Does survey takers' formal education has any relationship to the ML/DS method he or she is most excited about learning in the next year? ```(Binish)
-```3.  Of those receiving pay in US Dollars, is Python or R overall most profitable for a Kaggle survey taker? (Gabby)
+``` 1. Is there any interaction between the Kaggle survey takers' program language use (R or Python) and their recommended program languages? (e.g. R users recommending R more than Python users recommending Python)  (Burcu) ``` 
 
----
+``` 2. Does survey takers' formal education has any relationship to the ML/DS method he or she is most excited about learning in the next year? (Binish)   ```
+```3.  Of those receiving pay in US Dollars, is Python or R overall most profitable for a Kaggle survey taker? (Gabby)  ```
+
+## Process to answer the potential specific research questions?
 *Columns used:*
 CompensationCurrency (check that it's USD)
 CompensationAmount (the money being paid)
