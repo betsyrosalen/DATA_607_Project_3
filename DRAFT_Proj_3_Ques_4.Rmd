@@ -1,0 +1,66 @@
+---
+title: "CUNY SPS DATA 607 Project 3"
+author: "CUNY SPS DATA 607 Spring 2018"
+date: "March 25, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Data from CSV.
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+rawKaggle <- read_csv("https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/rawdata/multipleChoiceResponses.csv")
+```
+
+```{r}
+# Select only variables that seem most related to “Which are the most valued data science skills?”
+# I May narrow down these columns even more later, but want to leave as much as possible for now
+# Filter for US Only
+USOnly <- rawKaggle %>%
+  select(-c(15:35, 56, 58:71, 78, 206:228)) %>%
+  filter(Country=='United States')
+glimpse(USOnly)
+```
+
+
+```{r}
+# Separate those employed in Data Science from those who are not.
+
+# Filter for Employed only, TitleFit better than 'Poorly', and CodeWriters only
+# Remove those that said they are "Employed by a company that doesn't perform advanced analytics"
+employed <- USOnly %>%
+  filter(!grepl('Not employed',EmploymentStatus), TitleFit!="Poorly",
+         !grepl('Employed by a company that doesn\'t perform advanced analytics', CurrentEmployerType),
+         CodeWriter=="Yes")
+  
+# Filter for Data Science Learners who are not employed.  
+# The Survey failed to capture those who are employed and ALSO students or learners!!!  
+# Didn't bother to ask Employed respondents if they were also sudying Data Science.
+learner <- USOnly %>%
+  filter(grepl('Not employed',EmploymentStatus),
+         grepl('Yes',LearningDataScience))
+```
+
+```{r}
+# Take a peek at the demographics of those who are employed...
+employed %>% 
+  group_by(CurrentJobTitleSelect) %>%
+  summarise(n())
+
+# Need to Tidy this data so that each response is in a separate row rather than all in one
+employed %>% 
+  group_by(CurrentEmployerType) %>%
+  summarise(n())
+```
+
+```{r}
+# Take a peek at the demographics of those who are learners...
+learner %>% 
+  group_by(StudentStatus, LearningDataScience) %>%
+  summarise(n())
+```
+
