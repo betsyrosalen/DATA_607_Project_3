@@ -45,11 +45,10 @@ Visualizations: Betsy, Burcu
 
 ## Proposed potential specific research questions?
 
-``` 1. Is there any interaction between the Kaggle survey takers' program language use (R or Python) and their recommended program languages? (e.g. R users recommending R more than Python users recommending Python)  (Burcu) ``` 
-
-``` 2. Does survey takers' formal education has any relationship to the ML/DS method he or she is most excited about learning in the next year? (Binish)   ```  
-
-```3.  Of those receiving pay in US Dollars, is Python or R overall most profitable for a Kaggle survey taker? (Gabby)  ```
+ 1. Is there any interaction between the Kaggle survey takers' program language use (R or Python) and their recommended program languages? (e.g. R users recommending R more than Python users recommending Python)  (Burcu)
+ 2. Does survey takers' formal education has any relationship to the ML/DS method he or she is most excited about learning in the next year? (Binish)
+ 3.  Of those receiving pay in US Dollars, is Python or R overall most profitable for a Kaggle survey taker? (Gabby)
+ 4. Is there a difference between what 'Learners' think are the important skills to learn and what employed Data Scientists say are the skils and tools they are using? (Betsy)
 
 ## Process to answer the potential specific research questions?
 
@@ -73,4 +72,6 @@ Visualizations: Betsy, Burcu
 + Remove all rows where the WorkToolsSelect lists do not contain either "Python" or "R"
 + Plot it using ggplot2... not sure which plot yet.
  
+### Question 4
 
+See DRAFT_Proj_3_Ques_4.Rmd file.
