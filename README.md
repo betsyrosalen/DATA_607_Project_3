@@ -35,7 +35,7 @@ You are encouraged to start early, ask many questions, actively post on the prov
 
 Web Scraping: Niteen and Binish
 
-Cleaning and Tidying Data from Kaggle and from the web: Zach, Burcu, Betsy, and others?
+Cleaning and Tidying Data from Kaggle and from the web: Zach, Burcu, Betsy, Gabby, and others?
 
 Storing data in MySQL: Zach
 
