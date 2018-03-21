@@ -2,7 +2,7 @@
 
 ## Team
 
-Garielle Bartomeo
+Gabrielle Bartomeo
 
 Binish Chandry
 
@@ -52,18 +52,25 @@ Visualizations: Betsy, Burcu
 ```3.  Of those receiving pay in US Dollars, is Python or R overall most profitable for a Kaggle survey taker? (Gabby)  ```
 
 ## Process to answer the potential specific research questions?
+
+### Question 1
+
+### Question 2
+
+### Question 3
+
 *Columns used:*
-CompensationCurrency (check that it's USD)
-CompensationAmount (the money being paid)
-WorkToolsSelect (the language being used)
++ CompensationCurrency (check that it's USD)
++ CompensationAmount (the money being paid)
++ WorkToolsSelect (the language being used)
 
 *Process:*
-Use select and filter to get only those who receive their pay in USD
-Make sure the CompensationAmount column is regex'd properly so it can be put into numeric format
-Remove all rows where the values for CompensationAmount are NA
-Remove all rows where the values for WorkToolsSelect are NA
-Make the values in WorkToolsSelect into lists; using strsplit should be adequate
-Remove all rows where the WorkToolsSelect lists do not contain either "Python" or "R"
-Plot it using ggplot2... not sure which plot yet.
++ Use select and filter to get only those who receive their pay in USD
++ Make sure the CompensationAmount column is regex'd properly so it can be put into numeric format
++ Remove all rows where the values for CompensationAmount are NA
++ Remove all rows where the values for WorkToolsSelect are NA
++ Make the values in WorkToolsSelect into lists; using strsplit should be adequate
++ Remove all rows where the WorkToolsSelect lists do not contain either "Python" or "R"
++ Plot it using ggplot2... not sure which plot yet.
  
 
