@@ -32,13 +32,18 @@ unique(Q1$LearningPlatformSelect)
 
 This unique function shows that each observation's values look like the different selections from a checkbox answer in a string.  I plan to collapse all of the individual answers into one string and then separate each answer into the element of a vector.
 ```{r, eval = F}
-MasterString <- NULL
-for(i in 1:dim(Q1)[1]){
-  x <- str_c(MasterString, Q1$LearningPlatformSelect[1], sep = " ; ")
-  MasterString <- append(MasterString, x)
+MasterString <- Q1$LearningPlatformSelect
+Options <- str_c(MasterString, collapse = "")
+Options <- unlist(str_split(MasterString, pattern = ","))
+Options <- unique(Options)
+
+Frequencies <- NULL
+for(i in 1:length(Options)){
+  Frequencies <- append(Frequencies, length(grep(Options[i], MasterString)))
 }
+
+LearningPlatformFrequency <- data.frame(ResponseOptions = Options, Frequencies = Frequencies)
 ```
-Ok, so this doesn't work. I'll come back to this and try something else.
 
 
 
