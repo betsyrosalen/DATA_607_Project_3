@@ -73,6 +73,7 @@ The following 6 research questions will provide answer to this global question.
 ##Research Question1
 
 What is the relationship between the most popular platforms for learning DS and X (Niteen)?
+Alternatively phrased: What data science learning resources and which locations of open data are utilized by people of varying levels of education? (delete me if you need to!)
 
 ## Variables and their definition 
 
