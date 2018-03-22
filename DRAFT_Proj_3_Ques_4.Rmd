@@ -21,7 +21,7 @@ rawKaggle <- read_csv("https://raw.githubusercontent.com/betsyrosalen/DATA_607_P
 # I May narrow down these columns even more later, but want to leave as much as possible for now
 # Filter for US Only
 USOnly <- rawKaggle %>%
-  select(-c(15:35, 56, 58:71, 78, 206:228)) %>%
+  select(-c(56:73, 76:79, 167:196, 198:228)) %>%
   filter(Country=='United States')
 glimpse(USOnly)
 ```
@@ -33,16 +33,23 @@ glimpse(USOnly)
 # Filter for Employed only, TitleFit better than 'Poorly', and CodeWriters only
 # Remove those that said they are "Employed by a company that doesn't perform advanced analytics"
 employed <- USOnly %>%
-  filter(!grepl('Not employed',EmploymentStatus), TitleFit!="Poorly",
-         !grepl('Employed by a company that doesn\'t perform advanced analytics', CurrentEmployerType),
-         CodeWriter=="Yes")
+  filter(!grepl('Not employed',EmploymentStatus), 
+         TitleFit!="Poorly",
+         !grepl('doesn\'t perform advanced analytics',CurrentEmployerType),
+         CodeWriter=="Yes",
+         JobFunctionSelect != 'Build and/or run the data infrastructure')
   
 # Filter for Data Science Learners who are not employed.  
 # The Survey failed to capture those who are employed and ALSO students or learners!!!  
-# Didn't bother to ask Employed respondents if they were also sudying Data Science.
+# Didn't bother to ask employed respondents if they were also sudying Data Science.
 learner <- USOnly %>%
   filter(grepl('Not employed',EmploymentStatus),
          grepl('Yes',LearningDataScience))
+
+# Get rid of empty columns 
+library(janitor)
+employed <- remove_empty_cols(employed)
+learner <- remove_empty_cols(learner)
 ```
 
 ```{r}
@@ -55,6 +62,11 @@ employed %>%
 employed %>% 
   group_by(CurrentEmployerType) %>%
   summarise(n())
+
+employed %>% 
+  filter(JobFunctionSelect != 'Build and/or run the data infrastructure that your business uses for storing, analyzing, and operationalizing data') %>%
+  group_by(CurrentJobTitleSelect) %>%
+  summarise(n())
 ```
 
 ```{r}
@@ -63,4 +75,6 @@ learner %>%
   group_by(StudentStatus, LearningDataScience) %>%
   summarise(n())
 ```
+
+
 
