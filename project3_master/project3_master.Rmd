@@ -48,17 +48,6 @@ Ignore this codeImporting conversionrates data incase we want to do analyses
 ```
 
 
-
-#Subsetting the data
-
-We subset our data for the columns we need
-
-```{r}
-df<-MC 
-```
-
-
-
 # Research Questions
 This project will answer this globalresearch question **Which are the most values data science skills?**
 The following 6 research questions will provide answer to this global question.
