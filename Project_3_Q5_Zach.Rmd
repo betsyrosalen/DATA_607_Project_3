@@ -1,0 +1,55 @@
+---
+title: "Project 3 Zach Research Question"
+author: "Zach Dravis"
+date: "3/21/2018"
+output: html_document
+---
+
+# Potential Research Questions:
+
+1. What are the most popular platforms for learning DS and how useful are they?
+2. Does formal education correlate with considering self a "Data Scientist."
+3. What are the most frequently used DS methods?  Where is the most time spent in terms of working with data?  Do either of these correlate with job title or level of education?
+
+```{r}
+library(dplyr)
+library(stringr)
+```
+
+
+```{r}
+MCData <- read.csv("/Users/zachdravis/Documents/GitHub/DATA_607_Project_3/rawdata/multipleChoiceResponses.csv", stringsAsFactors = F)
+```
+
+# 1. What are the most popular platforms for learning DS and how useful are they?
+```{r}
+Q1 <- MCData %>%
+  select(LearningPlatformSelect:LearningPlatformUsefulnessYouTube)
+
+#First part of the question: which platforms are most possible?
+unique(Q1$LearningPlatformSelect)
+```
+
+This unique function shows that each observation's values look like the different selections from a checkbox answer in a string.  I plan to collapse all of the individual answers into one string and then separate each answer into the element of a vector.
+```{r, eval = F}
+MasterString <- NULL
+for(i in 1:dim(Q1)[1]){
+  x <- str_c(MasterString, Q1$LearningPlatformSelect[1], sep = " ; ")
+  MasterString <- append(MasterString, x)
+}
+```
+Ok, so this doesn't work. I'll come back to this and try something else.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
