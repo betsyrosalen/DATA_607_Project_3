@@ -50,7 +50,7 @@ Visualizations: Betsy, Burcu
  3.  Of those receiving pay in US Dollars, is Python or R overall most profitable for a Kaggle survey taker? (Gabby)
  4. Is there a difference between what 'Learners' think are the important skills to learn and what employed Data Scientists say are the skils and tools they are using? (Betsy)
  5. Thought of a few potential questions: (A) What are the most popular platforms for learning DS and how useful are they? (B) Does formal education correlate with considering self a "Data Scientist." (C) What are the most frequently used DS methods?  Where is the most time spent in terms of working with data?  Do either of these correlate with job title or level of education? (Zach)
- 6. What are the data science learning resources and where to find open data? (Niteen)
+ 6. What data science learning resources and which locations of open data are utilized by people of varying levels of education? (Niteen)
  
 
 ## Process to answer the potential specific research questions?
