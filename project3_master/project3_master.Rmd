@@ -130,7 +130,7 @@ This section will describe the name of the variables and their labels (as report
 
 #creating a new variable called work_tools where the original column values are split
 RQ5<-MC %>%
-select (WorkToolsSelect,LanguageRecommendationSelect)%>% 
+select (WorkToolsSelect,LanguageRecommendationSelect,id)%>% 
   mutate(work_tools = strsplit(as.character(WorkToolsSelect), ",")) %>% 
   unnest(work_tools)
 
