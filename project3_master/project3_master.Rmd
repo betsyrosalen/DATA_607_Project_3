@@ -54,9 +54,7 @@ Ignore this codeImporting conversionrates data incase we want to do analyses
 We subset our data for the columns we need
 
 ```{r}
-df<-MC %>%
-select (WorkToolsSelect, id, Country, JobFunctionSelect, CurrentJobTitleSelect, LanguageRecommendationSelect, LearningPlatformSelect, FormalEducation, LearningPlatformSelect:LearningPlatformUsefulnessYouTube, CompensationAmount, CompensationCurrency, EmploymentStatus, TitleFit, CodeWriter, LearningDataScience, CurrentEmployerType, StudentStatus)
-colnames(df)
+df<-MC 
 ```
 
 
@@ -142,11 +140,12 @@ This section will describe the name of the variables and their labels (as report
 ```{r}
 
 #creating a new variable called work_tools where the original column values are split
-RQ5<-df %>% 
+RQ5<-MC %>%
+select (WorkToolsSelect,LanguageRecommendationSelect)%>% 
   mutate(work_tools = strsplit(as.character(WorkToolsSelect), ",")) %>% 
   unnest(work_tools)
 
-#checking the top 100 rows for the newly created work_tools variable using top_n function
+#checking the top 5 rows for the newly created work_tools variable using top_n function
 RQ5 %>%
 select (work_tools,WorkToolsSelect, id)%>%
 filter (id %in% c(1:5))%>%
@@ -165,8 +164,13 @@ This section will describe the name of the variables and their labels (as report
 ### Manipulating data
 
 ```{r}
-RQ6 <- filter(RQ5, !is.na(WorkToolsSelect)) # Filters out all columns with NA in the WorkToolsSelect column
+RQ6 <- MC %>%
+select (WorkToolsSelect)%>% 
+  mutate(work_tools = strsplit(as.character(WorkToolsSelect), ",")) %>% 
+  unnest(work_tools)
+
 RQ6 <- RQ6 %>%
+filter(RQ5, !is.na(WorkToolsSelect)) # Filters out all columns with NA in the WorkToolsSelect column %>% 
   filter(CompensationCurrency == "USD") %>% # Makes sure to only use rows whose currency is in USD
   filter(work_tools == "Python" | work_tools == "R") %>% # The work tools are R or Python, period.
   select(id, work_tools, CompensationAmount) # Only have three rows to work with
