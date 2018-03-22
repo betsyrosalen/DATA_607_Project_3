@@ -57,9 +57,9 @@ Visualizations: Betsy, Burcu
 
 ### Question 1
 
-*Columns used:*
-+ LanguageRecommendationSelect=What programming language would you recommend a new data scientist learn first? (Select one option) - Selected Choice . 
-+WorkToolsSelect=For work, which data science/analytics tools, technologies, and languages have you used in the past year? (Select all that apply) - Selected Choice . 
+*Columns used:*  
++ LanguageRecommendationSelect=What programming language would you recommend a new data scientist learn first? (Select one option) - Selected Choice   
++WorkToolsSelect=For work, which data science/analytics tools, technologies, and languages have you used in the past year? (Select all that apply) - Selected Choice   
 
 
 ### Question 2
