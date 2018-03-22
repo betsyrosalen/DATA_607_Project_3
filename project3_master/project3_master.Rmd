@@ -169,6 +169,22 @@ This section will describe the name of the variables and their labels (as report
 
 ### Manipulating data
 
+```{r}
+RQ6 <- filter(RQ5, !is.na(WorkToolsSelect)) # Filters out all columns with NA in the WorkToolsSelect column
+RQ6 <- RQ6 %>%
+  filter(CompensationCurrency == "USD") %>% # Makes sure to only use rows whose currency is in USD
+  filter(work_tools == "Python" | work_tools == "R") %>% # The work tools are R or Python, period.
+  select(id, work_tools, CompensationAmount) # Only have three rows to work with
+RQ6_ids <- select(filter(as.data.frame(table(RQ6$id)), Freq == 1), Var1) # Only want people who use R or Python EXCLUSIVELY, not R and/or Python
+RQ6_ids <- droplevels(RQ6_ids)$Var1 # Removed the levels so we can actually get the IDs
+RQ6 <- filter(RQ6, id %in% RQ6_ids) # Only keep those rows whose id are inside of list of ids with R or Python exclusively used at work
+RQ6 <- select(RQ6, -id) # No use for the ID anymore, it's done its job
+RQ6$CompensationAmount <- gsub(",", "", RQ6$CompensationAmount) # Removed the commas from the compensation amount to prep for numeric transformation
+RQ6$CompensationAmount <- as.numeric(RQ6$CompensationAmount) # made the column into a numeric for easier mathematical comparison and sorting
+RQ6 <- filter(RQ6, CompensationAmount < 9999999) # ... let's just be a little realistic, nobody is earning more than fifteen million a year at this point in time or prior to it, and this one-dollar-off-from-a-million entry is an anomaly in the data set
+rm(RQ6_ids) # remove the now-unused variable to save memory
+```
+
 ### Exploratory Data Analysis (EDA)
 
 ```{r}
