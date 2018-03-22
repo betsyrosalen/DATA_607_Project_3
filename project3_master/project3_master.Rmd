@@ -1,6 +1,6 @@
 ---
 title: "Project3"
-author: "Gabrielle Bartomeo, Binish Chandry,Zach Dravis,Burcu Kaniskan,Niteen Kumar, Betsy Rosalen"
+author: "Gabrielle Bartomeo, Binish Chandy, Zach Dravis, Burcu Kaniskan, Niteen Kumar, Betsy Rosalen"
 date: "3/21/2018"
 output: 
   html_document:
@@ -16,17 +16,12 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-# Loading libraries
-
-```{r message=FALSE}
 library(knitr)
 library(tidyverse)
 library(DT)
 library(kableExtra)
 library(lubridate)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 #Importing data
