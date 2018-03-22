@@ -130,7 +130,6 @@ This section will describe the name of the variables and their labels (as report
 
 #creating a new variable called work_tools where the original column values are split
 RQ5<-MC %>%
-select (WorkToolsSelect,LanguageRecommendationSelect,id)%>% 
   mutate(work_tools = strsplit(as.character(WorkToolsSelect), ",")) %>% 
   unnest(work_tools)
 
@@ -154,12 +153,11 @@ This section will describe the name of the variables and their labels (as report
 
 ```{r}
 RQ6 <- MC %>%
-select (WorkToolsSelect)%>% 
   mutate(work_tools = strsplit(as.character(WorkToolsSelect), ",")) %>% 
   unnest(work_tools)
 
 RQ6 <- RQ6 %>%
-filter(RQ5, !is.na(WorkToolsSelect)) # Filters out all columns with NA in the WorkToolsSelect column %>% 
+  filter(!is.na(WorkToolsSelect)) %>%  # Filters out all columns with NA in the WorkToolsSelect column
   filter(CompensationCurrency == "USD") %>% # Makes sure to only use rows whose currency is in USD
   filter(work_tools == "Python" | work_tools == "R") %>% # The work tools are R or Python, period.
   select(id, work_tools, CompensationAmount) # Only have three rows to work with
