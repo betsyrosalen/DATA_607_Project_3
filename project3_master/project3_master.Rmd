@@ -34,7 +34,7 @@ The data set used in this project is [Kaggle ML and Data Science Survey 2017](ht
 
 Importing Multiple Choice data
 ```{r message=FALSE ,warning=FALSE}
-linkMC<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/rawdata/multipleChoiceResponses.csv"
+linkMC<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/multipleChoiceResponses.csv"
 #importing MC items
 MC<-read_csv (linkMC)
 dim(MC)
@@ -44,7 +44,7 @@ MC$id <- seq.int(nrow(MC))
 
 Ignore this codeImporting conversionrates data incase we want to do analyses 
 ```{r message=FALSE ,warning=FALSE}
-# link_conversion<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/rawdata/conversionRates.csv"
+# link_conversion<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/conversionRates.csv"
 # #importing MC items
 # conversion<-read_csv (link_conversion)
 # dim(conversion)
