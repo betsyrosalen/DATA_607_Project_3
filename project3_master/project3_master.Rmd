@@ -60,7 +60,7 @@ We subset our data for the columns we need
 
 ```{r}
 df<-MC %>%
-select (WorkToolsSelect, id,Country,JobFunctionSelect,CurrentJobTitleSelect,LanguageRecommendationSelect,LearningPlatformSelect,FormalEducation,LearningPlatformSelect:LearningPlatformUsefulnessYouTube,CompensationAmount)
+select (WorkToolsSelect, id, Country, JobFunctionSelect, CurrentJobTitleSelect, LanguageRecommendationSelect, LearningPlatformSelect, FormalEducation, LearningPlatformSelect:LearningPlatformUsefulnessYouTube, CompensationAmount, CompensationCurrency)
 colnames(df)
 ```
 
