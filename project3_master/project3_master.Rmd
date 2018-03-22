@@ -188,5 +188,19 @@ rm(RQ6_ids) # remove the now-unused variable to save memory
 ### Exploratory Data Analysis (EDA)
 
 ```{r}
-
+RQ6_boxplot <- ggplot(RQ6) +
+  geom_boxplot( aes(x = factor(work_tools), 
+                    y = CompensationAmount,
+                    fill = factor(work_tools)
+                     )
+                  ) +
+  scale_y_continuous(breaks=seq(0,2000000,25000)) +
+  labs( x = "Programming Language",
+        y = "Annual Compensation in USD",
+        fill = "Programming Language")
+RQ6_boxplot_ylim <- boxplot.stats(RQ6$CompensationAmount)$stats[c(1, 5)]
+RQ6_boxplot <- RQ6_boxplot + coord_cartesian(ylim = RQ6_boxplot_ylim*1.05)
+RQ6_boxplot
 ```
+
+The average survey taker who used Python in their job made approximately \$`r formatC(colMeans(select(filter(RQ6, work_tools=="Python"),CompensationAmount))-colMeans(select(filter(RQ6, work_tools=="R"),CompensationAmount)), digits=2, format="f", big.mark=",")` more than the average survey taker who used R in their job. While R users overall had a higher base pay - to the tune of $`r formatC(quantile(select(filter(RQ6, work_tools=="R"),CompensationAmount)[[1]])["25%"]-quantile(select(filter(RQ6, work_tools=="Python"),CompensationAmount)[[1]])["25%"], digits=2, format="f", big.mark=",")` more than their Python counterparts - their ability to achieve growth in salary was noticeably stymied in comparison. Outliers aside, if the data collected is to be considered representative of the data science population, there is indication that a prospective Data Scientist should learn R first for a higher initial salary, and then learn Python to increase their chance of obtaining a job with more growth potential.
