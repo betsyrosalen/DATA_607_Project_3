@@ -138,6 +138,7 @@ RQ5 %>%
 select (work_tools,WorkToolsSelect, id)%>%
 filter (id %in% c(1:5))%>%
  datatable()
+1+1
 
 ```
 ### Exploratory Data Analysis (EDA)
