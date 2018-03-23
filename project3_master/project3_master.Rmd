@@ -102,7 +102,7 @@ This section will describe the name of the variables and their labels (as report
 
 
 ## Research Question4
-Is there a difference between what 'Learners' think are the important skills to learn and what employed Data Scientists say are the skils and tools they are using? (Betsy)
+Is there a difference between what 'Learners' think are the important skills to learn and what employed Data Scientists say are the skills and tools they are using? (Betsy)
 
 ## Variables and their definition
 
@@ -113,8 +113,66 @@ This section will describe the name of the variables and their labels (as report
 ### Exploratory Data Analysis (EDA)
 
 ```{r}
-
+# Select only variables that seem most related to “Which are the most valued data science skills?”
+# I May narrow down these columns even more later, but want to leave as much as possible for now
+# Filter for US Only
+USOnly <- MC %>%
+  select(-c(56:73, 76:79, 167:196, 198:228)) %>%
+  filter(Country=='United States')
 ```
+
+
+```{r}
+# Separate those employed in Data Science from those who are not.
+
+# Filter for Employed only, TitleFit better than 'Poorly', and CodeWriters only
+# Remove those that said they are "Employed by a company that doesn't perform advanced analytics"
+employed <- USOnly %>%
+  filter(!grepl('Not employed',EmploymentStatus), 
+         TitleFit!="Poorly",
+         !grepl('doesn\'t perform advanced analytics',CurrentEmployerType),
+         CodeWriter=="Yes",
+         JobFunctionSelect != 'Build and/or run the data infrastructure')
+  
+# Filter for Data Science Learners who are not employed.  
+# The Survey failed to capture those who are employed and ALSO students or learners!!!  
+# Didn't bother to ask employed respondents if they were also sudying Data Science.
+learner <- USOnly %>%
+  filter(grepl('Not employed',EmploymentStatus),
+         grepl('Yes',LearningDataScience))
+
+# Get rid of empty columns 
+library(janitor)
+employed <- remove_empty_cols(employed)
+learner <- remove_empty_cols(learner)
+glimpse(employed)
+glimpse(learner)
+```
+
+```{r}
+# Take a peek at the demographics of those who are employed...
+employed %>% 
+  group_by(CurrentJobTitleSelect) %>%
+  summarise(n())
+
+# Need to Tidy this data so that each response is in a separate row rather than all in one
+employed %>% 
+  group_by(CurrentEmployerType) %>%
+  summarise(n())
+
+employed %>% 
+  filter(JobFunctionSelect != 'Build and/or run the data infrastructure that your business uses for storing, analyzing, and operationalizing data') %>%
+  group_by(CurrentJobTitleSelect) %>%
+  summarise(n())
+```
+
+```{r}
+# Take a peek at the demographics of those who are learners...
+learner %>% 
+  group_by(StudentStatus, LearningDataScience) %>%
+  summarise(n())
+```
+
 
 ## Research Question5
 Is there any interaction between the Kaggle survey takers' program language use (R or Python) and their recommended program languages? (e.g. R users recommending R more than Python users recommending Python) (Burcu)
