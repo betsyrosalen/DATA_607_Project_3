@@ -16,6 +16,8 @@ library(tidyverse)
 rawKaggle <- read_csv("https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/rawdata/multipleChoiceResponses.csv")
 ```
 
+## Question 4
+
 ```{r}
 # Select only variables that seem most related to “Which are the most valued data science skills?”
 # I May narrow down these columns even more later, but want to leave as much as possible for now
@@ -77,4 +79,6 @@ learner %>%
 ```
 
 
+
+## Question 6 
 
