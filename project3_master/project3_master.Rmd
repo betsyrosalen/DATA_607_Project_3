@@ -336,9 +336,6 @@ ggplotly(p)
 
 
 ```
-<<<<<<< HEAD
-=======
-
 
 Let's examine the above graph by LanguageRecommendationSelect
 
@@ -392,11 +389,7 @@ scale_y_continuous (breaks=seq(0,100,10), limits = c(0,100))+
   theme(legend.position = 'none')
 
 ggplotly(p1)
-
-
 ```
-
->>>>>>> fix burcu's merge conflict
 
 ## Exploratory Data Analysis (EDA)
 
