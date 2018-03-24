@@ -139,7 +139,7 @@ subset %>%
                  theme(legend.position="bottom")+
                  facet_wrap (~FormalEducation)+
                  theme(axis.text.x = element_text(angle = 90), legend.position = 'none') +
-                 labs (x="ML Method ", y="count " , title="FormalEduvation vs MLMethodNextYearSelect")
+                 labs (x="ML Method ", y="count " , title="FormalEducation vs MLMethodNextYearSelect")
 ```
 ```
 Clearly in all categories of formal education, candidates want to learn
