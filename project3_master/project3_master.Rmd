@@ -22,8 +22,13 @@ library(DT)
 library(kableExtra)
 library(lubridate)
 library(janitor)
+<<<<<<< HEAD
 library(likert)
 library(reshape)
+=======
+library(plotly)
+library(scales)
+>>>>>>> fb0183c3e1f96d99719389d80f4ea06663b02363
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -377,21 +382,150 @@ This section will describe the name of the variables and their labels (as report
 ## Manipulating data
 
 
-```{r}
+```{r ,fig.height = 8, fig.width = 8, fig.align = "center" , message= FALSE}
+dim(MC)
+tb1<-MC %>%
+  select (id, WorkToolsSelect) %>%
+  filter (id %in% c(1:6))
+   datatable(tb1)
+   
 
-#creating a new variable called work_tools where the original column values are split
-RQ5<-MC %>%
-  mutate(work_tools = strsplit(as.character(WorkToolsSelect), ",")) %>% 
+#removing NAs and empty values in  column=WorkToolsSelect
+df <- MC[!(MC$WorkToolsSelect == "" | is.na(MC$WorkToolsSelect)), ]
+dim(df)
+tb2<-df %>%
+  select (id, WorkToolsSelect) %>%
+  filter (id %in% c(1:6))
+   datatable(tb2)
+
+#creating a new variable called work_tools where the original column values are split 
+#please note that this code will generate long data   
+df1<-df %>%
+  mutate(work_tools = strsplit(as.character(WorkToolsSelect), ",")) %>%
   unnest(work_tools)
 
-#checking the top 5 rows for the newly created work_tools variable using top_n function
-RQ5 %>%
-select (work_tools,WorkToolsSelect, id)%>%
-filter (id %in% c(1:5))%>%
- datatable()
-1+1
+  #check 
+tb3<-df1 %>%
+  select (id, WorkToolsSelect,work_tools) %>%
+  filter (id %in% c(1:3))
+   datatable(tb3)
+
+ df2<-df1  %>%
+ group_by(id, work_tools) %>%
+  summarize (total_count = n())   %>%
+    spread( work_tools, total_count, fill=0) 
+
+
+df3<-df2 %>%
+ mutate(lang_use = case_when (
+               (R==1 & Python==0) ~ "Using R Only",
+               (R==0 & Python==1) ~ "Using Python only",
+               (R==1 & Python==1) ~ "Using Both Python and R",
+               (R==0 & Python==0) ~ "Using Neither Python nor R"))%>%
+  select (id, R, Python, lang_use)
+
+tb4<-df3 %>%
+filter (id %in% c(1:10))
+datatable(tb4)
+
+#computing percentages
+df4<-df3 %>%
+group_by(lang_use) %>%
+summarize (total_count = n()) %>%
+mutate(percent = ((total_count / sum(total_count)) * 100), percent=round(percent, digit=2))
+
+ #checking
+datatable(df4, colnames=c("Programming Language Survey takers use", "Count", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 2, dom = 'tip'))
+
+
+p<-ggplot (df4, aes(x=lang_use,y=percent,fill=lang_use )) +
+geom_bar(stat="identity", width =.5) +
+labs (x="Language ", y="The distribution of R and Python among their users (%) " ,
+      title="Bar Graph of R and Python users") +
+theme(axis.text.x = element_text(angle = 90)) +
+scale_y_continuous (breaks=seq(0,100,10), limits = c(0,100))
+
+ggplotly(p)
+
+
 
 ```
+
+Let's examine the above graph by LanguageRecommendationSelect
+
+```{r ,fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE}
+
+ #check 
+tb5<-df1 %>%
+  select (id, WorkToolsSelect,work_tools, LanguageRecommendationSelect) %>%
+  filter (id %in% c(1:3))
+   datatable(tb5)
+
+ df5<-df1  %>%
+ group_by(id, work_tools,LanguageRecommendationSelect) %>%
+  summarize (total_count = n())   %>%
+    spread( work_tools, total_count, fill=0) %>%
+ mutate(lang_use = case_when (
+               (R==1 & Python==0) ~ "Using R Only",
+               (R==0 & Python==1) ~ "Using Python only",
+               (R==1 & Python==1) ~ "Using Both Python and R",
+               (R==0 & Python==0) ~ "Using Neither Python nor R"),
+        lang_rec = case_when (
+               (LanguageRecommendationSelect=="R") ~ "Recommending R ",
+               (LanguageRecommendationSelect=="Python" ) ~ "Recommending Python ",
+               (LanguageRecommendationSelect!="R" |LanguageRecommendationSelect!="Python") ~ "Recommending Neither Python nor R",
+               (LanguageRecommendationSelect=="NA"|LanguageRecommendationSelect==" " ) ~ "Recommending Nothing"))%>%
+select (id, R, Python, lang_use,lang_rec )
+
+ dim(df5)
+ 
+tb6<-df5 %>%
+filter (id %in% c(1:10))
+datatable(tb6)
+
+ #computing percentages
+df6<-df5 %>%
+group_by(lang_use,lang_rec) %>%
+summarize (total_count = n()) %>%
+mutate(percent = ((total_count / sum(total_count)) * 100), percent=round(percent, digit=2))
+
+#checking
+datatable(df6, colnames=c("Programming Language Survey takers use", "Count", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 2, dom = 'tip'))
+
+
+p1<-ggplot (df6, aes(x=lang_use,y=percent,fill=lang_use )) +
+geom_bar(stat="identity", width =.5) +
+labs (x="Language ", y="The distribution of R and Python among their users (%) " ,
+title="Bar Graph of R and Python users and their recommended language") +
+theme(axis.text.x = element_text(angle = 90)) +
+scale_y_continuous (breaks=seq(0,100,10), limits = c(0,100))+
+  facet_wrap(~lang_rec)+
+  theme(legend.position = 'none')
+
+ggplotly(p1)
+```
+
+## Results of RQ5:
+
+
+We found that *a little below the half of the survey takers* (N=3540, 44.5%) reported to use both R and Python. The take home message for the aspiring data scientists is that substantial majority of the Kaggle survey takers are using both languages, both languages are used widely. Among the remaning half of the respondents, small portion of them (N=714, 8.98%) are using neither Python nor R. The rest of the survey takers are using either R or Python. In particular, 2533 (31.84%) indicated using only Python while only 1168 (14.68%) of them noted to use R Only.
+
+The story of this contentious debate on R vs Python gets more interesting as to comparing their used langugaes with their recommended languages. Specifically, it is plausible to assume that Python users will recommend Python while R users will recommend R. Can we explore this htpothesis ? How much degree of difference among the Python and R users as to their recommended languages ?
+
+Our results revealed that 72.17 % of the Python users recommended Python while 53.77% of R users recommended R. This results is not suprising to our hytpothesis. Since there are more Python only users than R only users in this sample, it makes sense to have differences in their recommendation. However, what is suprising is degree of difference in their recommendation for the other language. For example, 15.92 % of the R users recommending Python whereas only 1.42 % of the Python users are recommending R. 
+
+However, this results should be interpreted carefully because we have survey takers who did not make any recommendation. For instance 18.87 % of the sample who are Python users did not respond this question. Similary, 17.55 % of R users did not leave any opinion on their recommended languages. If these Python users would say any recommendation, would that increase overall Python users' recommendation of R? Who knows?
+
+Since half the sample included both R and Python users, let's see their recommendation. The 51.72% of them recommending Python while 25.65% of them recommending R. The quarter of the both users are recommending R but Python.
+
+
+The moral of the story on this contentious debate on R vs Python  
++ Half of the sample uses both R and Python  
++ R only to Python only users are in 1:2 ratio  
++ More R users recommended Python than the Python users recommended R. 
++ Both users recommendations in Python is more than their recommendation in R. 
+
+
 
 ## Exploratory Data Analysis (EDA)
 
