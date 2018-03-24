@@ -391,6 +391,28 @@ scale_y_continuous (breaks=seq(0,100,10), limits = c(0,100))+
 ggplotly(p1)
 ```
 
+## Results of RQ5:
+
+
+We found that *a little below the half of the survey takers* (N=3540, 44.5%) reported to use both R and Python. The take home message for the aspiring data scientists is that substantial majority of the Kaggle survey takers are using both languages, both languages are used widely. Among the remaning half of the respondents, small portion of them (N=714, 8.98%) are using neither Python nor R. The rest of the survey takers are using either R or Python. In particular, 2533 (31.84%) indicated using only Python while only 1168 (14.68%) of them noted to use R Only.
+
+The story of this contentious debate on R vs Python gets more interesting as to comparing their used langugaes with their recommended languages. Specifically, it is plausible to assume that Python users will recommend Python while R users will recommend R. Can we explore this htpothesis ? How much degree of difference among the Python and R users as to their recommended languages ?
+
+Our results revealed that 72.17 % of the Python users recommended Python while 53.77% of R users recommended R. This results is not suprising to our hytpothesis. Since there are more Python only users than R only users in this sample, it makes sense to have differences in their recommendation. However, what is suprising is degree of difference in their recommendation for the other language. For example, 15.92 % of the R users recommending Python whereas only 1.42 % of the Python users are recommending R. 
+
+However, this results should be interpreted carefully because we have survey takers who did not make any recommendation. For instance 18.87 % of the sample who are Python users did not respond this question. Similary, 17.55 % of R users did not leave any opinion on their recommended languages. If these Python users would say any recommendation, would that increase overall Python users' recommendation of R? Who knows?
+
+Since half the sample included both R and Python users, let's see their recommendation. The 51.72% of them recommending Python while 25.65% of them recommending R. The quarter of the both users are recommending R but Python.
+
+
+The moral of the story on this contentious debate on R vs Python  
++ Half of the sample uses both R and Python  
++ R only to Python only users are in 1:2 ratio  
++ More R users recommended Python than the Python users recommended R. 
++ Both users recommendations in Python is more than their recommendation in R. 
+
+
+
 ## Exploratory Data Analysis (EDA)
 
 # Research Question6
