@@ -171,7 +171,6 @@ This section will describe the name of the variables and their labels (as report
 ### Exploratory Data Analysis (EDA)
 
 ```{r}
-1+1
 
 ```
 
