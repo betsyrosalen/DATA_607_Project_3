@@ -21,6 +21,9 @@ library(tidyverse)
 library(DT)
 library(kableExtra)
 library(lubridate)
+library(janitor)
+library(plotly)
+library(scales)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -126,21 +129,132 @@ This section will describe the name of the variables and their labels (as report
 ### Manipulating data
 
 
-```{r}
+```{r ,fig.height = 8, fig.width = 8, fig.align = "center" , message= FALSE}
+dim(MC)
+tb1<-MC %>%
+  select (id, WorkToolsSelect) %>%
+  filter (id %in% c(1:6))
+   datatable(tb1)
+   
 
-#creating a new variable called work_tools where the original column values are split
-RQ5<-MC %>%
-  mutate(work_tools = strsplit(as.character(WorkToolsSelect), ",")) %>% 
+#removing NAs and empty values in  column=WorkToolsSelect
+df <- MC[!(MC$WorkToolsSelect == "" | is.na(MC$WorkToolsSelect)), ]
+dim(df)
+tb2<-df %>%
+  select (id, WorkToolsSelect) %>%
+  filter (id %in% c(1:6))
+   datatable(tb2)
+
+#creating a new variable called work_tools where the original column values are split 
+#please note that this code will generate long data   
+df1<-df %>%
+  mutate(work_tools = strsplit(as.character(WorkToolsSelect), ",")) %>%
   unnest(work_tools)
 
-#checking the top 5 rows for the newly created work_tools variable using top_n function
-RQ5 %>%
-select (work_tools,WorkToolsSelect, id)%>%
-filter (id %in% c(1:5))%>%
- datatable()
-1+1
+  #check 
+tb3<-df1 %>%
+  select (id, WorkToolsSelect,work_tools) %>%
+  filter (id %in% c(1:3))
+   datatable(tb3)
+
+ df2<-df1  %>%
+ group_by(id, work_tools) %>%
+  summarize (total_count = n())   %>%
+    spread( work_tools, total_count, fill=0) 
+
+
+df3<-df2 %>%
+ mutate(lang_use = case_when (
+               (R==1 & Python==0) ~ "Using R Only",
+               (R==0 & Python==1) ~ "Using Python only",
+               (R==1 & Python==1) ~ "Using Both Python and R",
+               (R==0 & Python==0) ~ "Using Neither Python nor R"))%>%
+  select (id, R, Python, lang_use)
+
+tb4<-df3 %>%
+filter (id %in% c(1:10))
+datatable(tb4)
+
+#computing percentages
+df4<-df3 %>%
+group_by(lang_use) %>%
+summarize (total_count = n()) %>%
+mutate(percent = ((total_count / sum(total_count)) * 100), percent=round(percent, digit=2))
+
+ #checking
+datatable(df4, colnames=c("Programming Language Survey takers use", "Count", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 2, dom = 'tip'))
+
+
+p<-ggplot (df4, aes(x=lang_use,y=percent,fill=lang_use )) +
+geom_bar(stat="identity", width =.5) +
+labs (x="Language ", y="The distribution of R and Python among their users (%) " ,
+      title="Bar Graph of R and Python users") +
+theme(axis.text.x = element_text(angle = 90)) +
+scale_y_continuous (breaks=seq(0,100,10), limits = c(0,100))
+
+ggplotly(p)
+
+
 
 ```
+
+
+Let's examine the above graph by LanguageRecommendationSelect
+
+```{r ,fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE}
+
+ #check 
+tb5<-df1 %>%
+  select (id, WorkToolsSelect,work_tools, LanguageRecommendationSelect) %>%
+  filter (id %in% c(1:3))
+   datatable(tb5)
+
+ df5<-df1  %>%
+ group_by(id, work_tools,LanguageRecommendationSelect) %>%
+  summarize (total_count = n())   %>%
+    spread( work_tools, total_count, fill=0) %>%
+ mutate(lang_use = case_when (
+               (R==1 & Python==0) ~ "Using R Only",
+               (R==0 & Python==1) ~ "Using Python only",
+               (R==1 & Python==1) ~ "Using Both Python and R",
+               (R==0 & Python==0) ~ "Using Neither Python nor R"),
+        lang_rec = case_when (
+               (LanguageRecommendationSelect=="R") ~ "Recommending R ",
+               (LanguageRecommendationSelect=="Python" ) ~ "Recommending Python ",
+               (LanguageRecommendationSelect!="R" |LanguageRecommendationSelect!="Python") ~ "Recommending Neither Python nor R",
+               (LanguageRecommendationSelect=="NA"|LanguageRecommendationSelect==" " ) ~ "Recommending Nothing"))%>%
+select (id, R, Python, lang_use,lang_rec )
+
+ dim(df5)
+ 
+tb6<-df5 %>%
+filter (id %in% c(1:10))
+datatable(tb6)
+
+ #computing percentages
+df6<-df5 %>%
+group_by(lang_use,lang_rec) %>%
+summarize (total_count = n()) %>%
+mutate(percent = ((total_count / sum(total_count)) * 100), percent=round(percent, digit=2))
+
+#checking
+datatable(df6, colnames=c("Programming Language Survey takers use", "Count", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 2, dom = 'tip'))
+
+
+p1<-ggplot (df6, aes(x=lang_use,y=percent,fill=lang_use )) +
+geom_bar(stat="identity", width =.5) +
+labs (x="Language ", y="The distribution of R and Python among their users (%) " ,
+title="Bar Graph of R and Python users and their recommended language") +
+theme(axis.text.x = element_text(angle = 90)) +
+scale_y_continuous (breaks=seq(0,100,10), limits = c(0,100))+
+  facet_wrap(~lang_rec)+
+  theme(legend.position = 'none')
+
+ggplotly(p1)
+
+
+```
+
 ### Exploratory Data Analysis (EDA)
 
 ## Research Question6
