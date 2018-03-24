@@ -25,7 +25,8 @@ library(janitor)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#Importing data
+# Importing data
+
 The data set used in this project is [Kaggle ML and Data Science Survey 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017/feed). The survey was stored in 2 different data sets:a) multiple choice items, b) free-response items. Kaggle stored each data in csv format. We dowloaded the multiple choice item survey results in csv format and placed it in our [GitHub repo](https://github.com/betsyrosalen/DATA_607_Project_3)
 
 Importing Multiple Choice data
@@ -49,11 +50,12 @@ Ignore this codeImporting conversionrates data incase we want to do analyses
 ```
 
 
-# Research Questions
+# Research Question
+
 This project will answer this globalresearch question **Which are the most values data science skills?**
 The following 6 research questions will provide answer to this global question.
 
-##Research Question1
+# Research Question 1
 
 What is the relationship between the most popular platforms for learning DS and X (Niteen)?
 Alternatively phrased: What data science learning resources and which locations of open data are utilized by people of varying levels of education? (delete me if you need to!)
@@ -62,19 +64,21 @@ Alternatively phrased: What data science learning resources and which locations 
 
 This section will describe the name of the variables and their labels (as reported in schema doc) and how the values were codes (etc yes, no, select all)
 
-### Manipulating data
+## Manipulating data
 
-### Exploratory Data Analysis (EDA)
+## Exploratory Data Analysis (EDA)
 
 ```{r}
 
 ```
 
 
-## Research Question2
+# Research Question 2
+
 Does survey takers' formal education has any relationship to the ML/DS method he or she is most excited about learning in the next year? (Binish)
 
-##Variables and their definition
+## Variables and their definition
+
 ```
 To do the analysis, we concentrate on two colums in the dataset -
 FormalEducation and MLMethodNextYearSelect
@@ -88,7 +92,8 @@ in the next year?
 These questions are asked to all participants.
 ```
 
-### Manipulating data
+## Manipulating data
+
 ```{r}
 # removing NAs as they are not meaningful
 subset <- MC %>%
@@ -110,7 +115,8 @@ subset <- MC %>%
 
 ```
 
-### Exploratory Data Analysis (EDA)
+## Exploratory Data Analysis (EDA)
+
 ```
 First we plot the distribution of formal education in the dataset
 ```
@@ -159,32 +165,34 @@ result <- subset %>%
 kable(result)
 ```
 
-## Research Question3
+# Research Question 3
+
 What are the most frequently used DS methods? Where is the most time spent in terms of working with data? Do either of these correlate with job title or level of education? (Zach)
 
 ## Variables and their definition 
 
 This section will describe the name of the variables and their labels (as reported in schema doc) and how the values were codes (etc yes, no, select all)
 
-### Manipulating data
+## Manipulating data
 
-### Exploratory Data Analysis (EDA)
+## Exploratory Data Analysis (EDA)
 
 ```{r}
 
 ```
 
 
-## Research Question4
+# Research Question 4
+
 Is there a difference between what 'Learners' think are the important skills to learn and what employed Data Scientists say are the skills and tools they are using? (Betsy)
 
 ## Variables and their definition
 
 This section will describe the name of the variables and their labels (as reported in schema doc) and how the values were codes (etc yes, no, select all)
 
-### Manipulating data
+## Manipulating data
 
-### Exploratory Data Analysis (EDA)
+## Exploratory Data Analysis (EDA)
 
 ```{r}
 # Select only variables that seem most related to “Which are the most valued data science skills?”
@@ -247,14 +255,15 @@ learner %>%
 ```
 
 
-## Research Question5
+# Research Question 5
+
 Is there any interaction between the Kaggle survey takers' program language use (R or Python) and their recommended program languages? (e.g. R users recommending R more than Python users recommending Python) (Burcu)
 
 ## Variables and their definition 
 
 This section will describe the name of the variables and their labels (as reported in schema doc) and how the values were codes (etc yes, no, select all)
 
-### Manipulating data
+## Manipulating data
 
 
 ```{r}
@@ -272,16 +281,18 @@ filter (id %in% c(1:5))%>%
 1+1
 
 ```
-### Exploratory Data Analysis (EDA)
 
-## Research Question6
+## Exploratory Data Analysis (EDA)
+
+# Research Question6
+
 Of those receiving pay in US Dollars, is Python or R overall most profitable for a Kaggle survey taker? (Gabby)
 
 ## Variables and their definition
 
 This section will describe the name of the variables and their labels (as reported in schema doc) and how the values were codes (etc yes, no, select all)
 
-### Manipulating data
+## Manipulating data
 
 ```{r}
 RQ6 <- MC %>%
@@ -303,7 +314,7 @@ RQ6 <- filter(RQ6, CompensationAmount < 9999999) # ... let's just be a little re
 rm(RQ6_ids) # remove the now-unused variable to save memory
 ```
 
-### Exploratory Data Analysis (EDA)
+## Exploratory Data Analysis (EDA)
 
 ```{r}
 RQ6_boxplot <- ggplot(RQ6) +
