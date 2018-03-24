@@ -21,6 +21,7 @@ library(tidyverse)
 library(DT)
 library(kableExtra)
 library(lubridate)
+library(janitor)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -74,15 +75,88 @@ This section will describe the name of the variables and their labels (as report
 Does survey takers' formal education has any relationship to the ML/DS method he or she is most excited about learning in the next year? (Binish)
 
 ##Variables and their definition
+```
+To do the analysis, we concentrate on two colums in the dataset -
+FormalEducation and MLMethodNextYearSelect
+```
 
 This section will describe the name of the variables and their labels (as reported in schema doc) and how the values were codes (etc yes, no, select all)
+```
+FormalEducation : Which level of formal education have you attained?
+MLMethodNextYearSelect : Which ML/DS method are you most excited about learning 
+in the next year?
+These questions are asked to all participants.
+```
 
 ### Manipulating data
+```{r}
+# removing NAs as they are not meaningful
+subset <- MC %>%
+        filter(!is.na(FormalEducation), !is.na(MLMethodNextYearSelect)) %>%
+        select(FormalEducation, MLMethodNextYearSelect) %>%
+        mutate (FormalEducation=as.factor(FormalEducation)) %>%
+        mutate (FormalEducation=recode_factor(FormalEducation,
+                                              "Bachelor's degree"='Bachelor',
+        "Some college/university study without earning a bachelor's degree"=
+                                                 'College Dropout',
+                                              'Doctoral degree'='Doctoral',
+                                              "Master's degree"='Masters',
+                                              'Professional degree'=
+                                                      'Professional' ,
+        'I did not complete any formal education past high school'=
+                                                      'High School',
+                                              'I prefer not to answer'=
+                                                      'No Answer'))
+
+```
 
 ### Exploratory Data Analysis (EDA)
-
+```
+First we plot the distribution of formal education in the dataset
+```
 ```{r}
+subset %>%
+        ggplot() +
+        geom_bar(mapping = aes(x = FormalEducation, y = ..prop.., group = 1, fill = FormalEducation),
+                 show.legend = FALSE) +
+        coord_flip()
+```
+```
+The data set predominantly contains candidates with Master's degree.   
+Now let's look at the different ML/DS methods in the dataset
+```
+```{r}
+unique(subset$MLMethodNextYearSelect)
+```
+```
+Now we can plot the distribution of ML/DS methods with formal education
+```
+```{r, fig.height = 15, fig.width = 15, fig.align = "center" , message= FALSE}
+subset %>%
+        ggplot() + 
+        geom_bar(mapping = aes(x = MLMethodNextYearSelect, fill = MLMethodNextYearSelect)) +
+                 coord_flip() + 
+                 theme(legend.position="bottom")+
+                 facet_wrap (~FormalEducation)+
+                 theme(axis.text.x = element_text(angle = 90), legend.position = 'none') +
+                 labs (x="ML Method ", y="count " , title="FormalEduvation vs MLMethodNextYearSelect")
+```
+```
+Clearly in all categories of formal education, candidates want to learn
+Deep learning.
 
+The table below shows the percentage of candidates who wants to learn
+Deep learning in each formal education category.
+```
+```{r}
+algo <- c("Deep learning")
+result <- subset %>%
+        group_by(FormalEducation, MLMethodNextYearSelect) %>%
+        summarise(count = n()) %>%
+        mutate(percentage = round(count / sum(count), 2)) %>%
+        filter(MLMethodNextYearSelect %in% algo) %>%
+        select(-count)
+kable(result)
 ```
 
 ## Research Question3
@@ -142,7 +216,6 @@ learner <- USOnly %>%
          grepl('Yes',LearningDataScience))
 
 # Get rid of empty columns 
-library(janitor)
 employed <- remove_empty_cols(employed)
 learner <- remove_empty_cols(learner)
 glimpse(employed)
