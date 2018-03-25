@@ -82,6 +82,27 @@ survey.dem.plot <- survey.demographics %>%
   summarise(count=n()) %>%
   arrange(desc(count))
 
+```
+
+```{r figds01, fig.height = 5, fig.width = 7, fig.align = "center" , message= FALSE, echo=FALSE,warning=FALSE,}
+library(ggplot2)
+ggplot(data = survey.dem.plot, 
+       mapping = aes(x = Age, fill = GenderSelect, 
+                     y = ifelse(test = GenderSelect == "Male", 
+                                yes = -count, no = count)))+
+  geom_bar(stat = "identity") +
+  scale_y_continuous(labels = abs, limits = max(survey.dem.plot$count) * c(-1,1)) +
+  labs(y = "Count") +
+  coord_flip()+
+  theme_bw()
+
+``` 
+
+GenderSelect Select your gender identity. - Selected Choice
+
+
+```{r niteends01, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
+
 inputPanel(
   selectInput(inputId = "y1", 
                   label = "Gender:",
