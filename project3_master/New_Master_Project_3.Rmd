@@ -27,6 +27,7 @@ library(janitor)
 library(likert)
 #library(reshape)
 #library(plotly)
+library(gridExtra)
 library(scales)
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -167,18 +168,212 @@ survey takers, Bayesian Methods is the third preference.
 
 # Research Question 3
 
-What are the most frequently used DS methods? Where is the most time spent in terms of working with data? Do either of these correlate with job title or level of education? (Zach)
+What are the most frequently used data science (DS) methods by those writing code in DS professions? Do those relate to formal educational attainment? (Zach)
 
 ## Variables and their definition 
 
-This section will describe the name of the variables and their labels (as reported in schema doc) and how the values were codes (etc yes, no, select all)
+The following variables label questions asking survey respondents how often they use each of these data science methods.  Response options were: Rarely, Sometimes, Often, Most of the time
+- WorkMethodsFrequencyA/B
+- WorkMethodsFrequencyAssociationRules
+- WorkMethodsFrequencyBayesian
+- WorkMethodsFrequencyCNNs
+- WorkMethodsFrequencyCollaborativeFiltering
+- WorkMethodsFrequencyCross-Validation
+- WorkMethodsFrequencyDataVisualization
+- WorkMethodsFrequencyDecisionTrees
+- WorkMethodsFrequencyEnsembleMethods
+- WorkMethodsFrequencyEvolutionaryApproaches
+- WorkMethodsFrequencyGANs
+- WorkMethodsFrequencyGBM
+- WorkMethodsFrequencyHMMs
+- WorkMethodsFrequencyKNN
+- WorkMethodsFrequencyLiftAnalysis
+- WorkMethodsFrequencyLogisticRegression
+- WorkMethodsFrequencyMLN
+- WorkMethodsFrequencyNaiveBayes
+- WorkMethodsFrequencyNLP
+- WorkMethodsFrequencyNeuralNetworks
+- WorkMethodsFrequencyPCA
+- WorkMethodsFrequencyPrescriptiveModeling
+- WorkMethodsFrequencyRandomForests
+- WorkMethodsFrequencyRecommenderSystems
+- WorkMethodsFrequencyRNNs
+- WorkMethodsFrequencySegmentation
+- WorkMethodsFrequencySimulation
+- WorkMethodsFrequencySVMs
+- WorkMethodsFrequencyTextAnalysis
+- WorkMethodsFrequencyTimeSeriesAnalysis
+
+The additional variables used for this analysis will include:
+- Formal Education
 
 ## Manipulating data
+```{r}
+#Subset Data
+MethodsData <- MC %>%
+  select(FormalEducation, contains("WorkMethods"))
+
+#Filter data based on who answered the methods questions, which were only given to coding workers employed in some capacity
+MethodsData <- MethodsData[!is.na(MethodsData$WorkMethodsSelect),]
+
+#Most popular techniques that respondents report using at least rarely
+MasterString <- MethodsData$WorkMethodsSelect
+Options <- str_c(MasterString, collapse = "")
+Options <- unlist(str_split(MasterString, pattern = ","))
+Options <- as.data.frame(table(Options))
+MethodsFrequency <- arrange(Options, desc(Freq))
+
+#Find out when one knows a technique, how frequently they use it
+#Rarely, Sometimes, Often, Most of the time
+MethodsScored <- MethodsData %>%
+  select(-c(WorkMethodsSelect))
+MethodsScored[MethodsScored=="Rarely"]<-1
+MethodsScored[MethodsScored=="Sometimes"]<-2
+MethodsScored[MethodsScored=="Often"]<-3
+MethodsScored[MethodsScored=="Most of the time"]<-4
+
+MethodsScored$WorkMethodsFrequencyDataVisualization <- as.integer(MethodsScored$WorkMethodsFrequencyDataVisualization)
+AvgFreqDataVis <- sum(MethodsScored$WorkMethodsFrequencyDataVisualization, na.rm = T) / sum(!is.na(MethodsScored$WorkMethodsFrequencyDataVisualization))
+
+MethodsScored$WorkMethodsFrequencyLogisticRegression <- as.integer(MethodsScored$WorkMethodsFrequencyLogisticRegression)
+AvgFreqLogRegress <- sum(MethodsScored$WorkMethodsFrequencyLogisticRegression, na.rm = T) / sum(!is.na(MethodsScored$WorkMethodsFrequencyLogisticRegression))
+
+MethodsScored$`WorkMethodsFrequencyCross-Validation` <- as.integer(MethodsScored$`WorkMethodsFrequencyCross-Validation`)
+AvgFreqCrossValid <- sum(MethodsScored$`WorkMethodsFrequencyCross-Validation`, na.rm = T) / sum(!is.na(MethodsScored$`WorkMethodsFrequencyCross-Validation`))
+
+MethodsScored$WorkMethodsFrequencyDecisionTrees <- as.integer(MethodsScored$WorkMethodsFrequencyDecisionTrees)
+AvgFreqDecisionTrees <- sum(MethodsScored$WorkMethodsFrequencyDecisionTrees, na.rm = T) / sum(!is.na(MethodsScored$WorkMethodsFrequencyDecisionTrees))
+
+MethodsScored$WorkMethodsFrequencyRandomForests <- as.integer(MethodsScored$WorkMethodsFrequencyRandomForests)
+AvgFreqRandomForest <- sum(MethodsScored$WorkMethodsFrequencyRandomForests, na.rm = T) / sum(!is.na(MethodsScored$WorkMethodsFrequencyRandomForests))
+
+Top5FreqScore <- data.frame(Method = c("Data Visualization", "Logistic Regression", "Cross Validation", "Decision Trees", "Random Forests"), FrequencyScore = c(AvgFreqDataVis, AvgFreqLogRegress, AvgFreqCrossValid, AvgFreqDecisionTrees, AvgFreqRandomForest))
+
+#Group and create methods frequency for each level of educational attainment
+EducationData <- MethodsData %>%
+  select(FormalEducation, WorkMethodsSelect) %>%
+  filter(FormalEducation != "I prefer not to answer") %>%
+  na.omit()
+
+HighSchoolEducation <- EducationData %>%
+  filter(FormalEducation == "I did not complete any formal education past high school")
+
+SomePostSecondaryEducation <- EducationData %>%
+  filter(FormalEducation == "Some college/university study without earning a bachelor\'s degree")
+
+ProfessionalEducation <- EducationData %>%
+  filter(FormalEducation == "Professional degree")
+
+BachelorsEducation <- EducationData %>%
+  filter(FormalEducation == "Bachelor's degree")
+
+MastersEducation <- EducationData %>%
+  filter(FormalEducation == "Master's degree")
+
+DoctoralEducation <- EducationData %>%
+  filter(FormalEducation == "Doctoral degree")
+
+MethodFrequencyFunction <- function(x){
+  BigString <- x$WorkMethodsSelect
+  Selections <- str_c(BigString, collapse = "")
+  Selections <- unlist(str_split(BigString, pattern = ","))
+  TempDF <- as.data.frame(table(Selections))
+  TempDF <- TempDF %>%
+    mutate(RelativeFreq = Freq / sum(Freq))
+  return(TempDF)
+}
+
+HighSchoolEducation <- MethodFrequencyFunction(HighSchoolEducation)
+SomePostSecondaryEducation <- MethodFrequencyFunction(SomePostSecondaryEducation)
+ProfessionalEducation <- MethodFrequencyFunction(ProfessionalEducation)
+BachelorsEducation <- MethodFrequencyFunction(BachelorsEducation)
+MastersEducation <- MethodFrequencyFunction(MastersEducation)
+DoctoralEducation <- MethodFrequencyFunction(DoctoralEducation)
+```
+
 
 ## Exploratory Data Analysis (EDA)
 
 ```{r}
+MethodsFrequencyPlot <- ggplot(MethodsFrequency, aes(x = reorder(Options, -Freq), y = Freq, fill = Options)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("Frequency of Enodrsements for DS Methods") + 
+  xlab("Number of Endorsements") +
+  ylab("Data Science Method") +
+  guides(fill = F)
 
+Top5EndorsedFreqScorePlot <- ggplot(Top5FreqScore, aes(x = reorder(Method, -FrequencyScore), y = FrequencyScore, fill = Method)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("Average Frequency Scores for Top 5 Endorsed DS Methods") + 
+  xlab("Average Frequency Score") +
+  ylab("Data Science Method")
+
+MethodsFrequencyPlot
+Top5EndorsedFreqScorePlot
+
+kable(MethodsFrequency)
+```
+
+
+```{r, fig.height = 15, fig.width = 15, fig.align = "center"}
+HighSchoolPlot <- ggplot(HighSchoolEducation, aes(x = Selections, y = RelativeFreq, fill = Selections)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("High School Education Methods Usage") +
+  guides(fill = F)
+
+SomeSchoolPlot <- ggplot(SomePostSecondaryEducation, aes(x = Selections, y = RelativeFreq, fill = Selections)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("Some Post Secondary Education Methods Usage") +
+  guides(fill = F)
+
+ProfessionalPlot <- ggplot(ProfessionalEducation, aes(x = Selections, y = RelativeFreq, fill = Selections)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("Professional Education Methods Usage") +
+  guides(fill = F)
+
+BachelorsPlot <- ggplot(BachelorsEducation, aes(x = Selections, y = RelativeFreq, fill = Selections)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("Bachelor's Education Methods Usage") +
+  guides(fill = F)
+
+MastersPlot <- ggplot(MastersEducation, aes(x = Selections, y = RelativeFreq, fill = Selections)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("Master's Education Methods Usage") +
+  guides(fill = F)
+
+DoctoralPlot <- ggplot(DoctoralEducation, aes(x = Selections, y = RelativeFreq, fill = Selections)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("Doctoral Education Methods Usage") +
+  guides(fill = F)
+
+grid.arrange(HighSchoolPlot, SomeSchoolPlot, ProfessionalPlot, BachelorsPlot, MastersPlot, DoctoralPlot, nrow = 2)
+
+HighSchoolEducation$Degree <- "High School Education"
+SomePostSecondaryEducation$Degree <- "Some Post Secondary Education"
+ProfessionalEducation$Degree <- "Professional Education"
+BachelorsEducation$Degree <- "Bachelor's Education"
+MastersEducation$Degree <- "Master's Education"
+DoctoralEducation$Degree <- "Doctoral Education"
+```
+
+
+```{r}
+AllEducations <- rbind(HighSchoolEducation, SomePostSecondaryEducation, ProfessionalEducation, BachelorsEducation, MastersEducation, DoctoralEducation)
+
+Top3EachDegree <- AllEducations %>%
+  group_by(Degree) %>%
+  arrange(desc(RelativeFreq)) %>%
+  slice(1:3)
+
+kable(Top3EachDegree)
 ```
 
 
