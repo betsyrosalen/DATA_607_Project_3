@@ -33,20 +33,20 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Importing data
 
-The data set used in this project is [Kaggle ML and Data Science Survey 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017/feed). The survey was stored in 2 different data sets:a) multiple choice items, b) free-response items. Kaggle stored each data in csv format. We dowloaded the multiple choice item survey results in csv format and placed it in our [GitHub repo](https://github.com/betsyrosalen/DATA_607_Project_3)
+The data set used in this project is [Kaggle ML and Data Science Survey 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017/feed). The survey was stored in 2 different data sets:a) multiple choice items, b) free-response items. Kaggle stored each data in csv format. We downloaded the multiple choice item survey results in csv format and placed it in our [GitHub repo](https://github.com/betsyrosalen/DATA_607_Project_3)
 
 Importing Multiple Choice data
 ```{r message=FALSE ,warning=FALSE}
 linkMC<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/multipleChoiceResponses.csv"
 #importing MC items
 MC<-read_csv (linkMC)
-dim(MC)
 #lets create a unique ID variable 
 MC$id <- seq.int(nrow(MC))
 ```
 
-Ignore this codeImporting conversionrates data incase we want to do analyses 
 ```{r message=FALSE ,warning=FALSE}
+# Ignore this code Importing conversion rates data incase we want to do analyses 
+
 # link_conversion<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/conversionRates.csv"
 # #importing MC items
 # conversion<-read_csv (link_conversion)
@@ -58,7 +58,7 @@ Ignore this codeImporting conversionrates data incase we want to do analyses
 
 # Research Question
 
-This project will answer this globalresearch question **Which are the most values data science skills?**
+This project will answer this global research question **Which are the most values data science skills?**
 The following 6 research questions will provide answer to this global question.
 
 # Research Question 1
@@ -195,13 +195,13 @@ MC2$id <- seq.int(nrow(MC2))
 
 Is there a difference between what 'Learners' think are the important skills to learn and what employed Data Scientists say are the skills and tools they are using?
 
-Those who are new to data science and learning new skills may have different opinions about which tools and methods are most important to learn and which are being used than those who are already employed in the field. Comparing teh answer of 'Learners' vs. employed Data Scientists may give us some insight into which skills each group values most and whether or not they are in agreement.
+Those who are new to data science and learning new skills may have different opinions about which tools and methods are most important to learn and which are being used than those who are already employed in the field. Comparing the answer of 'Learners' vs. employed Data Scientists may give us some insight into which skills each group values most and whether or not they are in agreement.
 
 ## Variables and their definition
 
 A large portion of the data collected in the Kaggle survey was in the form of Likert scales asking respondents to place the value, importance, or frequency of use of certain skills, tools and methods on a 3-4 point scale.  To answer our question about which are the 'most valued' data science skills we looked a these scales and analyzed for differences between what 'Learners' thought was important to them vs. what employed data scientists say they are using in the field.  
 
-An oversight in the survey is that they failed to capture the opionions of those who are employed about what they thought were the most important job skills.  They didn't bother to ask employed respondents those questions, so comparisons between employed data scientists and learners are made a little more difficult.  We can only use the data about what tools and methods employed data scientists are actually using and the frequency of their use to infer the importance of those tools and methods.  
+An oversight in the survey is that they failed to capture the opinions of those who are employed about what they thought were the most important job skills.  They didn't bother to ask employed respondents those questions, so comparisons between employed data scientists and learners are a little more difficult.  We can only use the data about what tools and methods employed data scientists are actually using and the frequency of their use to infer the importance of those tools and methods.  The Survey also failed to capture those who are employed and ALSO students or learners!  They didn't bother to ask employed respondents if they were also studying Data Science.  Professional development is critical in a field that is growing and changing as rapidly as data science, so asking employed professionals about their further studies could have been very useful information to have.  Working Data Scientists may have a better insight into what direction the field is going in than students who are just in the learning phase of their journey.
 
 ## Manipulating data
 
@@ -307,7 +307,7 @@ kable(employed %>%
 
 ### 'Learners'
 
-The Kaggle survey asked respondents if they were learning data science and their student status.  73% of the repondents who said they were learning data science are enrolled in an academic program.  
+The Kaggle survey asked respondents if they were learning data science and their student status.  73% of the respondents who said they were learning data science are enrolled in an academic program.  
 
 ```{r echo=FALSE}
 # Take a peek at the demographics of those who are learners...
@@ -318,9 +318,9 @@ kable(learner %>%
   arrange(desc(total)))
 ```
 
-55% of all repondents who said they are learning data science said they are "focused on learning mostly data science skills" with the other 45% saying that "data science is a small part of what I’m focused on learning".
+55% of all respondents who said they are learning data science said they are "focused on learning mostly data science skills" with the other 45% saying that "data science is a small part of what I’m focused on learning".
 
-The ratio of repondents who said they are "focused on learning mostly data science skills" remains the same at about 55% regardless of whether or not they are enrolled in an academic program.
+The ratio of respondents who said they are "focused on learning mostly data science skills" remains the same at about 55% regardless of whether or not they are enrolled in an academic program.
 
 ```{r echo=FALSE}
 # Take a peek at the demographics of those who are learners...
@@ -342,9 +342,9 @@ employed.WML <- likert(data.frame(employed.WM))
 ```
 
 
-### Learning Platform Usefulness - Learners
+### Learning Platform Usefulness - 'Learners'
 
-Learners think that the top 3 best ways to learn data science are through Courses, Projects and College with Arxiv and YouTube coming in 4th and 5th respectively.  
+'Learners' think that the top 3 best ways to learn data science are through Courses, Projects and College with Arxiv and YouTube coming in 4th and 5th respectively.  
 
 ```{r echo=FALSE}
 plot(learner.LPL)
@@ -353,18 +353,22 @@ kable(summary(learner.LPL))
 
 ### Learning Platform Usefulness - Employed Data Scientists
 
-Employed Data Scientists agree with unemployed learners that Projects and Courses belong in the top 3, but put College in 5th place (vs. 3rd).  They also include Tutoring and SO (Stack Overflow Q&A) in their top 5 with SO coming in 2nd place.  YouTube (learner's 5th choice) comes in 14th place for employed Data Scientists and Arxiv (learner's 4th choice) is 8th among employed Data Scientists. 
+Employed Data Scientists agree with unemployed 'Learners' that Projects and Courses belong in the top 3, but put College in 5th place (vs. 3rd).  They also include Tutoring and SO (Stack Overflow Q&A) in their top 5 with SO coming in 2nd place.  YouTube (learner's 5th choice) comes in 14th place for employed Data Scientists and Arxiv (learner's 4th choice) is 8th among employed Data Scientists. 
 
-Another interesting difference is that the importance of Friends to learning data science is much higher among employed Data Scientists with about 46.5% saying that Friends are "Very useful" and 97.5% saying that Friends are either "Somewhat useful" or "Very useful" vs. Learners who put Friends at absolute bottom of their list with only 17.6% saying that they are are "Very useful" and 82.4% aying that Friends are either "Somewhat useful" or "Very useful".  
+Another interesting difference is that the importance of Friends to learning data science is much higher among employed Data Scientists with about 46.5% saying that Friends are "Very useful" and 97.5% saying that Friends are either "Somewhat useful" or "Very useful" vs. 'Learners' who put Friends at absolute bottom of their list with only 17.6% saying that they are are "Very useful" and 82.4% saying that Friends are either "Somewhat useful" or "Very useful".  
 
-This may indicate a need to create a more robust community for Data Science learners, who may feel somewhat isolated in their studies vs. employed Data Scientists who presumably have more established work and social networks that involve Data Science.  
+This may indicate a need to create a more robust community for Data Science 'Learners', who may feel somewhat isolated in their studies vs. employed Data Scientists who presumably have more established work and social networks that involve Data Science.  
 
 ```{r echo=FALSE}
 plot(employed.LPL)
 kable(summary(employed.LPL))
 ```
 
-### Job Skills Importance to Learners
+### Job Skills Importance to 'Learners'
+
+'Learners' put Python at the top of their list of Job Skills with 63.6% of respondents saying that it is "Necessary" and 99% saying it is either "Necessary" or "Nice to have".  Only 1% said it was "Unnecessary".  R is surprisingly further down the list with only a little more than half as many respondents saying that R is "Necessary" compared to Python at 34.7% but many more agreeing that it is at least "Nice to have"for a total of 95% in favor of learning R which is just slightly less than those in favor of Python.
+
+Surprisingly "Data Visualization" comes in only slightly above R with 39% saying that it is "Necessary" but actually slightly lower in terms of overall importance with 8% saying it is "Unnecessary".
 
 ```{r echo=FALSE}
 plot(learner.JSL)
@@ -373,12 +377,18 @@ kable(summary(learner.JSL))
 
 ### Work Tools Frequency
 
+Not surprisingly I guess, Python is also high on the list of tools that working Data Scientists use with 75.4% of users saying that they use it either "Often" or "Most of the time" and only Statistica, SQL and Unix edging it out for the top 3 slots.  What is surprising is that two of the the top three tools used in the field aren't even on the list of Job Skills 'Learners' were asked to evaluate.
+
+R comes in slightly lower than Python with 63.6% of users saying that they use it either "Often" or "Most of the time" but the difference between R and Python is less in the field than what 'Learners' seem to think is most important.
+
 ```{r echo=FALSE}
 plot(employed.WTL)
 kable(summary(employed.WTL))
 ```
 
 ### Work Methods Frequency
+
+The big surprise here is that Data Visualization is at the top of the list.  With nobody saying that they use it "Rarely" and only 8.5% saying that they only use it "Sometimes".  91.5% say they use it "Often" or "Most of the time".  It is by far the most frequently used method or tool for working Data Science Professionals with Statstica as the next runner up at only 80% by comparison.  Remember that only 38.8% of 'Learners' said that they thought Visualizations were a "Necessary" job skill to learn!  
 
 ```{r echo=FALSE}
 plot(employed.WML)
@@ -525,13 +535,13 @@ p1
 ## Results of RQ5:
 
 
-We found that *a little below the half of the survey takers* (N=3540, 44.5%) reported to use both R and Python. The take home message for the aspiring data scientists is that substantial majority of the Kaggle survey takers are using both languages, both languages are used widely. Among the remaning half of the respondents, small portion of them (N=714, 8.98%) are using neither Python nor R. The rest of the survey takers are using either R or Python. In particular, 2533 (31.84%) indicated using only Python while only 1168 (14.68%) of them noted to use R Only.
+We found that *a little below the half of the survey takers* (N=3540, 44.5%) reported to use both R and Python. The take home message for the aspiring data scientists is that substantial majority of the Kaggle survey takers are using both languages, both languages are used widely. Among the remaining half of the respondents, small portion of them (N=714, 8.98%) are using neither Python nor R. The rest of the survey takers are using either R or Python. In particular, 2533 (31.84%) indicated using only Python while only 1168 (14.68%) of them noted to use R Only.
 
-The story of this contentious debate on R vs Python gets more interesting as to comparing their used langugaes with their recommended languages. Specifically, it is plausible to assume that Python users will recommend Python while R users will recommend R. Can we explore this htpothesis ? How much degree of difference among the Python and R users as to their recommended languages ?
+The story of this contentious debate on R vs Python gets more interesting as to comparing their used languages with their recommended languages. Specifically, it is plausible to assume that Python users will recommend Python while R users will recommend R. Can we explore this hypothesis ? How much degree of difference among the Python and R users as to their recommended languages ?
 
-Our results revealed that 72.17 % of the Python users recommended Python while 53.77% of R users recommended R. This results is not suprising to our hytpothesis. Since there are more Python only users than R only users in this sample, it makes sense to have differences in their recommendation. However, what is suprising is degree of difference in their recommendation for the other language. For example, 15.92 % of the R users recommending Python whereas only 1.42 % of the Python users are recommending R. 
+Our results revealed that 72.17 % of the Python users recommended Python while 53.77% of R users recommended R. This results is not surprising to our hypothesis. Since there are more Python only users than R only users in this sample, it makes sense to have differences in their recommendation. However, what is surprising is degree of difference in their recommendation for the other language. For example, 15.92 % of the R users recommending Python whereas only 1.42 % of the Python users are recommending R. 
 
-However, this results should be interpreted carefully because we have survey takers who did not make any recommendation. For instance 18.87 % of the sample who are Python users did not respond this question. Similary, 17.55 % of R users did not leave any opinion on their recommended languages. If these Python users would say any recommendation, would that increase overall Python users' recommendation of R? Who knows?
+However, this results should be interpreted carefully because we have survey takers who did not make any recommendation. For instance 18.87 % of the sample who are Python users did not respond this question. Similarly, 17.55 % of R users did not leave any opinion on their recommended languages. If these Python users would say any recommendation, would that increase overall Python users' recommendation of R? Who knows?
 
 Since half the sample included both R and Python users, let's see their recommendation. The 51.72% of them recommending Python while 25.65% of them recommending R. The quarter of the both users are recommending R but Python.
 
