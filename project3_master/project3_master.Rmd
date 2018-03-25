@@ -78,70 +78,62 @@ This section will describe the name of the variables and their labels (as report
 
 
 # Research Question 2
-
-Does survey takers' formal education has any relationship to the ML/DS method he or she is most excited about learning in the next year? (Binish)
-
-## Variables and their definition
-
+```
+Does survey takers' formal education has any relationship to the ML/DS method he
+or she is most excited about learning in the next year? (Binish)
+```
 ```
 To do the analysis, we concentrate on two colums in the dataset -
 FormalEducation and MLMethodNextYearSelect
 ```
-
-This section will describe the name of the variables and their labels (as reported in schema doc) and how the values were codes (etc yes, no, select all)
 ```
 FormalEducation : Which level of formal education have you attained?
 MLMethodNextYearSelect : Which ML/DS method are you most excited about learning 
 in the next year?
 These questions are asked to all participants.
 ```
-
-## Manipulating data
-
-```{r}
+```{r, echo=FALSE}
 # removing NAs as they are not meaningful
 subset <- MC %>%
         filter(!is.na(FormalEducation), !is.na(MLMethodNextYearSelect)) %>%
         select(FormalEducation, MLMethodNextYearSelect) %>%
+        filter(FormalEducation != "I prefer not to answer") %>%
         mutate (FormalEducation=as.factor(FormalEducation)) %>%
         mutate (FormalEducation=recode_factor(FormalEducation,
-                                              "Bachelor's degree"='Bachelor',
-        "Some college/university study without earning a bachelor's degree"=
-                                                 'College Dropout',
+                "Bachelor's degree"='Bachelor',
+      "Some college/university study without earning a bachelor's degree"=
+                                                      'College Dropout',
                                               'Doctoral degree'='Doctoral',
                                               "Master's degree"='Masters',
                                               'Professional degree'=
                                                       'Professional' ,
-        'I did not complete any formal education past high school'=
-                                                      'High School',
-                                              'I prefer not to answer'=
-                                                      'No Answer'))
+                'I did not complete any formal education past high school'=
+                                                      'High School'))
 
 ```
-
-## Exploratory Data Analysis (EDA)
 
 ```
 First we plot the distribution of formal education in the dataset
 ```
-```{r}
+```{r, echo=FALSE}
 subset %>%
         ggplot() +
         geom_bar(mapping = aes(x = FormalEducation, y = ..prop.., group = 1, fill = FormalEducation),
                  show.legend = FALSE) +
-        coord_flip()
+        coord_flip() +
+        labs (y="Proportion", x="Formal Education" , title="Distribution of Formal Education")
 ```
 ```
 The data set predominantly contains candidates with Master's degree.   
 Now let's look at the different ML/DS methods in the dataset
 ```
-```{r}
-unique(subset$MLMethodNextYearSelect)
+```{r, echo=FALSE}
+datatable(unique(subset$MLMethodNextYearSelect))
 ```
 ```
 Now we can plot the distribution of ML/DS methods with formal education
 ```
-```{r, fig.height = 15, fig.width = 15, fig.align = "center" , message= FALSE}
+```{r, fig.height = 15, fig.width = 15, fig.align = "center" , message= FALSE, echo=FALSE}
 subset %>%
         ggplot() + 
         geom_bar(mapping = aes(x = MLMethodNextYearSelect, fill = MLMethodNextYearSelect)) +
@@ -151,22 +143,24 @@ subset %>%
                  theme(axis.text.x = element_text(angle = 90), legend.position = 'none') +
                  labs (x="ML Method ", y="count " , title="FormalEducation vs MLMethodNextYearSelect")
 ```
-```
-Clearly in all categories of formal education, candidates want to learn
-Deep learning.
-
-The table below shows the percentage of candidates who wants to learn
-Deep learning in each formal education category.
-```
-```{r}
-algo <- c("Deep learning")
+```{r, echo=FALSE}
 result <- subset %>%
         group_by(FormalEducation, MLMethodNextYearSelect) %>%
         summarise(count = n()) %>%
         mutate(percentage = round(count / sum(count), 2)) %>%
-        filter(MLMethodNextYearSelect %in% algo) %>%
-        select(-count)
+         mutate(rank = min_rank(desc(percentage))) %>%  
+        filter(rank %in% c(1,2,3)) %>%
+        select(-count, -rank) %>%
+        arrange(FormalEducation, desc(percentage)) 
 kable(result)
+```
+
+```
+Deep Learning is the top most ML/DS method in all categories of formal education
+followed by Neural Nets. Except High school graduates, all others wants to learn
+Time Series Analysis as the third ML/DS method. High school graduates want to 
+learn Genetic & Evolutionary Algorithms as theri third choice. Among doctoral 
+survey takers, Bayesian Methods is the third preference.
 ```
 
 # Research Question 3
