@@ -575,6 +575,12 @@ RQ6 <- select(RQ6, -id) # No use for the ID anymore, it's done its job
 RQ6$CompensationAmount <- gsub(",", "", RQ6$CompensationAmount) # Removed the commas from the compensation amount to prep for numeric transformation
 RQ6$CompensationAmount <- as.numeric(RQ6$CompensationAmount) # made the column into a numeric for easier mathematical comparison and sorting
 RQ6 <- filter(RQ6, CompensationAmount < 9999999) # ... let's just be a little realistic, nobody is earning more than fifteen million a year at this point in time or prior to it, and this one-dollar-off-from-a-million entry is an anomaly in the data set
+RQ6.summary <- rbind(summary(select(filter(RQ6, work_tools=="Python"), CompensationAmount)[[1]]), summary(select(filter(RQ6, work_tools=="R"), CompensationAmount)[[1]])) # Summary of the data
+RQ6.summary <- as.data.frame(RQ6.summary)
+colnames(RQ6.summary) <- c("Minimum", "1st Quartile", "Median", "Mean", "3rd Quartile", "Maximum") # Renamed the columns
+RQ6.summary["Standard Deviation"] <- c( sd(filter(RQ6, work_tools == "Python")$CompensationAmount), sd(filter(RQ6, work_tools == "R")$CompensationAmount) )
+RQ6.summary <- as.data.frame(sapply(RQ6.summary, function (x) paste("$", formatC(x, digits=2, format="f", big.mark=","), sep="") )) # Made all of the items in the data frame into dollar format
+rownames(RQ6.summary) <- c("Python", "R") # Applied the rownames
 rm(RQ6_ids) # remove the now-unused variable to save memory
 ```
 
@@ -594,6 +600,12 @@ RQ6_boxplot <- ggplot(RQ6) +
 RQ6_boxplot_ylim <- boxplot.stats(RQ6$CompensationAmount)$stats[c(1, 5)]
 RQ6_boxplot <- RQ6_boxplot + coord_cartesian(ylim = RQ6_boxplot_ylim*1.05)
 RQ6_boxplot
+```
+
+As we can see from the boxplots there is relatively normal distribution present in the compensation for those who solely used Python in their work. Conversely, there is a noticeable right skew in the compensation for those who solely used R in their work.
+
+```{r}
+knitr::kable(RQ6.summary)
 ```
 
 The average survey taker who used Python in their job made approximately \$`r formatC(colMeans(select(filter(RQ6, work_tools=="Python"),CompensationAmount))-colMeans(select(filter(RQ6, work_tools=="R"),CompensationAmount)), digits=2, format="f", big.mark=",")` more than the average survey taker who used R in their job. While R users overall had a higher base pay - to the tune of $`r formatC(quantile(select(filter(RQ6, work_tools=="R"),CompensationAmount)[[1]])["25%"]-quantile(select(filter(RQ6, work_tools=="Python"),CompensationAmount)[[1]])["25%"], digits=2, format="f", big.mark=",")` more than their Python counterparts - their ability to achieve growth in salary was noticeably stymied in comparison. Outliers aside, if the data collected is to be considered representative of the data science population, there is indication that a prospective Data Scientist should learn R first for a higher initial salary, and then learn Python to increase their chance of obtaining a job with more growth potential.
