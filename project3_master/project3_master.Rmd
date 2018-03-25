@@ -128,7 +128,7 @@ The data set predominantly contains candidates with Master's degree.
 Now let's look at the different ML/DS methods in the dataset
 ```
 ```{r, echo=FALSE}
-datatable(unique(subset$MLMethodNextYearSelect))
+kable(unique(subset$MLMethodNextYearSelect), col.names = c("ML/DS Methods"))
 ```
 ```
 Now we can plot the distribution of ML/DS methods with formal education
