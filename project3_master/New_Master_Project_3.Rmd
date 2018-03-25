@@ -58,8 +58,7 @@ MC$id <- seq.int(nrow(MC))
 
 # Research Question
 
-This project will answer this global research question **Which are the most values data science skills?**
-The following 6 research questions will provide answer to this global question.
+This project will answer the global research question **Which are the most values data science skills?**
 
 # Research Question 1
 
@@ -366,7 +365,7 @@ kable(summary(employed.LPL))
 
 ### Job Skills Importance to 'Learners'
 
-'Learners' put Python at the top of their list of Job Skills with 63.6% of respondents saying that it is "Necessary" and 99% saying it is either "Necessary" or "Nice to have".  Only 1% said it was "Unnecessary".  R is surprisingly further down the list with only a little more than half as many respondents saying that R is "Necessary" compared to Python at 34.7% but many more agreeing that it is at least "Nice to have"for a total of 95% in favor of learning R which is just slightly less than those in favor of Python.
+'Learners' put Python at the top of their list of Job Skills with 63.6% of respondents saying that it is "Necessary" and 99% saying it is either "Necessary" or "Nice to have".  Only 1% said it was "Unnecessary".  R is surprisingly further down the list with only a little more than half as many respondents saying that R is "Necessary" compared to Python at 34.7% but many more agreeing that it is at least "Nice to have" for a total of 95% in favor of learning R which is just slightly less than those in favor of Python.
 
 Surprisingly "Data Visualization" comes in only slightly above R with 39% saying that it is "Necessary" but actually slightly lower in terms of overall importance with 8% saying it is "Unnecessary".
 
