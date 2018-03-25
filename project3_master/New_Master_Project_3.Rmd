@@ -186,7 +186,7 @@ ggplot(data = ds.act.us.plot,aes(DSActivity,mean_precent))+
 ```
 
 
-```{r niteen04, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
+```{r niteen04, echo=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
 survey.data.learning <- survey.data %>%
     select(GenderSelect,Country,Age,EmploymentStatus,StudentStatus,LearningDataScience,CareerSwitcher,PublicDatasetsSelect,
            FormalEducation,MajorSelect,DataScienceIdentitySelect,CurrentJobTitleSelect,WorkChallengesSelect,
@@ -211,7 +211,7 @@ survey.data.learn.df  <- survey.data.learning.tidy %>%
 learn.df <- survey.data.learn.df %>%
     filter(LP_count!='NA', LP_count!='')
 
-learn.df <- rename(learn.df,LearnerRemarks=LP_count)
+#learn.df <- rename(learn.df,LearnerRemarks=LP_count)
 
 ds.learn.us <- filter(learn.df,Country=='United States')
 ds.learn.us.plot <- ds.learn.us %>%
@@ -223,12 +223,12 @@ kable(head(ds.learn.us.plot.df))
 
 
 
-```{r fig02, fig.height = 7, fig.width = 8 , fig.align = "center" , message= FALSE, echo=FALSE}
-ggplot(data = ds.learn.us.plot.df,aes(LearningPlatform,LearnerRemarks))+
-  geom_bar(stat = 'identity',aes(fill=LearnerRemarks))+  
-    labs(title = "Learning Platform Usage and Remarks (Country:US)", 
-                         x = "Learning Platform Type", 
-                         y = "Learners Sentiments") +
+```{r fig02, echo=FALSE, fig.align="center", fig.height=7, fig.width=8, message=FALSE}
+ggplot(data = ds.learn.us.plot.df,aes(LearningPlatform,LP_count))+
+ geom_bar(stat = 'identity',aes(fill=LP_count))+  
+   labs(title = "Learning Platform Usage and Remarks (Country:US)",
+                        x = "Learning Platform Type",
+                        y = "Learners Sentiments") +
 theme_bw()+
 theme(axis.text.x = element_text(angle = 65, hjust = 1),axis.text.y=element_blank(),axis.ticks.y=element_blank())
 ```
