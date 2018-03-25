@@ -22,13 +22,10 @@ library(DT)
 library(kableExtra)
 library(lubridate)
 library(janitor)
-<<<<<<< HEAD
-library(likert)
-library(reshape)
-=======
+#library(likert)
+#library(reshape)
 library(plotly)
 library(scales)
->>>>>>> fb0183c3e1f96d99719389d80f4ea06663b02363
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -208,6 +205,12 @@ This section will describe the name of the variables and their labels (as report
 USOnly <- MC %>%
   select(-c(56:73, 76:79, 167:196, 198:228)) %>%
   filter(Country=='United States')
+
+cols <- str_replace(names(USOnly), "LearningPlatformUsefulness", "LPU-")
+cols <- str_replace(cols, "JobSkillImportance", "JSI-")
+cols <- str_replace(cols, "WorkToolsFrequency", "WTF-")
+cols <- str_replace(cols, "WorkMethodsFrequency", "WMF-")
+names(USOnly) <- cols
 ```
 
 
@@ -250,12 +253,12 @@ flevels3 <- function(x){
   factor(x, order=TRUE, levels=c("Unnecessary", "Nice to have", "Necessary"))
 }
 
-employed.LP <- employed[14:31] <- lapply(employed[14:31], flevels)
-employed.WT <- employed[39:89] <- lapply(employed[39:89], flevels2)
-employed.WM <- employed[91:120] <- lapply(employed[91:120], flevels2)
+employed.LP <- employed[,14:31] <- lapply(employed[,14:31], flevels)
+employed.WT <- employed[,39:86] <- lapply(employed[,39:86], flevels2)
+employed.WM <- employed[,91:120] <- lapply(employed[,91:120], flevels2)
 
-learner.LP <- learner[12:28] <- lapply(learner[12:28], flevels)
-learner.JS <- learner[31:40] <- lapply(learner[31:40], flevels3)
+learner.LP <- learner[,12:28] <- lapply(learner[,12:28], flevels)
+learner.JS <- learner[,31:40] <- lapply(learner[,31:40], flevels3)
 ```
 
 ## Exploratory Data Analysis (EDA)
@@ -268,10 +271,10 @@ employed %>%
   arrange(desc(total))
 
 # Need to Tidy this data so that each response is in a separate row rather than all in one
-employed %>% 
-  group_by(CurrentEmployerType) %>%
-  summarise(total = n()) %>%
-  arrange(desc(total))
+# employed %>% 
+#  group_by(CurrentEmployerType) %>%
+#  summarise(total = n()) %>%
+#  arrange(desc(total))
 ```
 
 ```{r}
@@ -285,7 +288,7 @@ learner %>%
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
 
-# Can't get this to wok yet...  :-(
+# Can't get this to work yet...  :-(
 learner.LP <- likert(learner[12:28], nlevels = 3)
 learner.JS <- likert(learner[31:43], nlevels = 3)
 
@@ -363,11 +366,33 @@ net_stacked <- function(x) {
 }
 ```
 
+### Learning Platform Usefulness for Data Science Learners
+
 ```{r}
 net_stacked(learner.LP)
-net_stacked(learner.JS)
+```
+
+### Learning Platform Usefulness for Employed Data Scientists
+
+```{r}
 net_stacked(employed.LP)
+```
+
+### Job Skill Importance for Data Science Learners
+
+```{r}
+net_stacked(learner.JS)
+```
+
+### Work Tools Frequency for Employed Data Scientists
+
+```{r}
 net_stacked(employed.WT)
+```
+
+### Work Methods Frequency for Employed Data Scientists
+
+```{r}
 net_stacked(employed.WM)
 ```
 
