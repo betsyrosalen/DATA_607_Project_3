@@ -182,20 +182,20 @@ This section will describe the name of the variables and their labels (as report
 ```
 
 
-# Learners vs. Employed Data Scientists
+# 'Learners' vs. Employed Data Scientists
 
 ```{r message=FALSE ,warning=FALSE, echo=FALSE}
-linkMC<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/multipleChoiceResponses.csv"
-#importing MC items
-MC<-read.csv(linkMC, stringsAsFactors = FALSE)
-dim(MC)
+#Re-import MC items using read.csv so that I can use the likert package
+MC2<-read.csv(linkMC, stringsAsFactors = FALSE)
 #lets create a unique ID variable 
-MC$id <- seq.int(nrow(MC))
+MC2$id <- seq.int(nrow(MC2))
 ```
 
 ## Question
 
 Is there a difference between what 'Learners' think are the important skills to learn and what employed Data Scientists say are the skills and tools they are using?
+
+Those who are new to data science and learning new skills may have different opinions about which tools and methods are most important to learn and which are being used than those who are already employed in the field. Comparing teh answer of 'Learners' vs. employed Data Scientists may give us some insight into which skills each group values most and whether or not they are in agreement.
 
 ## Variables and their definition
 
@@ -212,7 +212,7 @@ We also chose to focus only on respondents who are located in the US since inter
 ```{r, echo=FALSE}
 # Select only variables that seem most related to “Which are the most valued data science skills?”
 # Filter for US Only
-USOnly <- MC %>%
+USOnly <- MC2 %>%
   select(-c(56:73, 76:79, 167:196, 198:228)) %>%
   filter(Country=='United States')
 
@@ -221,6 +221,7 @@ cols <- str_replace(cols, "JobSkillImportance", "JSI-")
 cols <- str_replace(cols, "WorkToolsFrequency", "WTF-")
 cols <- str_replace(cols, "WorkMethodsFrequency", "WMF-")
 names(USOnly) <- cols
+remove(MC2)
 ```
 
 ```{r warning=FALSE, include=FALSE}
