@@ -803,7 +803,7 @@ kable(summary(employed.WML))
 
 # R vs. Python
 
-The most frequently used of the programming languages are R and Python. But are these in agreement as well? Do those survey takers feel that others should first and foremost study the languages they themselves have taken up, or perhaps with their insight, know to suggest the language of the two they themselves did not learn?
+The most frequently used of the programming languages are R and Python. But do those that use R recommend R or Python?  And do those that use Python recommend R or Python?  In other words, do those survey takers feel that others should first and foremost study the languages they themselves have taken up, or perhaps with their insight, know to suggest the language of the two they themselves did not learn?
 
 Thus the following questions were explored:
  
@@ -831,7 +831,7 @@ There are 2 variables used in this section of the analysis :
 
 ## Manipulating data
 
-The major task in this part of the analysis were creating a tidy data for Select all that apply type of column for WorkToolsSelect. Because the respondents were provided the option of choosing anything that apply to them, the data for the languages were captures as string as opposed to having one language as a column for each respondent.
+The major task in this part of the analysis was to create a tidy data structure  This can be accomplished using Select function calls and the required variables for the analysis. Because the respondents were provided the option of choosing anything that applied to them, the data for the languages were captured as strings as opposed to having one language as a column for each respondent.
 
 ## Exploratory Data Analysis (EDA)
 
@@ -904,7 +904,7 @@ p
 
 ```
 
-Let's examine the above graph by LanguageRecommendationSelect
+Let's examine the above graph of LanguageRecommendationSelect
 
 ```{r ,fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE}
 
@@ -959,20 +959,20 @@ p1
 
 ```
 
-## Results of RQ5:
+## Results of Exploring R vs. Python:
 
 
-We found that *a little below the half of the survey takers* (N=3540, 44.5%) reported to use both R and Python. The take home message for the aspiring data scientists is that substantial majority of the Kaggle survey takers are using both languages, both languages are used widely. Among the remaining half of the respondents, small portion of them (N=714, 8.98%) are using neither Python nor R. The rest of the survey takers are using either R or Python. In particular, 2533 (31.84%) indicated using only Python while only 1168 (14.68%) of them noted to use R Only.
+We found that *a little below the half of the survey takers* (N=3540, 44.5%) reported to use both R and Python. The take home message for aspiring data scientists is that a substantial majority of the Kaggle survey takers are using both languages--both languages are used widely. Among the remaining half of the respondents, a small portion of them (N=714, 8.98%) are using neither Python nor R. The rest of the survey takers are using either R or Python. In particular, 2533 (31.84%) indicated using only Python while only 1168 (14.68%) of them reported using R Only.
 
-The story of this contentious debate on R vs Python gets more interesting as to comparing their used languages with their recommended languages. Specifically, it is plausible to assume that Python users will recommend Python while R users will recommend R. Can we explore this hypothesis ? How much degree of difference among the Python and R users as to their recommended languages ?
+The story of this contentious debate on R vs Python gets more interesting when comparing their used languages with their recommended languages. Specifically, it is plausible to assume that Python users will recommend Python while R users will recommend R. We explore this hypothesis by comparing the difference of R users recommending R and Python and the difference of Python users recommending R and Python.
 
-Our results revealed that 72.17 % of the Python users recommended Python while 53.77% of R users recommended R. This results is not surprising to our hypothesis. Since there are more Python only users than R only users in this sample, it makes sense to have differences in their recommendation. However, what is surprising is degree of difference in their recommendation for the other language. For example, 15.92 % of the R users recommending Python whereas only 1.42 % of the Python users are recommending R. 
-
-
-However, this results should be interpreted carefully because we have survey takers who did not make any recommendation. For instance 18.87 % of the sample who are Python users did not respond this question. Similarly, 17.55 % of R users did not leave any opinion on their recommended languages. If these Python users would say any recommendation, would that increase overall Python users' recommendation of R? Who knows?
+Our results revealed that 72.17 % of the Python users recommended Python while 53.77% of R users recommended R. This result is not surprising--there are more Python only users than R only users in this sample, it makes sense to have differences in their recommendations since a different proportion of each know only the one language. However, what is surprising is the degree of difference in their recommendation for the other language: 15.92 % of the R users recommend Python whereas only 1.42 % of the Python users recommend R. 
 
 
-Since half the sample included both R and Python users, let's see their recommendation. The 51.72% of them recommending Python while 25.65% of them recommending R. The quarter of the both users are recommending R but Python.
+However, these results should be interpreted carefully because there are survey takers who did not make any recommendation. For instance 18.87% of the sample who are Python users did not respond to this question. Similarly, 17.55% of R users did not leave any opinion on their recommended languages. This is a sizable portion of the sample and if these users were to make recommendations, it's possible that more Python users would be recommending R.
+
+
+Since half the sample included respondeds who are both R and Python users, their recommendation is particularly valuable since they have experience with both languages. Of this subset, 51.72% of them recommend Python while 25.65% of them recommend R. A quarter of the users that use both reccomend R over Python.
 
 <br>
 
@@ -984,7 +984,7 @@ Finally, true to the word "value," considerations have to be made regarding pay.
 
 What the question is primarily concerned with is three-fold:
 
-* __WorkToolsSelect__: This was a "select all that apply"" variable with a list of various data science tools, technologies, and languages. Survey takers identified which tools were utilized in their work and the results were stored in this comma separated variable.
+* __WorkToolsSelect__: This was a "select all that apply" variable with a list of various data science tools, technologies, and languages. Survey takers identified which tools were utilized in their work and the results were stored in this comma separated variable.
 * __CompensationAmount__: This was a numerical value to be entered by the survey taker indicating their annual pay.
 * __CompensationCurrency__: This was a simple character string that stated what currency the survey taker was receiving their annual salary in.
 
@@ -1018,7 +1018,7 @@ rownames(RQ6.summary) <- c("Python", "R") # Applied the rownames
 rm(RQ6_ids) # remove the now-unused variable to save memory
 ```
 
-In order to study the data it had to first be transformed. All users who did not provide an answer for the question on tools they use at work had their responses discarded. Similarly, all users whose compensation was not in US Dollars had their information disregarded in order to hone in on a single socio-economic focus, the US market. A separate table was created pairing survey takers with each of their languages or methods used for their job via the id variable - a number assigned to each survey taker - and work_tools variable, which stored each item in the list provided by WorkToolsSelect in its own row, matched to the id of the survey taker who provided it. Using this separate table, survey takers who used both Python and R in their jobs were removed, and any who failed to use R or Python in their job were removed as well, leaving a list of individuals who exclusively used Python or R in their career. Lastly, the amounts compensated were reformatted so as to be in a numeric format and any rows with an unlikely compensation amount - north of ten million annually - were removed to prevent data skewing by such a severe outlier.
+In order to study the data to answer this question, it had to first be transformed. All users who did not provide an answer for the question on tools they use at work had their responses discarded. Similarly, all users whose compensation was not in US Dollars had their information disregarded in order to hone in on a single socio-economic focus, the US market. A separate table was created pairing survey takers with each of their languages or methods used for their job via the id variable - a number assigned to each survey taker - and work_tools variable, which stored each item in the list provided by WorkToolsSelect in its own row, matched to the id of the survey taker who provided it. Using this separate table, survey takers who used both Python and R in their jobs were removed, and any who failed to use R or Python in their job were removed as well, leaving a list of individuals who exclusively used Python or R in their career. Lastly, the amounts compensated were reformatted so as to be in a numeric format and any rows with an unlikely compensation amount - north of ten million annually - were removed to prevent data skewing by such a severe outlier.
 
 ## Exploration and Review of Compensations
 
@@ -1056,12 +1056,23 @@ The average survey taker who used Python in their job made approximately \$`r fo
 + *Time Series Analysis* as the third ML/DS method. High school graduates want to learn Genetic & Evolutionary Algorithms as their third choice. 
 + Among doctoral survey takers, *Bayesian Methods* is the third preference.
 
+**On Data Science Methods Used on the Job**
++ *Data Visualization* is a remarkably popular data science method.  It is the most endorsed by *nearly all education attainment levels*.
++ *Cross validation, random forests, logistic regression, and decision trees* are also heavily endorsed.
++ These are not just short but required or essential tasks--not only do so many of those writing code use data visualization, but they also use it quite frequently
++ The data suggest that data science methods do *not* differ much between formal educational attainment groups.
+
+
 **'Learners' vs. Employed Data Scientists**
 
 + Both Learners and employed Data Scientists agree that Courses, Projects and College are in the top three ways to learn Data Science
 + 'Learners' place much less importance on Friends for learning than employed Data Scientists do
 + 'Learners' place a higher importance on Python vs. R as compared with employed Data Scientists
 + Data Visualization is the top used skill for working Data Scientists even though learners put relatively little importance on it as a Job Skill
+
+**On Data Science Activities**
++ *Gathering Data* is the main activity where data scientists spend most of their time followed by model building. 
++ *Personal projects and Online Courses* appear to be very useful learning platforms.
 
 **On the contentious debate on R vs Python as the most valued Data Science Skills**  
 
