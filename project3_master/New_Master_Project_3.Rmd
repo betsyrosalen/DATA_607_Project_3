@@ -37,11 +37,25 @@ knitr::opts_chunk$set(echo = FALSE)
 
 <br>
 
+# Research Question
+
+The goal of this project is to answer the research question **Which are the most valued data science skills?**  
+
+In order to answer that question we found and used survey data from the [Kaggle ML and Data Science Survey, 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017).
+
+While the answer to the question is by definition subjective, the Kaggle Survey was, "an industry-wide survey to establish a comprehensive view of the state of data science and machine learning" and with over 16,000 responses it provides a good starting point for exploring the views of professionals in the field and what they value.
+
+<br>
+
 # Importing data
 
-The data set used in this project is [Kaggle ML and Data Science Survey 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017/feed). The survey was stored in 2 different data sets:a) multiple choice items, b) free-response items. Kaggle stored each data in csv format. We downloaded the multiple choice item survey results in csv format and placed it in our [GitHub repo](https://github.com/betsyrosalen/DATA_607_Project_3)
+The survey was stored in 2 different files consisting of:
 
-Importing Multiple Choice data
+  1. multiple choice items
+  2. free-response items
+  
+We chose to focus on the multiple choice data only for statistical analysis.  Kaggle stored each data in csv format. We downloaded the multiple choice item survey results in csv format and placed it in our [GitHub repo](https://github.com/betsyrosalen/DATA_607_Project_3).
+
 ```{r message=FALSE, warning=FALSE}
 linkMC<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/multipleChoiceResponses.csv"
 #importing MC items
@@ -65,12 +79,6 @@ MC$id <- seq.int(nrow(MC))
 
 <br>
 
-# Research Question
-
-This project will answer the global research question **Which are the most values data science skills?**
-
-<br>
-
 # A Day in a Data Scientist's Life
 
 We start with exploring the resources utilized by Kaggle survey users for learning data science. What are the different data science activities they do, what are the different learning platforms they use and how do they feel about the userfulness of those platforms?
@@ -80,8 +88,8 @@ We start with exploring the resources utilized by Kaggle survey users for learni
 ## Variables and their definition 
 
 To begin with, we focussed on users/ respondents demographics to understand the age group and their gender. 
-After analyzing data, variables:GenderSelect & Age, it appears that out of 16716 global Kaggle respondents there are 13610 males and 2778 females. In this subset male respondents are almost 5 (~4.8) times more than female respondents. Also, from the above plot it is pretty evident that repondents age peak at 25 for both males and females whereas the median age stays at 30.
 
+After analyzing data, variables:GenderSelect & Age, it appears that out of 16716 global Kaggle respondents there are 13610 males and 2778 females. In this subset male respondents are almost 5 (~4.8) times more than female respondents. Also, from the plot below it is pretty evident that repondents' age peaks at 25 for both males and females whereas the median age is about 30.
 
 ```{r niteen01, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
 
@@ -117,11 +125,11 @@ ggplot(data = survey.dem.age.plot,
 
 <br>
 
-Since, we are trying to determine what are the most important **Data Science Skills** are, it is very important to understand what does a data scientist do? And what are the different activities a data scientist perform on daily basis and how much time each activity typically takes. 
+Since, we are trying to determine what the most important **Data Science Skills** are, it is very important to understand what a data scientist does. What are the different activities a data scientist performs on daily basis, and how much time does each activity typically take?
 
 <br>
 
-> Let’s take a peek at a day in Data Scientist’s life and try to figure out what does a data scientist do.
+> Let’s take a peek at a day in the life of a Data Scientist and try to figure out what a data scientist does.
 
 ![ ](./dsact.jpg)
 
@@ -136,15 +144,13 @@ The day typically starts with a question or business problem and invloves follow
 
 ## Manipulating data
 
-Kaggle successfully captured repondents data and also clearly catetgaorized them into different time spent activities. In order to analyze this question we looked at attributes: TimeGatheringData,TimeModelBuilding,TimeProduction,,TimeVisualizing,
-,TimeFindingInsights.
+Kaggle successfully captured repondents' data about time spent in different activities. In order to analyze this question we looked at attributes: TimeGatheringData, TimeModelBuilding, TimeProduction, TimeVisualizing, and TimeFindingInsights.
 
-In order to determining usefulness of learners platfom we tidy the data for 18 learning platform attributes present in the data set and perform the analysis on long data type. We also successffuly manipulated data to find users sentiments/ remarks from platform usefulness standpoint. 
+In order to determining usefulness of learners platfom we tidy the data for 18 learning platform attributes present in the data set and perform the analysis on long data type. We also successffuly manipulated data to find user's sentiments/ remarks from platform usefulness standpoint. 
 
 ## Exploratory Data Analysis (EDA)
 
-After analyzing data for US repondents it appears that data aquisition or gathering data is the main activitiy, 37.75%, where a data scientist spends most of the time. The model building ranks 2nd, 19.23%, followed by time spent in finding insights and data visualization. Only 10.23% of total appears to be taken by prodcution activities. 
-
+After analyzing data for US repondents it appears that data aquisition or gathering data is the main activitiy, at 37.75%.  This is where a data scientist spends most of their time. Model building ranks 2nd, at 19.23%, followed by time spent in finding insights and data visualization. Only 10.23% of their total time appears to be taken by production activities. 
 
 ```{r niteen02, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
 
@@ -190,8 +196,7 @@ ggplot(data = ds.act.us.plot,aes(DSActivity,mean_precent))+
   theme(axis.text.x = element_text(angle = 65, hjust = 1),legend.position = 'none')
 ```
 
-Whether one is employed full time, part time or a student; its worth exploring how people are using different learning platform and how they feel about it. We made use of different learning platform attributes captured in the dataset which also includes Kaggle as a learning platform.
-
+Whether one is employed full-time, part-time or a student; its worth exploring how people are using different learning platforms and how they feel about them. We made use of different learning platform attributes captured in the dataset which also includes Kaggle as a learning platform.
 
 ```{r niteen04, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
 survey.data.learning <- survey.data %>%
@@ -239,27 +244,24 @@ theme_bw()+
 theme(axis.text.x = element_text(angle = 65, hjust = 1),axis.text.y=element_blank(),axis.ticks.y=element_blank())
 ```
 
-After Analyzing respondetns take on different learning platform it appears that learners mostly benefited from personal projects as majority of resonse indicate it very useful. Online courses appears to be 2nd very useful only to be followed by StackOverflow and Kaggle. Blogs,textbooks and college also appear to be very userful whereas newsletters, podcasts and tradebook rank low. 
+After analyzing respondents take on different learning platforms it appears that learners mostly benefited from personal projects as majority of resonses indicate projects as being very useful. Online courses appears to be 2nd, followed by StackOverflow and Kaggle. Blogs,textbooks and college also appear to be very userful whereas newsletters, podcasts and tradebook rank low. 
 
 <br>
 
 # What do Data Scientists Want to Learn?
 
-Next, we examine what these survey takers of various educational backgrounds find themselves excited to learn. Due to the ever-evolving nature of technology and, by extension, data science, it is imperative that they remain relevant in their field and are passionate in their pursuit for relevance.
+Next, we examine what these survey takers of various educational backgrounds find themselves excited to learn. Due to the ever-evolving nature of technology and, by extension, data science, it is imperative that they remain relevant in their field and are passionate in their pursuit for relevance.  Understanding what working professionals want to learn could give us insight into what skills are most valued in the field.
 
-Does survey takers' formal education has any relationship to the ML/DS method he or she is most excited about learning in the next year?
+Does survey takers' formal education have any relationship to the Machine Learning/Data Science method he or she is most excited about learning in the next year?
 
 ## Variables and their definition 
 
-To do the analysis, we concentrate on two columns in the dataset -  
-1. FormalEducation and     
-2. MLMethodNextYearSelect    
+To do the analysis, we concentrate on two columns in the dataset 
 
-FormalEducation : Which level of formal education have you attained?
-MLMethodNextYearSelect : Which ML/DS method are you most excited about learning 
-in the next year?
+  1. FormalEducation: Which level of formal education have you attained?
+  2. MLMethodNextYearSelect : Which Machine Learning/Data Science method are you most excited about learning in the next year?
 
-These questions are asked to all participants.
+These questions were asked to all participants.
 
 ```{r, echo=FALSE}
 # removing NAs as they are not meaningful
@@ -296,16 +298,15 @@ subset %>%
 
 ```
 
+The data set predominantly contains candidates with Master's degrees which are followed by Bachelor's then doctoral degrees.   
 
-The data set predominantly contains candidates with Master's degree which is followed by Bachelor then doctoral degree.   
-
-Now let's look at the different ML/DS methods in the dataset
+Now let's look at the different Machine Learning/Data Science methods in the dataset.
 
 ```{r, echo=FALSE}
-kable(unique(subset$MLMethodNextYearSelect), col.names = c("ML/DS Methods"))
+kable(unique(subset$MLMethodNextYearSelect), col.names = c("Machine Learning/Data Science"))
 ```
 
-Now we can plot the distribution of ML/DS methods with formal education
+Now we can plot the distribution of Machine Learning/Data Science methods with formal education.
 
 ```{r, fig.height = 17, fig.width = 17, fig.align = "center" , message= FALSE, echo=FALSE}
 subset %>%
@@ -315,7 +316,7 @@ subset %>%
                  theme(legend.position="bottom")+
                  facet_wrap (~FormalEducation)+
                  theme(axis.text.x = element_text(angle = 90), legend.position = 'none') +
-                 labs (x="ML Method ", y="count " , title="Formal Education vs ML/DS method excited about learning next year")
+                 labs (x="ML Method ", y="count " , title="Formal Education vs Machine Learning/Data Science method excited about learning next year")
 ```
 ```{r, echo=FALSE}
 result <- subset %>%
@@ -326,19 +327,19 @@ result <- subset %>%
         filter(rank %in% c(1,2,3)) %>%
         select(-count, -rank) %>%
         arrange(FormalEducation, desc(percentage)) 
-datatable(result, colnames=c("Formal Education", "ML/DS method excited about learning next year", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 8, dom = 'tip'))
+datatable(result, colnames=c("Formal Education", "Machine Learning/Data Science method excited about learning next year", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 8, dom = 'tip'))
 ```
 
 
-Our results revealed that *Deep Learning* is the top most ML/DS method among the Kaggle survey takers regardless of their earned formal education. Interestingly, both 40 % of respondents who had earned bachelor degree and 40 % of survey takers with earned master’s degree stated that Deep Learning is the technique that they are most excited about learning in the next year. Similarly, 39 % of the respondents with high school degree reported to learn Deep Learning as their top desired ML/DS method.
+Our results revealed that *Deep Learning* is the top most Machine Learning/Data Science method among the Kaggle survey takers regardless of their earned formal education. Interestingly, both 40% of respondents who had earned bachelor degree and 40% of survey takers with earned master’s degree stated that Deep Learning is the technique that they are most excited about learning in the next year. Similarly, 39% of the respondents with high school degree reported to learn Deep Learning as their top desired Machine Learning/Data Science method.
 
-Following Deep Learning, *Neural Nets* emerged as the second top ML/DS method that Data Scientists have the desire to learn next year. Intriguingly, College Dropouts have highest percentage in the distribution in learning Neural Nets
+Following Deep Learning, *Neural Nets* emerged as the second top Machine Learning/Data Science method that Data Scientists have the desire to learn next year. Intriguingly, College Dropouts have highest percentage in the distribution in learning Neural Nets.
 
-*Time Series Analysis* was found to be the third ML/DS method of interest. High school graduates want to learn Genetic & Evolutionary Algorithms as their third choice. 
+*Time Series Analysis* was found to be the third Machine Learning/Data Science method of interest. High school graduates want to learn Genetic & Evolutionary Algorithms as their third choice. 
 
-Among doctoral survey takers, *Bayesian Methods* is the third preference. This particular  ML/DS method was not choice for others but only with PhDs. 
+Among doctoral survey takers, *Bayesian Methods* is the third preference. This particular  Machine Learning/Data Science method was not choice for others but only with PhDs. 
 
-The results are suggesting that there is a clear trend among the data scientists that Deep Learning is the ML/DS method they want to learn. As to the global research question of interest what data science skills are valued the most, the results from this insight suggest that aspiring data scientists should consider learning Deep Learning.
+The results are suggesting that there is a clear trend among the data scientists that Deep Learning is the Machine Learning/Data Science method they want to learn. As to the global research question of interest what data science skills are valued the most, the results from this insight suggest that aspiring data scientists should consider learning Deep Learning.
 
 <br>
 
@@ -346,7 +347,7 @@ The results are suggesting that there is a clear trend among the data scientists
 
 What are the most frequently used data science (DS) methods by those writing code in DS professions? Do those relate to formal educational attainment?
 
-The Kaggle dataset provides multiple different variables to assess what the most valuable data science skills may be.  In the previous section, we examined what data science methods learners are most excited about and working on.  In this section, we'll look at what which data science methods are the most frequently used and if that has any relationship to educational attainment--a potential indicator of if certain methods require advanced academic training.
+The Kaggle dataset provides multiple different variables to assess what the most valuable data science skills may be.  In the previous section, we examined what data science methods learners are most excited about and working on.  In this section, we'll look at which data science methods are the most frequently used and if that has any relationship to educational attainment--a potential indicator of whether or not certain methods require advanced academic training.
 
 ## Variables and their definition 
 
@@ -1050,10 +1051,10 @@ The average survey taker who used Python in their job made approximately \$`r fo
 
 # Conclusion
 
-**On the contentious debate on which ML/DS methods Data Scientists are most excited about learning in the next year as the most valued Data Science Skills**
+**On the contentious debate on which Machine Learning/Data Science methods Data Scientists are most excited about learning in the next year as the most valued Data Science Skills**
 
-+ *Deep Learning* is the top most ML/DS method in all categories of formal education followed by *Neural Nets* except High school graduates, all others wants to learn
-+ *Time Series Analysis* as the third ML/DS method. High school graduates want to learn Genetic & Evolutionary Algorithms as their third choice. 
++ *Deep Learning* is the top most Machine Learning/Data Science method in all categories of formal education followed by *Neural Nets* except High school graduates, all others wants to learn
++ *Time Series Analysis* as the third Machine Learning/Data Science method. High school graduates want to learn Genetic & Evolutionary Algorithms as their third choice. 
 + Among doctoral survey takers, *Bayesian Methods* is the third preference.
 
 **'Learners' vs. Employed Data Scientists**
