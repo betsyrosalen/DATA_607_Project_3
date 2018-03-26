@@ -13,7 +13,6 @@ output:
     highlight:  tango
 editor_options: 
   chunk_output_type: inline
-runtime: shiny
 ---
 
 ```{r global_options, echo=FALSE}
@@ -74,7 +73,7 @@ This project will answer the global research question **Which are the most value
 
 # A Day in a Data Scientist's Life
 
-We start with exploring the resources utilized by Kaggle survey users for learning data science. How does a day in Data Scientists life look like and where do users look for learning, and how do they feel about different learning platforms?
+We start with exploring the resources utilized by Kaggle survey users for learning data science. What are the different data science activities they do, what are the different learning platforms they use and how do they feel about the userfulness of those platforms?
 
 >Insights into the demographics : How respondents data is distributed across different countries and also some interesting facts about country-wise gender distribution
 
@@ -116,51 +115,6 @@ ggplot(data = survey.dem.age.plot,
 
 ``` 
 
-> Let's Shine ..
-
-We thought of building some interactive visualization and used Shiny (http://shiny.rstudio.com/) to accomplish the same. 
-We chose four variables: Age,Country,GenderSelect,EmploymentStatus to consruct a subset. We kept Gender and Country as filter attributes to make data selection and filter the subset of data in the runtime. 
-
-```{r niteends01, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
-
-inputPanel(
-  selectInput(inputId = "y1", 
-                  label = "Gender:",
-                  choices = c('Male','Female','All'),
-                  #choices = trimws(as.character(survey.dem.plot$GenderSelect)), 
-                  selected ='' ),
-      
-      # Select variable for x-axis
-      selectInput(inputId = "x1", 
-                  label = "Country:",
-                  choices = trimws(as.character(survey.dem.plot$Country)), 
-                  selected = '')
-  
-)
-
-renderPlot({
-    
-    gendeSelect <- input$y1
-    if(gendeSelect!='All'){
-    data.survey.dem <- filter(survey.dem.plot,Country==input$x1,GenderSelect==input$y1,Age>5)
-    }else{
-    data.survey.dem <- filter(survey.dem.plot,Country==input$x1,Age>5)
-    }
-    print(median(data.survey.dem$Age))
-    ggplot(data.survey.dem, aes(x = Age, y = data.survey.dem$count))+
-      geom_bar(stat='summary',fun.y = "mean", aes(fill=EmploymentStatus))+
-      geom_line(aes(x = median(Age), y = (data.survey.dem$count)))+
-      ylab('Number of Respondents')+
-      theme_bw()
-    
-}
-  
-)
-
-```
-
-For country selection United States, the shiny plot clearly shows that full time employed users are the highest repondents and the median age for US population stays at 38 whereas the number of respondents peak for th age group 25. India appears to rank 2nd  with median age group 31.
-
 <br>
 
 Since, we are trying to determine what are the most important **Data Science Skills** are, it is very important to understand what does a data scientist do? And what are the different activities a data scientist perform on daily basis and how much time each activity typically takes. 
@@ -182,7 +136,7 @@ The day typically starts with a question or business problem and invloves follow
 
 ## Manipulating data
 
-Kaggele successfully captured repondents data and also clearly catetgaorized them into different time spent activities. In order to analyze this question we looked at attributes: TimeGatheringData,TimeModelBuilding,TimeProduction,,TimeVisualizing,
+Kaggle successfully captured repondents data and also clearly catetgaorized them into different time spent activities. In order to analyze this question we looked at attributes: TimeGatheringData,TimeModelBuilding,TimeProduction,,TimeVisualizing,
 ,TimeFindingInsights.
 
 In order to determining usefulness of learners platfom we tidy the data for 18 learning platform attributes present in the data set and perform the analysis on long data type. We also successffuly manipulated data to find users sentiments/ remarks from platform usefulness standpoint. 
