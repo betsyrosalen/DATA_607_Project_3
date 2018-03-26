@@ -24,7 +24,7 @@ library(kableExtra)
 library(lubridate)
 library(janitor)
 library(likert)
-library(reshape)
+#library(reshape)
 #library(plotly)
 library(scales)
 library(grid)
@@ -252,39 +252,19 @@ theme_bw()+
 theme(axis.text.x = element_text(angle = 65, hjust = 1),axis.text.y=element_blank(),axis.ticks.y=element_blank())
 ```
 
-
-
-## Exploratory Data Analysis (EDA)
-
-```{r}
-
-```
-
-
-
-
 # Research Question 2
 
 Next, we examine what these survey takers of various educational backgrounds find themselves excited to learn. Due to the ever-evolving nature of technology and, by extension, data science, it is imperative that they remain relevant in their field and are passionate in their pursuit for relevance.
 
-
-1. Does survey takers' formal education has any relationship to the ML/DS method he or she is most excited about learning in the next year? (Binish)
+Does survey takers' formal education has any relationship to the ML/DS method he or she is most excited about learning in the next year?
 
 ## Variables and their definition 
-To do the analysis, we concentrate on two colums in the dataset -  
+
+To do the analysis, we concentrate on two columns in the dataset -  
 1. FormalEducation and     
 2. MLMethodNextYearSelect    
 
-# Research Question 2
-
-Does survey takers' formal education has any relationship to the ML/DS method he
-or she is most excited about learning in the next year? (Binish)
-
-To do the analysis, we concentrate on two colums in the dataset -
-FormalEducation and MLMethodNextYearSelect
-
 FormalEducation : Which level of formal education have you attained?
-
 MLMethodNextYearSelect : Which ML/DS method are you most excited about learning 
 in the next year?
 
@@ -310,6 +290,7 @@ subset <- MC %>%
 
 ```
 
+## Exploratory Data Analysis (EDA)
 
 First we plot the distribution of formal education in the dataset
 
@@ -360,7 +341,7 @@ datatable(result, colnames=c("Formal Education", "ML/DS method excited about lea
 
 Our results revealed that *Deep Learning* is the top most ML/DS method among the Kaggle survey takers regardless of their earned formal education. Interestingly, both 40 % of respondents who had earned bachelor degree and 40 % of survey takers with earned master’s degree stated that Deep Learning is the technique that they are most excited about learning in the next year. Similarly, 39 % of the respondents with high school degree reported to learn Deep Learning as their top desired ML/DS method.
 
-Following Deep Learning, *Neural Nets* emerged as the second top ML/DS method that Data Scientists have the desire to learn next year. Intriguely, College Dropouts have highest percentage in the distribution in learning Neural Nets
+Following Deep Learning, *Neural Nets* emerged as the second top ML/DS method that Data Scientists have the desire to learn next year. Intriguingly, College Dropouts have highest percentage in the distribution in learning Neural Nets
 
 *Time Series Analysis* was found to be the third ML/DS method of interest. High school graduates want to learn Genetic & Evolutionary Algorithms as their third choice. 
 
