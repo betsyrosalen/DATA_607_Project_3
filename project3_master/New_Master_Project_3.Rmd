@@ -25,18 +25,20 @@ library(lubridate)
 library(janitor)
 library(likert)
 library(reshape)
-#library(plotly)
+library(plotly)
 library(scales)
 library(grid)
 library(gridExtra)
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+
 # Importing data
 
 The data set used in this project is [Kaggle ML and Data Science Survey 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017/feed). The survey was stored in 2 different data sets:a) multiple choice items, b) free-response items. Kaggle stored each data in csv format. We downloaded the multiple choice item survey results in csv format and placed it in our [GitHub repo](https://github.com/betsyrosalen/DATA_607_Project_3)
 
 Importing Multiple Choice data
-```{r message=FALSE ,warning=FALSE, echo=FALSE}
+```{r message=FALSE ,warning=FALSE}
 linkMC<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/multipleChoiceResponses.csv"
 #importing MC items
 MC<-read_csv (linkMC)
@@ -46,7 +48,7 @@ survey.data <- MC
 MC$id <- seq.int(nrow(MC))
 ```
 
-```{r message=FALSE ,warning=FALSE, echo=FALSE}
+```{r message=FALSE ,warning=FALSE}
 # Ignore this code Importing conversion rates data incase we want to do analyses 
 
 # link_conversion<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/conversionRates.csv"
@@ -68,12 +70,22 @@ We start with exploring the resources utilized by Kaggle survey users for learni
 
 >Insights into the demographics : How respondents data is distributed across different countries and also some interesting facts about country-wise gender distribution
 
+## Variables and their definition 
+
+To begin with, we focussed on users/ respondents demographics to understand the age group and their gender. 
+After analyzing data, variables:GenderSelect & Age, it appears that out of 16716 global Kaggle respondents there are 13610 males and 2778 females. In this subset male respondents are almost 5 (~4.8) times more than female respondents. Also, from the above plot it is pretty evident that repondents age peak at 25 for both males and females whereas the median age stays at 30.
+
 
 ```{r niteen01, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
 
 survey.demographics <- survey.data%>%
   select(GenderSelect,Country,Age,EmploymentStatus) %>%
   filter(Country!='NA',trimws(Country)!='',Age!='NA',trimws(GenderSelect) %in% c('Male','Female'))
+
+survey.dem.age.plot <- survey.demographics %>%
+    group_by(Age,GenderSelect) %>%
+    summarise(count=n()) %>%
+    arrange(desc(count))
 
 survey.dem.plot <- survey.demographics %>%
   group_by(Age,Country,GenderSelect,EmploymentStatus) %>%
@@ -82,22 +94,24 @@ survey.dem.plot <- survey.demographics %>%
 
 ```
 
-```{r figds01, fig.height = 5, fig.width = 7, fig.align = "center" , message= FALSE, echo=FALSE,warning=FALSE,}
+```{r figds01,  echo=FALSE,warning=FALSE,}
 library(ggplot2)
-ggplot(data = survey.dem.plot, 
+ggplot(data = survey.dem.age.plot, 
        mapping = aes(x = Age, fill = GenderSelect, 
                      y = ifelse(test = GenderSelect == "Male", 
                                 yes = -count, no = count)))+
   geom_bar(stat = "identity") +
-  scale_y_continuous(labels = abs, limits = max(survey.dem.plot$count) * c(-1,1)) +
+  scale_y_continuous(labels = abs, limits = max(survey.dem.age.plot$count) * c(-1,1)) +
   labs(y = "Count") +
   coord_flip()+
   theme_bw()
 
 ``` 
 
-GenderSelect Select your gender identity. - Selected Choice
+> Let's Shine ..
 
+We thought of building some interactive visualization and used Shiny (http://shiny.rstudio.com/) to accomplish the same. 
+We chose four variables: Age,Country,GenderSelect,EmploymentStatus to consruct a subset. We kept Gender and Country as filter attributes to make data selection and filter the subset of data in the runtime. 
 
 ```{r niteends01, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
 
@@ -137,18 +151,19 @@ renderPlot({
 
 ```
 
+For country selection United States, the shiny plot clearly shows that full time employed users are the highest repondents and the median age for US population stays at 38 whereas the number of respondents peak for th age group 25. India appears to rank 2nd  with median age group 31.
 
+<br>
 
-## Variables and their definition 
+Since, we are trying to determine what are the most important **Data Science Skills** are, it is very important to understand what does a data scientist do? And what are the different activities a data scientist perform on daily basis and how much time each activity typically takes. 
 
-This section will describe the name of the variables and their labels (as reported in schema doc) and how the values were codes (etc yes, no, select all)
 
 > Let’s take a peek at a day in Data Scientist’s life and try to figure out what does a data scientist do.
 
 ![ ](./dsact.jpg)
 
 
-The day typically starts with a question or business problem and involves following activities/ tasks:
+The day typically starts with a question or business problem and invloves following activties/ tasks:
 
 1. **GatheringData** 
 2. **FindingInsights** 
@@ -157,6 +172,15 @@ The day typically starts with a question or business problem and involves follow
 5. **Production** 
 
 ## Manipulating data
+
+Kaggele successfully captured repondents data and also clearly catetgaorized them into different time spent activities. In order to analyze this question we looked at attributes: TimeGatheringData,TimeModelBuilding,TimeProduction,,TimeVisualizing,
+,TimeFindingInsights.
+
+In order to determining usefulness of learners platfom we tidy the data for 18 learning platform attributes present in the data set and perform the analysis on long data type. We also successffuly manipulated data to find users sentiments/ remarks from platform usefulness standpoint. 
+
+## Exploratory Data Analysis (EDA)
+
+After analyzing data for US repondents it appears that data aquisition or gathering data is the main activitiy, 37.75%, where a data scientist spends most of the time. The model building ranks 2nd, 19.23%, followed by time spent in finding insights and data visualization. Only 10.23% of total appears to be taken by prodcution activities. 
 
 
 ```{r niteen02, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
@@ -193,7 +217,6 @@ kable(ds.act.us.plot.df)
 ```
 
 
-
 ```{r fig01, fig.height = 5, fig.width = 7, fig.align = "center" , message= FALSE, echo=FALSE}
 ggplot(data = ds.act.us.plot,aes(DSActivity,mean_precent))+
   geom_bar(stat = 'identity',aes(fill=DSActivity))+  
@@ -204,8 +227,10 @@ ggplot(data = ds.act.us.plot,aes(DSActivity,mean_precent))+
   theme(axis.text.x = element_text(angle = 65, hjust = 1),legend.position = 'none')
 ```
 
+Whether one is employed ful time, part time or a student; its worth exploring how people are using different learning platform and how they feel about it. We made use of different learning platform attributes captured in the dataset which also includes Kaggle as a learning platform.
 
-```{r niteen04, echo=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
+
+```{r niteen04, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
 survey.data.learning <- survey.data %>%
     select(GenderSelect,Country,Age,EmploymentStatus,StudentStatus,LearningDataScience,CareerSwitcher,PublicDatasetsSelect,
            FormalEducation,MajorSelect,DataScienceIdentitySelect,CurrentJobTitleSelect,WorkChallengesSelect,
@@ -241,16 +266,17 @@ kable(head(ds.learn.us.plot.df))
 ```
 
 
-
-```{r fig02, echo=FALSE, fig.align="center", fig.height=7, fig.width=8, message=FALSE}
+```{r fig02, fig.height = 7, fig.width = 8 , fig.align = "center" , message= FALSE, echo=FALSE}
 ggplot(data = ds.learn.us.plot.df,aes(LearningPlatform,LP_count))+
- geom_bar(stat = 'identity',aes(fill=LP_count))+  
-   labs(title = "Learning Platform Usage and Remarks (Country:US)",
-                        x = "Learning Platform Type",
-                        y = "Learners Sentiments") +
+  geom_bar(stat = 'identity',aes(fill=LP_count))+  
+    labs(title = "Learning Platform Usage and Remarks (Country:US)", 
+                         x = "Learning Platform Type", 
+                         y = "Learners Sentiments") +
 theme_bw()+
 theme(axis.text.x = element_text(angle = 65, hjust = 1),axis.text.y=element_blank(),axis.ticks.y=element_blank())
 ```
+
+After Analyzing respondetns take on different learning platform it appears that learners mostly benefited from personal projects as majority of resonse indicate it very useful. Online courses appears to be 2nd very useful only to be followed by StackOverflow and Kaggle. Blogs,textbooks and college also appear to be very userful whereas newsletters, podcasts and tradebook rank low. 
 
 # Research Question 2
 
@@ -1046,6 +1072,7 @@ The average survey taker who used Python in their job made approximately \$`r fo
 + R only to Python only users are in 1:2 ratio    
 + More R users recommended Python than the Python users recommended R   
 + Both users recommendations in Python is more than their recommendation in R   
+
 
 
 
