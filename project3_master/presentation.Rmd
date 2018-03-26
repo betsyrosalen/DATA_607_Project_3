@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Question 1
 
-We start with exploring the resources utilized by Kaggle survey users for learning data science. Where do they look for learning, what data sets do they use, and is there significance variance with these between survey takers of different educational standings?
+We start with exploring the resources utilized by Kaggle survey users for learning data science. Where do they look for learning, what data sets do they use, and is there significant variance with these between survey takers of different educational standings?
 
 ## Question 2
 
