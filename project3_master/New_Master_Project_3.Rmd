@@ -1,5 +1,5 @@
 ---
-title: "Project3"
+title: "Project 3"
 author: "Gabrielle Bartomeo, Binish Chandy, Zach Dravis, Burcu Kaniskan, Niteen Kumar, Betsy Rosalen"
 date: "March 25, 2018"
 output: 
@@ -1058,6 +1058,7 @@ The average survey taker who used Python in their job made approximately \$`r fo
 + Among doctoral survey takers, *Bayesian Methods* is the third preference.
 
 **On Data Science Methods Used on the Job**
+
 + *Data Visualization* is a remarkably popular data science method.  It is the most endorsed by *nearly all education attainment levels*.
 + *Cross validation, random forests, logistic regression, and decision trees* are also heavily endorsed.
 + These are not just short but required or essential tasks--not only do so many of those writing code use data visualization, but they also use it quite frequently
@@ -1072,6 +1073,7 @@ The average survey taker who used Python in their job made approximately \$`r fo
 + Data Visualization is the top used skill for working Data Scientists even though learners put relatively little importance on it as a Job Skill
 
 **On Data Science Activities**
+
 + *Gathering Data* is the main activity where data scientists spend most of their time followed by model building. 
 + *Personal projects and Online Courses* appear to be very useful learning platforms.
 
