@@ -1035,7 +1035,7 @@ The average survey taker who used Python in their job made approximately \$`r fo
 
 + *Deep Learning* is the top most ML/DS method in all categories of formal education followed by *Neural Nets* except High school graduates, all others wants to learn
 
-+ *Time Series Analysis* as the third ML/DS method. High school graduates want to learn Genetic & Evolutionary Algorithms as theri third choice. 
++ *Time Series Analysis* as the third ML/DS method. High school graduates want to learn Genetic & Evolutionary Algorithms as their third choice. 
 
 + Among doctoral survey takers, *Bayesian Methods* is the third preference.
 
