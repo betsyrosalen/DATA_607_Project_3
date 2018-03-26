@@ -16,6 +16,10 @@ editor_options:
 runtime: shiny
 ---
 
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE)
+```
+
 ```{r setup, include=FALSE}
 library(knitr)
 library(tidyverse)
@@ -62,7 +66,7 @@ MC$id <- seq.int(nrow(MC))
 
 This project will answer the global research question **Which are the most values data science skills?**
 
-# Research Question 1
+# A Day in a Data Scientist's Life
 
 We start with exploring the resources utilized by Kaggle survey users for learning data science. How does a day in Data Scientists life look like and where do users look for learning, and how do they feel about different learning platforms?
 
@@ -252,7 +256,7 @@ theme_bw()+
 theme(axis.text.x = element_text(angle = 65, hjust = 1),axis.text.y=element_blank(),axis.ticks.y=element_blank())
 ```
 
-# Research Question 2
+# What do Data Scientists Want to Learn?
 
 Next, we examine what these survey takers of various educational backgrounds find themselves excited to learn. Due to the ever-evolving nature of technology and, by extension, data science, it is imperative that they remain relevant in their field and are passionate in their pursuit for relevance.
 
@@ -350,11 +354,11 @@ Among doctoral survey takers, *Bayesian Methods* is the third preference. This p
 The results are suggesting that there is a clear trend among the data scientists that Deep Learning is the ML/DS method they want to learn. As to the global research question of interest what data science skills are valued the most, the results from this insight suggest that aspiring data scientists should consider learning Deep Learning.
 
 
-# Research Question 3
+# Data Science Methods
 
-1. What are the most frequently used data science (DS) methods by those writing code in DS professions? Do those relate to formal educational attainment? (Zach)
+1. What are the most frequently used data science (DS) methods by those writing code in DS professions? Do those relate to formal educational attainment?
 
-2. What are the most frequently used DS methods? Where is the most time spent in terms of working with data? Do either of these correlate with job title or level of education? (Zach)
+2. What are the most frequently used DS methods? Where is the most time spent in terms of working with data? Do either of these correlate with job title or level of education?
 
 
 ## Variables and their definition 
@@ -393,9 +397,11 @@ The following variables label questions asking survey respondents how often they
   - WorkMethodsFrequencyTimeSeriesAnalysis
 
 The additional variables used for this analysis will include:
+
   - Formal Education
 
 ## Manipulating data
+
 ```{r}
 #Subset Data
 MethodsData <- MC %>%
@@ -573,8 +579,6 @@ MC2<-read.csv(linkMC, stringsAsFactors = FALSE)
 #lets create a unique ID variable 
 MC2$id <- seq.int(nrow(MC2))
 ```
-
-## Question
 
 Is there a difference between what 'Learners' think are the important skills to learn and what employed Data Scientists say are the skills and tools they are using?
 
@@ -760,7 +764,6 @@ kable(summary(learner.JSL))
 
 ### Work Tools Frequency
 
-
 Not surprisingly I guess, Python is also high on the list of tools that working Data Scientists use with 75.4% of users saying that they use it either "Often" or "Most of the time" and only Statistica, SQL and Unix edging it out for the top 3 slots.  What is surprising is that two of the the top three tools used in the field aren't even on the list of Job Skills 'Learners' were asked to evaluate.
 
 R comes in slightly lower than Python with 63.6% of users saying that they use it either "Often" or "Most of the time" but the difference between R and Python is less in the field than what 'Learners' seem to think is most important.
@@ -783,9 +786,8 @@ kable(summary(employed.WML))
 
 
 
-# Research Question 5
+# R vs. Python
 
-(Burcu)
 The most frequently used of the programming languages are R and Python. But are these in agreement as well? Do those survey takers feel that others should first and foremost study the languages they themselves have taken up, or perhaps with their insight, know to suggest the language of the two they themselves did not learn?
 
 Thus the following questions were explored:
@@ -815,6 +817,8 @@ There are 2 variables used in this section of the analysis :
 ## Manipulating data
 
 The major task in this part of the analysis were creating a tidy data for Select all that apply type of column for WorkToolsSelect. Because the respondents were provided the option of choosing anything that apply to them, the data for the languages were captures as string as opposed to having one language as a column for each respondent.
+
+## Exploratory Data Analysis (EDA)
 
 ```{r ,fig.height = 8, fig.width = 8, fig.align = "center" , message= FALSE}
 dim(MC)
@@ -966,7 +970,7 @@ Finally, true to the word "value," considerations have to be made regarding pay.
 
 What the question is primarily concerned with is three-fold:
 
-* __WorkToolsSelect__: This was a "select all that apply"" variable with a list of various data science tools, technologies, and languages. Survey takers identified which tools were utilized in their work and the results were stored in this comma seperated variable.
+* __WorkToolsSelect__: This was a "select all that apply"" variable with a list of various data science tools, technologies, and languages. Survey takers identified which tools were utilized in their work and the results were stored in this comma separated variable.
 * __CompensationAmount__: This was a numerical value to be entered by the survey taker indicating their annual pay.
 * __CompensationCurrency__: This was a simple character string that stated what currency the survey taker was receiving their annual salary in.
 
@@ -1028,17 +1032,20 @@ knitr::kable(RQ6.summary)
 
 The average survey taker who used Python in their job made approximately \$`r formatC(colMeans(select(filter(RQ6, work_tools=="Python"),CompensationAmount))-colMeans(select(filter(RQ6, work_tools=="R"),CompensationAmount)), digits=2, format="f", big.mark=",")` more than the average survey taker who used R in their job. While R users overall had a higher base pay - to the tune of $`r formatC(quantile(select(filter(RQ6, work_tools=="R"),CompensationAmount)[[1]])["25%"]-quantile(select(filter(RQ6, work_tools=="Python"),CompensationAmount)[[1]])["25%"], digits=2, format="f", big.mark=",")` more than their Python counterparts - their ability to achieve growth in salary was noticeably stymied in comparison. Outliers aside, if the data collected is to be considered representative of the data science population, there is indication that a prospective Data Scientist should learn R first for a higher initial salary, and then learn Python to increase their chance of obtaining a job with more growth potential.
 
-# Concluding Remarks
-
+# Conclusion
 
 **On the contentious debate on which ML/DS methods Data Scientists are most excited about learning in the next year as the most valued Data Science Skills**
 
 + *Deep Learning* is the top most ML/DS method in all categories of formal education followed by *Neural Nets* except High school graduates, all others wants to learn
-
 + *Time Series Analysis* as the third ML/DS method. High school graduates want to learn Genetic & Evolutionary Algorithms as their third choice. 
-
 + Among doctoral survey takers, *Bayesian Methods* is the third preference.
 
+**'Learners' vs. Employed Data Scientists**
+
++ Both Learners and employed Data Scientists agree that Courses, Projects and College are in the top three ways to learn Data Science
++ 'Learners' place much less importance on Friends for learning than employed Data Scientists do
++ 'Learners' place a higher importance on Python vs. R as compared with employed Data Scientists
++ Data Visualization is the top used skill for working Data Scientists even though learners put relatively little importance on it as a Job Skill
 
 **On the contentious debate on R vs Python as the most valued Data Science Skills**  
 
