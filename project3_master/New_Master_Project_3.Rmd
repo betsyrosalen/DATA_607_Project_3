@@ -386,9 +386,9 @@ The results are suggesting that there is a clear trend among the data scientists
 # Data Science Methods
 
 1. What are the most frequently used data science (DS) methods by those writing code in DS professions? Do those relate to formal educational attainment?
+1. What are the most frequently used data science (DS) methods by those writing code in DS professions? Do those relate to formal educational attainment? (Zach)
 
-2. What are the most frequently used DS methods? Where is the most time spent in terms of working with data? Do either of these correlate with job title or level of education?
-
+The Kaggle dataset provides multiple different variables to assess what the most valuable data science skills may be.  In the previous section, we examined what data science methods learners are most excited about and working on.  In this section, we'll look at what which data science methods are the most frequently used and if that has any relationship to educational attainment--a potential indicator of if certain methods require advanced academic training.
 
 ## Variables and their definition 
 
@@ -426,11 +426,15 @@ The following variables label questions asking survey respondents how often they
   - WorkMethodsFrequencyTimeSeriesAnalysis
 
 The additional variables used for this analysis will include:
-
   - Formal Education
 
 ## Manipulating data
 
+In order to answer the question of which methods are most popular among code writers, several transformations must first be done.  First, we filter the dataset down to only those who were classified as code writers: those that were employed in some capacity working in data science and writing code as part of their job duties.  Additionally, we include only participants who endorsed at least one data science skill on the question, "At work, which data science methods do you use? (Select all that apply)" with variable name :WorkMethodsSelect.
+
+Once filtered, the endorsed data science methods were aggregated and plotted for frequency (see Exploratory Data Analysis below).  The top five most frequent data science methods endorsed were then selected and given a frequency score to represent among those who endorse using them to some extent, how frequently they use that tool.
+
+The final transformation performed on the data was grouping by formal education level attainment and then identifying the most frequently endorsed data science methods for each group.  This can help identify if those writing certain types of code and using certain data analyses are potentially benefitted by pursuing advanced education--a valuable insight for potential data science pupils.
 ```{r}
 #Subset Data
 MethodsData <- MC %>%
@@ -514,9 +518,15 @@ MastersEducation <- MethodFrequencyFunction(MastersEducation)
 DoctoralEducation <- MethodFrequencyFunction(DoctoralEducation)
 ```
 
-
 ## Exploratory Data Analysis (EDA)
 
+Following manipulation of the Kaggle data set, we created plots to visualize the aforementioned research questions.  First, here is a look at the frequency with which the following data science methods were endorsed by a total of 7,773 respondents.  Nearly 2/3 of the survey respondents endorsed the first place skill, data visualization.  Over half endorse logistic regression and just shy of half endorse cross-validation and decision trees.
+
+```{r}
+kable(MethodsFrequency)
+```
+
+The following plot graphically displays the frequency of endorsements for the data science methods asked about.
 ```{r}
 MethodsFrequencyPlot <- ggplot(MethodsFrequency, aes(x = reorder(Options, -Freq), y = Freq, fill = Options)) +
   geom_bar(stat = "identity") +
@@ -526,6 +536,11 @@ MethodsFrequencyPlot <- ggplot(MethodsFrequency, aes(x = reorder(Options, -Freq)
   ylab("Data Science Method") +
   guides(fill = F)
 
+MethodsFrequencyPlot
+```
+
+In this plot we show the "Frequency Score" for the Top Five most endorsed data science methods.  It's important to break this down further than endorsement, as the above table and plot only consider which data science methods one uses at all. Just because a method is endorsed, doesn't mean that individuals use it frequently.  It may be a rare but essential method in data science. To get a more fine grained understanding of how commonly one uses a given data science method on the job, the kaggle survey followed up each endorsed method by asking respondents if they use it Rarely, Sometimes, Often, Most of the time.  We converted these to numeric values (Rarely = 1; Sometimes = 2, Often = 3, and Most of the time = 4) in order to graph a score and average the categorical responses.
+```{r}
 Top5EndorsedFreqScorePlot <- ggplot(Top5FreqScore, aes(x = reorder(Method, -FrequencyScore), y = FrequencyScore, fill = Method)) +
   geom_bar(stat = "identity") +
   coord_flip() +
@@ -533,13 +548,11 @@ Top5EndorsedFreqScorePlot <- ggplot(Top5FreqScore, aes(x = reorder(Method, -Freq
   xlab("Average Frequency Score") +
   ylab("Data Science Method")
 
-MethodsFrequencyPlot
 Top5EndorsedFreqScorePlot
-
-kable(MethodsFrequency)
 ```
+Of the top five data science methods endorsed, data visualization was the skill indicated to be used the most frequently.
 
-
+The below plots show the frequency of methods endorsed for each formal education level assessed by Kaggle.
 ```{r, fig.height = 15, fig.width = 15, fig.align = "center"}
 HighSchoolPlot <- ggplot(HighSchoolEducation, aes(x = Selections, y = RelativeFreq, fill = Selections)) +
   geom_bar(stat = "identity") +
@@ -578,17 +591,18 @@ DoctoralPlot <- ggplot(DoctoralEducation, aes(x = Selections, y = RelativeFreq, 
   guides(fill = F)
 
 grid.arrange(HighSchoolPlot, SomeSchoolPlot, ProfessionalPlot, BachelorsPlot, MastersPlot, DoctoralPlot, nrow = 2)
+```
+We see that in the majority of educational attainment brackets, data visualization remains the most frequently endorsed data science method.
 
+The same information is also provided in tabular format:
+```{r}
 HighSchoolEducation$Degree <- "High School Education"
 SomePostSecondaryEducation$Degree <- "Some Post Secondary Education"
 ProfessionalEducation$Degree <- "Professional Education"
 BachelorsEducation$Degree <- "Bachelor's Education"
 MastersEducation$Degree <- "Master's Education"
 DoctoralEducation$Degree <- "Doctoral Education"
-```
 
-
-```{r}
 AllEducations <- rbind(HighSchoolEducation, SomePostSecondaryEducation, ProfessionalEducation, BachelorsEducation, MastersEducation, DoctoralEducation)
 
 Top3EachDegree <- AllEducations %>%
@@ -599,7 +613,15 @@ Top3EachDegree <- AllEducations %>%
 kable(Top3EachDegree)
 ```
 
+<<<<<<< HEAD
 <br>
+=======
+Answering the research question of which data science skills are the most important can be interpreted and answered in many ways.  One way to explore this deceivingly complex question is to analyze which data science methods are endorsed as being used by code writers on the job.  This analysis did just that, and further explored the Top 5 most endorsed data science methods by seeing how frequently those that endorsed them actually use those methods on the job.
+
+The bottom line of this analysis is to consider data visualization, logistic regression, cross-validation, decision trees, and random forests as not only frequently endorsed methods, but as methods that are not only essential but used in small ways.  It seems like across data science code writers, these methods are popular and then for individual data science code writers, they are used frequently.
+
+The second goal of this analysis was to understand how formal educational attainment relates to data science methods used on the job.  When looking at the plots of each educational level and the table coalescing all of that data, it does not seem like data science methods used by code writers differ given the educational level.  Data visualization remains the most frequently endorsed data science method for the majority of educational groups.  This has important implications for students of data science in understanding that certain popular job functions are not only performed by those with advanced degrees.  This speaks to how crucial skills like data visualization and the other frequently endorsed and commonly used methods are to data science as a whole.
+>>>>>>> bcdb76cdeee2685f602faa5a7728a91209d6c3d6
 
 # 'Learners' vs. Employed Data Scientists
 
