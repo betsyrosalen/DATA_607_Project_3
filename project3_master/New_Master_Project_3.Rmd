@@ -1072,7 +1072,7 @@ The average survey taker who used Python in their job made approximately \$`r fo
 + R only to Python only users are in 1:2 ratio    
 + More R users recommended Python than the Python users recommended R   
 + Both users recommendations in Python is more than their recommendation in R   
-
++ R users are more likely to have a higher base salary, but Python users have the greater potential for wage growth
 
 
 
