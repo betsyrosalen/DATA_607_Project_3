@@ -16,7 +16,7 @@ editor_options:
 runtime: shiny
 ---
 
-```{r global_options, include=FALSE}
+```{r global_options, echo=FALSE}
 knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE)
 ```
 
@@ -33,7 +33,7 @@ library(plotly)
 library(scales)
 library(grid)
 library(gridExtra)
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
@@ -42,7 +42,7 @@ knitr::opts_chunk$set(echo = TRUE)
 The data set used in this project is [Kaggle ML and Data Science Survey 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017/feed). The survey was stored in 2 different data sets:a) multiple choice items, b) free-response items. Kaggle stored each data in csv format. We downloaded the multiple choice item survey results in csv format and placed it in our [GitHub repo](https://github.com/betsyrosalen/DATA_607_Project_3)
 
 Importing Multiple Choice data
-```{r message=FALSE ,warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 linkMC<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/multipleChoiceResponses.csv"
 #importing MC items
 MC<-read_csv (linkMC)
@@ -52,7 +52,7 @@ survey.data <- MC
 MC$id <- seq.int(nrow(MC))
 ```
 
-```{r message=FALSE ,warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 # Ignore this code Importing conversion rates data incase we want to do analyses 
 
 # link_conversion<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/conversionRates.csv"
@@ -161,6 +161,7 @@ For country selection United States, the shiny plot clearly shows that full time
 
 Since, we are trying to determine what are the most important **Data Science Skills** are, it is very important to understand what does a data scientist do? And what are the different activities a data scientist perform on daily basis and how much time each activity typically takes. 
 
+<br>
 
 > Let’s take a peek at a day in Data Scientist’s life and try to figure out what does a data scientist do.
 
@@ -231,7 +232,7 @@ ggplot(data = ds.act.us.plot,aes(DSActivity,mean_precent))+
   theme(axis.text.x = element_text(angle = 65, hjust = 1),legend.position = 'none')
 ```
 
-Whether one is employed ful time, part time or a student; its worth exploring how people are using different learning platform and how they feel about it. We made use of different learning platform attributes captured in the dataset which also includes Kaggle as a learning platform.
+Whether one is employed full time, part time or a student; its worth exploring how people are using different learning platform and how they feel about it. We made use of different learning platform attributes captured in the dataset which also includes Kaggle as a learning platform.
 
 
 ```{r niteen04, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
@@ -280,13 +281,10 @@ theme_bw()+
 theme(axis.text.x = element_text(angle = 65, hjust = 1),axis.text.y=element_blank(),axis.ticks.y=element_blank())
 ```
 
-<<<<<<< HEAD
-# What do Data Scientists Want to Learn?
-=======
 After Analyzing respondetns take on different learning platform it appears that learners mostly benefited from personal projects as majority of resonse indicate it very useful. Online courses appears to be 2nd very useful only to be followed by StackOverflow and Kaggle. Blogs,textbooks and college also appear to be very userful whereas newsletters, podcasts and tradebook rank low. 
 
-# Research Question 2
->>>>>>> 545128312ed8f20fe7621533d7ba2f065fa81a15
+
+# What do Data Scientists Want to Learn?
 
 Next, we examine what these survey takers of various educational backgrounds find themselves excited to learn. Due to the ever-evolving nature of technology and, by extension, data science, it is imperative that they remain relevant in their field and are passionate in their pursuit for relevance.
 
@@ -383,6 +381,7 @@ Among doctoral survey takers, *Bayesian Methods* is the third preference. This p
 
 The results are suggesting that there is a clear trend among the data scientists that Deep Learning is the ML/DS method they want to learn. As to the global research question of interest what data science skills are valued the most, the results from this insight suggest that aspiring data scientists should consider learning Deep Learning.
 
+<br>
 
 # Data Science Methods
 
@@ -600,6 +599,7 @@ Top3EachDegree <- AllEducations %>%
 kable(Top3EachDegree)
 ```
 
+<br>
 
 # 'Learners' vs. Employed Data Scientists
 
@@ -814,7 +814,7 @@ plot(employed.WML)
 kable(summary(employed.WML))
 ```
 
-
+<br>
 
 # R vs. Python
 
@@ -989,8 +989,7 @@ However, this results should be interpreted carefully because we have survey tak
 
 Since half the sample included both R and Python users, let's see their recommendation. The 51.72% of them recommending Python while 25.65% of them recommending R. The quarter of the both users are recommending R but Python.
 
-
-## Exploratory Data Analysis (EDA)
+<br>
 
 # Salary Comparison for Python vs. R
 
@@ -1061,6 +1060,8 @@ knitr::kable(RQ6.summary)
 ```
 
 The average survey taker who used Python in their job made approximately \$`r formatC(colMeans(select(filter(RQ6, work_tools=="Python"),CompensationAmount))-colMeans(select(filter(RQ6, work_tools=="R"),CompensationAmount)), digits=2, format="f", big.mark=",")` more than the average survey taker who used R in their job. While R users overall had a higher base pay - to the tune of $`r formatC(quantile(select(filter(RQ6, work_tools=="R"),CompensationAmount)[[1]])["25%"]-quantile(select(filter(RQ6, work_tools=="Python"),CompensationAmount)[[1]])["25%"], digits=2, format="f", big.mark=",")` more than their Python counterparts - their ability to achieve growth in salary was noticeably stymied in comparison. Outliers aside, if the data collected is to be considered representative of the data science population, there is indication that a prospective Data Scientist should learn R first for a higher initial salary, and then learn Python to increase their chance of obtaining a job with more growth potential.
+
+<br>
 
 # Conclusion
 
