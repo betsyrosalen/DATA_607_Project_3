@@ -960,7 +960,7 @@ Since half the sample included both R and Python users, let's see their recommen
 
 # Salary Comparison for Python vs. R
 
-Keeping in mind that Python is on the whole more likely to be recommended by Kaggle survey takers who use it alone or in tandem with R, the following question arises: is Python or R most profitable overall for those who are being paid in US Dollars?
+Finally, true to the word "value," considerations have to be made regarding pay. The compensation received by survey takers for their work in either R or Python needs quantification to discover which language earns a data scientist more overall and in general.
 
 ## Contributing Variables
 
