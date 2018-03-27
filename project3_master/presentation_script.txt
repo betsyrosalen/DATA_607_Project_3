@@ -28,9 +28,25 @@
 
 
 
-====(‘LEARNERS’ VS. EMPLOYED DATA SCIENTISTS by Gabby, mins, words)====
+====(‘LEARNERS’ VS. EMPLOYED DATA SCIENTISTS by Gabby, 2 mins, 257 words)====
 
+The previous analysis led us to wonder... is there a difference between what Learners of Data Science think are the important skills to learn and what employed Data Scientists say are the skills and tools they use?
 
+Some variables used for this analysis were on likert scales. Those reviewed were job skill importance for learners of data science (or learners), work tools and methods frequency for data scientists, and learning platform usefulness for both. The focus was on US respondents.
+
+A quick overview of data scientist demographics shows thirty percent of respondents go by "data scientist," and twenty percent go by either "scientist," "researcher," "software developer," or "software engineer." The remaining fifty percent go by some other title.
+
+About seventy three percent of Learners are students; fifty five percent are focused on learning mostly data science skills regardless of academic status.
+
+Learners felt the best ways to learn data science were courses, projects, and college. Nearly a fifth found friends a useful resource; the same amount found them not useful.
+
+College failed to make the top three and friends were more influential for data scientists. Almost ninety seven percent found them useful to some degree.
+
+Learners thought Python was the most important job skill, followed distantly by data visualization at thirty nine percent and R at thirty five.
+
+Their employed counterparts agreed on the order of language usefulness.
+
+Data scientists placed data visualization as the most important skill at ninety one percent. Two of the top three skills used were not listed for Learners to select from.
 
 ====(R VS. PYTHON by Binish, mins, words)====
 
