@@ -643,8 +643,6 @@ MC2$id <- seq.int(nrow(MC2))
 
 Plus a few basic demographic fields
 
-Plus a few basic demographic fields and a focus only on respondents who are located in the US
-
 
 ```{r, echo=FALSE}
 # Select only variables that seem most related to “Which are the most valued data science skills?”
