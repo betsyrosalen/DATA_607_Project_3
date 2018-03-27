@@ -1,0 +1,52 @@
++------------------------------------------------------------------------+
+| Please use this site to count your words: https://wordcounter.net/     |
+| And please use this site to figure out how long you'll be speaking for |
+| at a conversational/average (not fast or slow) pace:                   |
+| http://www.speechinminutes.com/                                        |
+| Please make sure to space out any variables you decide to name so that |
+| the word counter can actually catch them, along with spelling out any  |
+| numbers so the word counter can catch them as well. Put your part,     |
+| your name, the number of words, and how long it will take at the top   |
+| of each section. I will try to lay this out for you. You want to take  |
+| between 90 seconds and 2 minutes for each part.                        |
++------------------------------------------------------------------------+
+
+
+====(INTRODUCTION by Zach, mins, words)====
+
+
+
+====(A DAY IN A DATA SCIENTIST'S LIFE by Niteen, mins, words)====
+
+
+
+====(WHAT DO DATA SCIENTISTS WANT TO LEARN? by Binish, mins, words)====
+
+
+
+====(DATA SCIENCE METHODS by Zach, mins, words)====
+
+
+
+====(‘LEARNERS’ VS. EMPLOYED DATA SCIENTISTS by Gabby, mins, words)====
+
+
+
+====(R VS. PYTHON by , mins, words)====
+
+
+
+====(SALARY COMPENSATION FOR R VS. PYTHON by Gabby, 2 mins, 260 words)====
+
+Finally, the compensation received by survey takers for their work in either R or Python needs to be considered to discover which language data scientists value more.
+
+Three variables were used in the analysis: Work Tools Select, which indicates what Data Scientists use in their job; Compensation Amount, which is their annual salary; and Compensation Currency, which denotes what currency they were paid in.
+
+The data was subset for the inquiry. Only survey takers who used Python or R exclusively were examined, and only those who received their pay in US Dollars were examined in an attempt to account for socio-economic differences that might occur between countries and by extension, currencies. Those who claimed to be paid more than about ten million dollars a year were also discarded from the analysis due to being both anomalous and for their potential impacts in skewing the data, which would lead to an inaccurate representation of the survey takers at large. This decision lead to only one person having their data removed.
+
+As shown by the boxplots there is relatively normal distribution present in the compensation for those who solely used Python in their work, whereas those who solely used R have a noticeable right skew in their compensation.
+
+The average survey taker who used Python in their job made approximately fourteen thousand six hundred fifty dollars more than the average survey taker who used R. The lower quarter of R users made up to five thousand dollars more than Python users. Potential for salary growth is more evident in Python users.
+
+====(CONCLUSION by , mins, words)====
+
