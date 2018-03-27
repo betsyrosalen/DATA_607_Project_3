@@ -608,7 +608,7 @@ The bottom line of this analysis is to consider data visualization, logistic reg
 The second goal of this analysis was to understand how formal educational attainment relates to data science methods used on the job.  When looking at the plots of each educational level and the table coalescing all of that data, it does not seem like data science methods used by code writers differ given the educational level.  Data visualization remains the most frequently endorsed data science method for the majority of educational groups.  This has important implications for students of data science in understanding that certain popular job functions are not only performed by those with advanced degrees.  This speaks to how crucial skills like data visualization and the other frequently endorsed and commonly used methods are to data science as a whole.
 
 
-# 'Learners' vs. Employed Data Scientists
+# Learners vs. Employed Data Scientists
 
 ```{r message=FALSE ,warning=FALSE, echo=FALSE}
 #Re-import MC items using read.csv so that I can use the likert package
@@ -619,18 +619,18 @@ MC2$id <- seq.int(nrow(MC2))
 
 <br>
 
-### Is there a difference between what **'Learners'** think are the important skills to learn...
+### Is there a difference between what **Learners** think are the important skills to learn...
 
 <br>
 
 ### ...and what employed **Data Scientists** say are the skills and tools they use?
 
 
-# 'Learners' vs. Employed Data Scientists
+# Learners vs. Employed Data Scientists
 
 ## Variables and Manipulating Data - Likert Scales
 
-**105 variables** in **5 likert scale categories**
+**105 variables** in **4 likert scale categories**
 
 - **Learning Platform Usefulness** - _learners and data scientists_
     - Not Useful &emsp; Somewhat useful &emsp; Very useful
@@ -717,12 +717,13 @@ learner.LP <- learner[,12:28]
 learner.JS <- learner[,31:40]
 ```
 
-# 'Learners' vs. Employed Data Scientists
+# Learners vs. Employed Data Scientists
 
 ### Employed Data Scientists - Demographics
 
-  - **30%** go by **"Data Scientist"** 
-  - **20%** go by **"Scientist/Researcher"** or **"Software Developer/Software Engineer"**
+**30%** go by **"Data Scientist"** 
+
+**20%** go by **"Scientist/Researcher"** or **"Software Developer/Software Engineer"**
 
 ```{r echo=FALSE}
 # Take a peek at the demographics of those who are employed...
@@ -739,9 +740,9 @@ kable(employed %>%
 #  arrange(desc(total))
 ```
 
-# 'Learners' vs. Employed Data Scientists
+# Learners vs. Employed Data Scientists
 
-### 'Learners' - Demographics
+### Learners - Demographics
 
 About **73% are college students**
 
@@ -775,21 +776,23 @@ employed.WTL <- likert(data.frame(employed.WT))
 employed.WML <- likert(data.frame(employed.WM))
 ```
 
-# 'Learners' vs. Employed Data Scientists
+# Learners vs. Employed Data Scientists
 
-### Learning Platform Usefulness - 'Learners'
+### Learning Platform Usefulness - Learners
 
-'Learners' - Top 3 ways to learn data science:
+Learners - Top 3 ways to learn data science:
 
   1. **Courses**
   2. **Projects**
   3. **College**  
 
+Friends are the least useful learning platform.
+
 ```{r echo=FALSE}
 plot(learner.LPL)
 ```
 
-# 'Learners' vs. Employed Data Scientists
+# Learners vs. Employed Data Scientists
 
 ### Learning Platform Usefulness - Employed Data Scientists
 
@@ -797,46 +800,51 @@ plot(learner.LPL)
 
 Much greater importance on **Friends**...
 
-  - 46.5% say Friends are "Very useful"
-  - 97.5% say Friends are "Somewhat useful" or "Very useful"
+**46.5%** say Friends are "Very useful"
+
+**97.5%** say Friends are "Somewhat useful" or "Very useful"
 
 ```{r echo=FALSE}
 plot(employed.LPL)
 ```
 
-# 'Learners' vs. Employed Data Scientists
+# Learners vs. Employed Data Scientists
 
-### Job Skills Importance to 'Learners'
+### Job Skills Importance to Learners
 
-* 63.6% say **Python** is "Necessary"
-* 39% say **Data Visualization** is "Necessary"
-* 35% say **R** is "Necessary"
+**63.6%** say **Python** is "Necessary"
+
+**39%** say **Data Visualization** is "Necessary"
+
+**35%** say **R** is "Necessary"
 
 ```{r echo=FALSE}
 plot(learner.JSL)
 ```
 
-# 'Learners' vs. Employed Data Scientists
+# Learners vs. Employed Data Scientists
 
 ### Work Tools Frequency
 
-* **75.4%** use **Python** either "Often" or "Most of the time" 
-* **63.6%** use **R** either "Often" or "Most of the time"
+**75.4%** use **Python** either "Often" or "Most of the time" 
+
+**63.6%** use **R** either "Often" or "Most of the time"
 
 ```{r echo=FALSE, fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE}
 plot(employed.WTL)
 ```
 
-# 'Learners' vs. Employed Data Scientists
+# Learners vs. Employed Data Scientists
 
 ### Work Methods Frequency
 
-**Data Visualization** is at the **top of the list**
+**Data Visualization** is at the **top of the list**.
 
-* 0% use it "Rarely" 
-* 8.5% use it "Sometimes"
+**91%** use it "Often" or "Most of the time"
 
-**Only 38.8% of 'Learners' said Visualizations were a "Necessary" job skill to learn!**
+**0%** use it "Rarely" 
+
+**Only 38.8% of Learners said Visualizations were a "Necessary" job skill to learn!**
 
 ```{r echo=FALSE}
 plot(employed.WML)
@@ -892,8 +900,11 @@ tb1<-MC %>%
   select (id, WorkToolsSelect) %>%
   filter (id %in% c(1:6))
    datatable(tb1)
-   
+```
 
+# R vs. Python
+
+```{r}
 #removing NAs and empty values in  column=WorkToolsSelect
 df <- MC[!(MC$WorkToolsSelect == "" | is.na(MC$WorkToolsSelect)), ]
 dim(df)
@@ -901,7 +912,11 @@ tb2<-df %>%
   select (id, WorkToolsSelect) %>%
   filter (id %in% c(1:6))
    datatable(tb2)
-
+```
+   
+# R vs. Python
+   
+```{r}
 #creating a new variable called work_tools where the original column values are split 
 #please note that this code will generate long data   
 df1<-df %>%
@@ -913,7 +928,11 @@ tb3<-df1 %>%
   select (id, WorkToolsSelect,work_tools) %>%
   filter (id %in% c(1:3))
    datatable(tb3)
+```
+   
+# R vs. Python
 
+```{r}
  df2<-df1  %>%
  group_by(id, work_tools) %>%
   summarize (total_count = n())   %>%
@@ -931,7 +950,11 @@ df3<-df2 %>%
 tb4<-df3 %>%
 filter (id %in% c(1:10))
 datatable(tb4)
+```
 
+# R vs. Python
+
+```{r}
 #computing percentages
 df4<-df3 %>%
 group_by(lang_use) %>%
@@ -940,7 +963,11 @@ mutate(percent = ((total_count / sum(total_count)) * 100), percent=round(percent
 
  #checking
 datatable(df4, colnames=c("Programming Language Survey takers use", "Count", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 4, dom = 'tip'))
+```
 
+# R vs. Python
+
+```{r}
 
 p<-ggplot (df4, aes(x=lang_use,y=percent,fill=lang_use )) +
 geom_bar(stat="identity", width =.5) +
@@ -956,6 +983,8 @@ p
 ```
 
 Let's examine the above graph of LanguageRecommendationSelect
+
+# R vs. Python
 
 ```{r ,fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE}
 
@@ -980,7 +1009,11 @@ tb5<-df1 %>%
                (LanguageRecommendationSelect!="R" |LanguageRecommendationSelect!="Python") ~ "Recommending Neither Python nor R",
                (LanguageRecommendationSelect=="NA"|LanguageRecommendationSelect==" " ) ~ "Recommending Nothing"))%>%
 select (id, R, Python, lang_use,lang_rec )
+```
 
+# R vs. Python
+ 
+```{r}
  dim(df5)
  
 tb6<-df5 %>%
@@ -992,11 +1025,18 @@ df6<-df5 %>%
 group_by(lang_use,lang_rec) %>%
 summarize (total_count = n()) %>%
 mutate(percent = ((total_count / sum(total_count)) * 100), percent=round(percent, digit=2))
+```
 
+# R vs. Python
+
+```{r}
 #checking
 datatable(df6, colnames=c("Programming Language Survey takers use", "Count", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 4, dom = 'tip'))
+```
 
+# R vs. Python
 
+```{r}
 p1<-ggplot (df6, aes(x=lang_use,y=percent,fill=lang_use )) +
 geom_bar(stat="identity", width =.5) +
 labs (x="Language ", y="The distribution of R and Python among their users (%) " ,
@@ -1005,8 +1045,8 @@ theme(axis.text.x = element_text(angle = 90)) +
 scale_y_continuous (breaks=seq(0,100,10), limits = c(0,100))+
   facet_wrap(~lang_rec)+
   theme(legend.position = 'none')
-p1
-# ggplotly(p1)
+
+ggplotly(p1)
 
 ```
 
@@ -1112,11 +1152,11 @@ knitr::kable(RQ6.summary)
 + The data suggest that data science methods do *not* differ much between formal educational attainment groups.
 
 
-**'Learners' vs. Employed Data Scientists**
+**Learners vs. Employed Data Scientists**
 
 + Both Learners and employed Data Scientists agree that Courses, Projects and College are in the top three ways to learn Data Science
-+ 'Learners' place much less importance on Friends for learning than employed Data Scientists do
-+ 'Learners' place a higher importance on Python vs. R as compared with employed Data Scientists
++ Learners place much less importance on Friends for learning than employed Data Scientists do
++ Learners place a higher importance on Python vs. R as compared with employed Data Scientists
 + Data Visualization is the top used skill for working Data Scientists even though learners put relatively little importance on it as a Job Skill
 
 **On Data Science Activities**
