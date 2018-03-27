@@ -624,16 +624,18 @@ MC2$id <- seq.int(nrow(MC2))
 
 <br>
 
-### Is there a difference between what **Learners** think are the important skills to learn...
+## Is there a difference between what **Learners** think are the important skills to learn...
 
 <br>
 
-### ...and what employed **Data Scientists** say are the skills and tools they use?
+## ...and what employed **Data Scientists** say are the skills and tools they use?
 
 
 # Learners vs. Employed Data Scientists
 
 ## Variables and Manipulating Data - Likert Scales
+
+<br>
 
 **105 variables** in **4 likert scale categories**
 
@@ -724,7 +726,9 @@ learner.JS <- learner[,31:40]
 
 # Learners vs. Employed Data Scientists
 
-### Employed Data Scientists - Demographics
+## Employed Data Scientists - Demographics
+
+<br>
 
 **30%** go by **"Data Scientist"** 
 
@@ -748,7 +752,9 @@ kable(employed %>%
 
 # Learners vs. Employed Data Scientists
 
-### Learners - Demographics
+## Learners - Demographics
+
+<br>
 
 About **73% are college students**
 
@@ -786,7 +792,9 @@ employed.WML <- likert(data.frame(employed.WM))
 
 # Learners vs. Employed Data Scientists
 
-### Learning Platform Usefulness - Learners
+## Learning Platform Usefulness - Learners
+
+<br>
 
 Learners - Top 3 ways to learn data science:
 
@@ -802,7 +810,9 @@ plot(learner.LPL)
 
 # Learners vs. Employed Data Scientists
 
-### Learning Platform Usefulness - Employed Data Scientists
+## Learning Platform Usefulness - Employed Data Scientists
+
+<br>
 
 **Projects** and **Courses** belong in the top 3, but **College is in 5th place**
 
@@ -818,7 +828,9 @@ plot(employed.LPL)
 
 # Learners vs. Employed Data Scientists
 
-### Job Skills Importance to Learners
+## Job Skills Importance to Learners
+
+<br>
 
 **63.6%** say **Python** is "Necessary"
 
@@ -832,7 +844,9 @@ plot(learner.JSL)
 
 # Learners vs. Employed Data Scientists
 
-### Work Tools Frequency
+## Work Tools Frequency
+
+<br>
 
 **75.4%** use **Python** either "Often" or "Most of the time" 
 
@@ -844,7 +858,9 @@ plot(employed.WTL)
 
 # Learners vs. Employed Data Scientists
 
-### Work Methods Frequency
+## Work Methods Frequency
+
+<br>
 
 **Data Visualization** is at the **top of the list**.
 
