@@ -1029,17 +1029,13 @@ Finally, true to the word "value," considerations have to be made regarding pay.
 
 ## Contributing Variables
 
-What the question is primarily concerned with is three-fold:
+Three variables were used:
 
-* __WorkToolsSelect__: This was a "select all that apply" variable with a list of various data science tools, technologies, and languages. Survey takers identified which tools were utilized in their work and the results were stored in this comma separated variable.
-* __CompensationAmount__: This was a numerical value to be entered by the survey taker indicating their annual pay.
-* __CompensationCurrency__: This was a simple character string that stated what currency the survey taker was receiving their annual salary in.
+* __WorkToolsSelect__: a "select all that apply" variable with a list of various data science tools, technologies, and languages
+* __CompensationAmount__: a numerical value to indicate their annual pay
+* __CompensationCurrency__: a character string that indicated currency of annual pay
 
 There was also the variable "id" that was created for the purpose of this report, acting as a way to identify each individual survey taker, and the variable "work_tools" which was a derivative of WorkToolsSelect, breaking the lists down into their individual components.
-
-# Salary Comparison for Python vs. R
-
-## Preparing the data
 
 ```{r}
 RQ6 <- MC %>%
@@ -1067,8 +1063,6 @@ rownames(RQ6.summary) <- c("Python", "R") # Applied the rownames
 rm(RQ6_ids) # remove the now-unused variable to save memory
 ```
 
-In order to study the data to answer this question, it had to first be transformed. All users who did not provide an answer for the question on tools they use at work had their responses discarded. Similarly, all users whose compensation was not in US Dollars had their information disregarded in order to hone in on a single socio-economic focus, the US market. A separate table was created pairing survey takers with each of their languages or methods used for their job via the id variable - a number assigned to each survey taker - and work_tools variable, which stored each item in the list provided by WorkToolsSelect in its own row, matched to the id of the survey taker who provided it. Using this separate table, survey takers who used both Python and R in their jobs were removed, and any who failed to use R or Python in their job were removed as well, leaving a list of individuals who exclusively used Python or R in their career. Lastly, the amounts compensated were reformatted so as to be in a numeric format and any rows with an unlikely compensation amount - north of ten million annually - were removed to prevent data skewing by such a severe outlier.
-
 # Salary Comparison for Python vs. R
 
 ## Exploration and Review of Compensations
@@ -1089,13 +1083,9 @@ RQ6_boxplot <- RQ6_boxplot + coord_cartesian(ylim = RQ6_boxplot_ylim*1.05)
 RQ6_boxplot
 ```
 
-As we can see from the boxplots there is relatively normal distribution present in the compensation for those who solely used Python in their work. Conversely, there is a noticeable right skew in the compensation for those who solely used R in their work.
-
 ```{r}
 knitr::kable(RQ6.summary)
 ```
-
-The average survey taker who used Python in their job made approximately \$`r formatC(colMeans(select(filter(RQ6, work_tools=="Python"),CompensationAmount))-colMeans(select(filter(RQ6, work_tools=="R"),CompensationAmount)), digits=2, format="f", big.mark=",")` more than the average survey taker who used R in their job. While R users overall had a higher base pay - to the tune of $`r formatC(quantile(select(filter(RQ6, work_tools=="R"),CompensationAmount)[[1]])["25%"]-quantile(select(filter(RQ6, work_tools=="Python"),CompensationAmount)[[1]])["25%"], digits=2, format="f", big.mark=",")` more than their Python counterparts - their ability to achieve growth in salary was noticeably stymied in comparison. Outliers aside, if the data collected is to be considered representative of the data science population, there is indication that a prospective Data Scientist should learn R first for a higher initial salary, and then learn Python to increase their chance of obtaining a job with more growth potential.
 
 <br>
 
