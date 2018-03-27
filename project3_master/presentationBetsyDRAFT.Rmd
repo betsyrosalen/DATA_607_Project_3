@@ -29,22 +29,22 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Research Question
 
-The goal of this project is to answer the research question **Which are the most valued data science skills?**  
+**Which are the most valued data science skills?**  
 
-In order to answer that question we found and used survey data from the [Kaggle ML and Data Science Survey, 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017).
-
-While the answer to the question is by definition subjective, the Kaggle Survey was, "an industry-wide survey to establish a comprehensive view of the state of data science and machine learning" and with over 16,000 responses it provides a good starting point for exploring the views of professionals in the field and what they value.
+While the answer to the question is by definition subjective, the Kaggle Survey provides a good starting point for exploring the views of professionals in the field and what they value.
 
 <br>
 
 # Importing data
 
-The survey was stored in 2 different files consisting of:
+We used survey data from the [Kaggle ML and Data Science Survey, 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017).
+
+The survey data included 2 different csv files consisting of:
 
   1. multiple choice items
   2. free-response items
   
-We chose to focus on the multiple choice data only for statistical analysis.  Kaggle stored each data in csv format. We downloaded the multiple choice item survey results in csv format and placed it in our [GitHub repo](https://github.com/betsyrosalen/DATA_607_Project_3).
+We chose to focus on the multiple choice data only.  
 
 ```{r message=FALSE, warning=FALSE}
 linkMC<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/multipleChoiceResponses.csv"
@@ -721,8 +721,8 @@ learner.JS <- learner[,31:40]
 
 ### Employed Data Scientists - Demographics
 
-- **30%** go by **"Data Scientist"** 
-- **20%** go by **"Scientist/Researcher"** or **"Software Developer/Software Engineer"**
+  - **30%** go by **"Data Scientist"** 
+  - **20%** go by **"Scientist/Researcher"** or **"Software Developer/Software Engineer"**
 
 ```{r echo=FALSE}
 # Take a peek at the demographics of those who are employed...
@@ -781,9 +781,9 @@ employed.WML <- likert(data.frame(employed.WM))
 
 'Learners' - Top 3 ways to learn data science:
 
-1. **Courses**
-2. **Projects**
-3. **College**  
+  1. **Courses**
+  2. **Projects**
+  3. **College**  
 
 ```{r echo=FALSE}
 plot(learner.LPL)
@@ -797,8 +797,8 @@ plot(learner.LPL)
 
 Much greater importance on **Friends**...
 
-- 46.5% say Friends are "Very useful"
-    - 97.5% say Friends are useful
+  - 46.5% say Friends are "Very useful"
+  - 97.5% say Friends are "Somewhat useful" or "Very useful"
 
 ```{r echo=FALSE}
 plot(employed.LPL)
