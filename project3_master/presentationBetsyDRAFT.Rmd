@@ -609,7 +609,6 @@ The bottom line of this analysis is to consider data visualization, logistic reg
 
 The second goal of this analysis was to understand how formal educational attainment relates to data science methods used on the job.  When looking at the plots of each educational level and the table coalescing all of that data, it does not seem like data science methods used by code writers differ given the educational level.  Data visualization remains the most frequently endorsed data science method for the majority of educational groups.  This has important implications for students of data science in understanding that certain popular job functions are not only performed by those with advanced degrees.  This speaks to how crucial skills like data visualization and the other frequently endorsed and commonly used methods are to data science as a whole.
 
-<br>
 
 # 'Learners' vs. Employed Data Scientists
 
@@ -622,23 +621,34 @@ MC2$id <- seq.int(nrow(MC2))
 
 Is there a difference between what 'Learners' think are the important skills to learn and what employed Data Scientists say are the skills and tools they are using?
 
-Those who are new to data science and learning new skills may have different opinions about which tools and methods are most important to learn and which are being used than those who are already employed in the field. Comparing the answer of 'Learners' vs. employed Data Scientists may give us some insight into which skills each group values most and whether or not they are in agreement.
+Comparing the answers of 'Learners' vs. employed Data Scientists may give us some insight into which skills each group values most and whether or not they are in agreement.
+
 
 # 'Learners' vs. Employed Data Scientists
 
 ## Variables and their definition
 
-A large portion of the data collected in the Kaggle survey was in the form of Likert scales asking respondents to place the value, importance, or frequency of use of certain skills, tools and methods on a 3-4 point scale.  To answer our question about which are the 'most valued' data science skills we looked a these scales and analyzed for differences between what 'Learners' thought was important to them vs. what employed data scientists say they are using in the field.  
+A large portion of the Kaggle data collected is in the form of Likert scales
 
-An oversight in the survey is that they failed to capture the opinions of those who are employed about what they thought were the most important job skills.  They didn't bother to ask employed respondents those questions, so comparisons between employed data scientists and learners are a little more difficult.  We can only use the data about what tools and methods employed data scientists are actually using and the frequency of their use to infer the importance of those tools and methods.  The Survey also failed to capture those who are employed and ALSO students or learners!  They didn't bother to ask employed respondents if they were also studying Data Science.  Professional development is critical in a field that is growing and changing as rapidly as data science, so asking employed professionals about their further studies could have been very useful information to have.  Working Data Scientists may have a better insight into what direction the field is going in than students who are just in the learning phase of their journey.
+Likert scales ask respondents to place the value, importance, or frequency of use of certain skills, tools and methods on a 3-4 point scale.  
+
+We analyzed for differences between what 'Learners' thought was important to them vs. what employed data scientists say they are using in the field.  
+
 
 # 'Learners' vs. Employed Data Scientists
 
 ## Manipulating data
 
-Out of the 229 variables of data collected in the survey, about 105 of them fall into 5 likert scales describing, the "Learning Platform Usefulness" (which was asked of both learners and employed data scientists), "Job Skill Importance" (which only unemployed learners were asked), "Work Tools Frequency" and "WorkMethodsFrequency" (which only employed data scientists were asked to answer).  We narrowed down the data to include only these as well as a few more basic demographic fields to get a sense of who the respondents are.
+About 105 variables fall into 5 likert scale categories describing:
 
-We also chose to focus only on respondents who are located in the US since international cultural and technological differences may skew results.  Different tools and skills may be more or less valued in different countries, so we thought it best to narrow the focus on one country at a time.  Further analysis to see if the findings are consistent across countries would be interesting and worthwhile.
+  - "Learning Platform Usefulness" (which was asked of both learners and employed data scientists), 
+  - "Job Skill Importance" (which only unemployed learners were asked), 
+  - "Work Tools Frequency" and "WorkMethodsFrequency" (which only employed data scientists were asked to answer)
+  
+We narrowed down the data to include only these as well as a few more basic demographic fields to get a sense of who the respondents are.
+
+We also chose to focus only on respondents who are located in the US since international cultural and technological differences may skew results. 
+
 
 ```{r, echo=FALSE}
 # Select only variables that seem most related to “Which are the most valued data science skills?”
@@ -742,7 +752,7 @@ kable(employed %>%
 
 ### 'Learners'
 
-The Kaggle survey asked respondents if they were learning data science and their student status.  73% of the respondents who said they were learning data science are enrolled in an academic program.  
+The Kaggle survey asked respondents if they were learning data science and their student status.  
 
 ```{r echo=FALSE}
 # Take a peek at the demographics of those who are learners...
@@ -753,7 +763,9 @@ kable(learner %>%
   arrange(desc(total)))
 ```
 
-55% of all respondents who said they are learning data science said they are "focused on learning mostly data science skills" with the other 45% saying that "data science is a small part of what I’m focused on learning".
+# 'Learners' vs. Employed Data Scientists
+
+### 'Learners'
 
 The ratio of respondents who said they are "focused on learning mostly data science skills" remains the same at about 55% regardless of whether or not they are enrolled in an academic program.
 
@@ -790,11 +802,12 @@ plot(learner.LPL)
 
 ### Learning Platform Usefulness - Employed Data Scientists
 
-Employed Data Scientists agree with unemployed 'Learners' that Projects and Courses belong in the top 3, but put College in 5th place (vs. 3rd).  They also include Tutoring and SO (Stack Overflow Q&A) in their top 5 with SO coming in 2nd place.  YouTube (learner's 5th choice) comes in 14th place for employed Data Scientists and Arxiv (learner's 4th choice) is 8th among employed Data Scientists. 
+Employed Data Scientists agree with unemployed 'Learners' that Projects and Courses belong in the top 3, but put College in 5th place (vs. 3rd).  
 
-Another interesting difference is that the importance of Friends to learning data science is much higher among employed Data Scientists with about 46.5% saying that Friends are "Very useful" and 97.5% saying that Friends are either "Somewhat useful" or "Very useful" vs. 'Learners' who put Friends at absolute bottom of their list with only 17.6% saying that they are are "Very useful" and 82.4% saying that Friends are either "Somewhat useful" or "Very useful".  
+Data Scientists placed a much greater importance on Friends with about 46.5% saying that Friends are "Very useful" and 97.5% saying that Friends are either "Somewhat useful" or "Very useful".
 
-This may indicate a need to create a more robust community for Data Science 'Learners', who may feel somewhat isolated in their studies vs. employed Data Scientists who presumably have more established work and social networks that involve Data Science.  
+'Learners' by comparison put Friends at absolute bottom of their list with only 17.6% saying that they are are "Very useful".
+
 
 ```{r echo=FALSE}
 plot(employed.LPL)
@@ -804,9 +817,11 @@ plot(employed.LPL)
 
 ### Job Skills Importance to 'Learners'
 
-'Learners' put Python at the top of their list of Job Skills with 63.6% of respondents saying that it is "Necessary" and 99% saying it is either "Necessary" or "Nice to have".  Only 1% said it was "Unnecessary".  R is surprisingly further down the list with only a little more than half as many respondents saying that R is "Necessary" compared to Python at 34.7% but many more agreeing that it is at least "Nice to have" for a total of 95% in favor of learning R which is just slightly less than those in favor of Python.
+'Learners' put Python at the top of their list of Job Skills with 63.6% of respondents saying that it is "Necessary"
 
-Surprisingly "Data Visualization" comes in only slightly above R with 39% saying that it is "Necessary" but actually slightly lower in terms of overall importance with 8% saying it is "Unnecessary".
+R is surprisingly further down the list with only a little more than half as many respondents saying that R is "Necessary" compared to Python
+
+"Data Visualization" comes in only slightly above R with 39% saying that it is "Necessary" but actually slightly lower in terms of overall importance with 8% saying it is "Unnecessary".
 
 ```{r echo=FALSE}
 plot(learner.JSL)
@@ -816,9 +831,11 @@ plot(learner.JSL)
 
 ### Work Tools Frequency
 
-Not surprisingly I guess, Python is also high on the list of tools that working Data Scientists use with 75.4% of users saying that they use it either "Often" or "Most of the time" and only Statistica, SQL and Unix edging it out for the top 3 slots.  What is surprising is that two of the the top three tools used in the field aren't even on the list of Job Skills 'Learners' were asked to evaluate.
+Python is high on the list of tools that working Data Scientists use with 75.4% of users saying that they use it either "Often" or "Most of the time" 
 
-R comes in slightly lower than Python with 63.6% of users saying that they use it either "Often" or "Most of the time" but the difference between R and Python is less in the field than what 'Learners' seem to think is most important.
+2 of the the top three tools used in the field aren't even on the list of Job Skills 'Learners' were asked to evaluate.
+
+R comes in slightly lower than Python with 63.6% of users saying that they use it either "Often" or "Most of the time"
 
 
 ```{r echo=FALSE, fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE}
@@ -829,7 +846,11 @@ plot(employed.WTL)
 
 ### Work Methods Frequency
 
-The big surprise here is that Data Visualization is at the top of the list.  With nobody saying that they use it "Rarely" and only 8.5% saying that they only use it "Sometimes".  91.5% say they use it "Often" or "Most of the time".  It is by far the most frequently used method or tool for working Data Science Professionals with Statstica as the next runner up at only 80% by comparison.  Remember that only 38.8% of 'Learners' said that they thought Visualizations were a "Necessary" job skill to learn!  
+Data Visualization is at the top of the list.  With nobody saying that they use it "Rarely" and only 8.5% saying that they only use it "Sometimes".  
+
+It is by far the most frequently used method or tool for working Data Science Professionals 
+
+Remember only 38.8% of 'Learners' said that they thought Visualizations were a "Necessary" job skill to learn!  
 
 ```{r echo=FALSE}
 plot(employed.WML)
