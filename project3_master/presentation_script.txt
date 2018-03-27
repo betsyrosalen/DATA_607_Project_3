@@ -21,7 +21,15 @@
 
 
 ====(WHAT DO DATA SCIENTISTS WANT TO LEARN? by Binish, mins, words)====
+Our results revealed that *Deep Learning* is the top most Machine Learning/Data Science method among the Kaggle survey takers regardless of their earned formal education. Interestingly, both 40% of respondents who had earned bachelor degree and 40% of survey takers with earned master’s degree stated that Deep Learning is the technique that they are most excited about learning in the next year. Similarly, 39% of the respondents with high school degree reported to learn Deep Learning as their top desired Machine Learning/Data Science method.
 
+Following Deep Learning, *Neural Nets* emerged as the second top Machine Learning/Data Science method that Data Scientists have the desire to learn next year. Intriguingly, College Dropouts have highest percentage in the distribution in learning Neural Nets.
+
+*Time Series Analysis* was found to be the third Machine Learning/Data Science method of interest. High school graduates want to learn Genetic & Evolutionary Algorithms as their third choice. 
+
+Among doctoral survey takers, *Bayesian Methods* is the third preference. This particular  Machine Learning/Data Science method was not choice for others but only with PhDs. 
+
+The results are suggesting that there is a clear trend among the data scientists that Deep Learning is the Machine Learning/Data Science method they want to learn. As to the global research question of interest what data science skills are valued the most, the results from this insight suggest that aspiring data scientists should consider learning Deep Learning.
 
 
 ====(DATA SCIENCE METHODS by Zach, mins, words)====
@@ -49,7 +57,24 @@ Their employed counterparts agreed on the order of language usefulness.
 Data scientists placed data visualization as the most important skill at ninety one percent. Two of the top three skills used were not listed for Learners to select from.
 
 ====(R VS. PYTHON by Binish, mins, words)====
+## Manipulating data
 
+The major task in this part of the analysis was to create a tidy data structure  This can be accomplished using Select function calls and the required variables for the analysis. Because the respondents were provided the option of choosing anything that applied to them, the data for the languages were captured as strings as opposed to having one language as a column for each respondent.
+
+# R vs. Python
+
+## Results of Exploring R vs. Python:
+We found that *a little below the half of the survey takers* (N=3540, 44.5%) reported to use both R and Python. The take home message for aspiring data scientists is that a substantial majority of the Kaggle survey takers are using both languages--both languages are used widely. Among the remaining half of the respondents, a small portion of them (N=714, 8.98%) are using neither Python nor R. The rest of the survey takers are using either R or Python. In particular, 2533 (31.84%) indicated using only Python while only 1168 (14.68%) of them reported using R Only.
+
+The story of this contentious debate on R vs Python gets more interesting when comparing their used languages with their recommended languages. Specifically, it is plausible to assume that Python users will recommend Python while R users will recommend R. We explore this hypothesis by comparing the difference of R users recommending R and Python and the difference of Python users recommending R and Python.
+
+Our results revealed that 72.17 % of the Python users recommended Python while 53.77% of R users recommended R. This result is not surprising--there are more Python only users than R only users in this sample, it makes sense to have differences in their recommendations since a different proportion of each know only the one language. However, what is surprising is the degree of difference in their recommendation for the other language: 15.92 % of the R users recommend Python whereas only 1.42 % of the Python users recommend R. 
+
+
+However, these results should be interpreted carefully because there are survey takers who did not make any recommendation. For instance 18.87% of the sample who are Python users did not respond to this question. Similarly, 17.55% of R users did not leave any opinion on their recommended languages. This is a sizable portion of the sample and if these users were to make recommendations, it's possible that more Python users would be recommending R.
+
+
+Since half the sample included respondeds who are both R and Python users, their recommendation is particularly valuable since they have experience with both languages. Of this subset, 51.72% of them recommend Python while 25.65% of them recommend R. A quarter of the users that use both reccomend R over Python.
 
 
 ====(SALARY COMPENSATION FOR R VS. PYTHON by Gabby, 2 mins, 260 words)====
