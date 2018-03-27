@@ -630,15 +630,18 @@ MC2$id <- seq.int(nrow(MC2))
 
 ## Variables and Manipulating Data - Likert Scales
 
-  - **105 variables** in **5 likert scale categories**
-    - **Learning Platform Usefulness** - _learners and data scientists_
-      - Not Useful &emsp; Somewhat useful &emsp; Very useful
-    - **Job Skill Importance** - _learners_
-      - Unnecessary &emsp; Nice to have &emsp; Necessary
-    - **Work Tools Frequency** - _data scientists_
-      - Rarely &emsp; Sometimes &emsp; Often &emsp; Most of the time
-    - **WorkMethodsFrequency** - _data scientists_
-      - Rarely &emsp; Sometimes &emsp; Often &emsp; Most of the time
+**105 variables** in **5 likert scale categories**
+
+- **Learning Platform Usefulness** - _learners and data scientists_
+    - Not Useful &emsp; Somewhat useful &emsp; Very useful
+- **Job Skill Importance** - _learners_
+    - Unnecessary &emsp; Nice to have &emsp; Necessary
+- **Work Tools Frequency** - _data scientists_
+    - Rarely &emsp; Sometimes &emsp; Often &emsp; Most of the time
+- **WorkMethodsFrequency** - _data scientists_
+    - Rarely &emsp; Sometimes &emsp; Often &emsp; Most of the time
+
+Plus a few basic demographic fields
 
 Plus a few basic demographic fields and a focus only on respondents who are located in the US
 
@@ -720,11 +723,8 @@ learner.JS <- learner[,31:40]
 
 ### Employed Data Scientists - Demographics
 
-**30%** of or survey respondents call themselves **"Data Scientists"** 
-
-**20%** call themselves either **"Scientist/Researcher"** or **"Software Developer/Software Engineer"**
-
-50% of our survey respondents fall in these three categories with the other 50% in other roles
+- **30%** go by **"Data Scientist"** 
+- **20%** go by **"Scientist/Researcher"** or **"Software Developer/Software Engineer"**
 
 ```{r echo=FALSE}
 # Take a peek at the demographics of those who are employed...
@@ -756,7 +756,7 @@ kable(learner %>%
   arrange(desc(total)))
 ```
 
-**55% are "focused on learning mostly data science skills"** regardless of whether or not they are enrolled in an academic program
+**55% are "focused on learning mostly data science skills"** regardless of academic status.
 
 ```{r echo=FALSE}
 # Take a peek at the demographics of those who are learners...
@@ -781,7 +781,11 @@ employed.WML <- likert(data.frame(employed.WM))
 
 ### Learning Platform Usefulness - 'Learners'
 
-'Learners' - top 3 best ways to learn data science are through **Courses**, **Projects** and **College**  
+'Learners' - Top 3 ways to learn data science:
+
+1. **Courses**
+2. **Projects**
+3. **College**  
 
 ```{r echo=FALSE}
 plot(learner.LPL)
@@ -791,12 +795,12 @@ plot(learner.LPL)
 
 ### Learning Platform Usefulness - Employed Data Scientists
 
-Employed Data Scientists - **Projects** and **Courses** belong in the top 3, but put **College in 5th place** (vs. 3rd)
+**Projects** and **Courses** belong in the top 3, but **College is in 5th place**
 
-Much greater importance on **Friends** - 46.5% say that Friends are "Very useful" and 97.5% say that Friends are either "Somewhat useful" or "Very useful"
+Much greater importance on **Friends**...
 
-**'Learners' put Friends at absolute bottom of their list**. Only 17.6% said that they are are "Very useful"
-
+- 46.5% say Friends are "Very useful"
+    - 97.5% say Friends are useful
 
 ```{r echo=FALSE}
 plot(employed.LPL)
@@ -806,11 +810,9 @@ plot(employed.LPL)
 
 ### Job Skills Importance to 'Learners'
 
-**Python** near the top of the list with **63.6%** of respondents saying that it is "Necessary"
-
-**R** is further down the list with only **35%** saying that R is "Necessary"
-
-**Data Visualization** comes in only slightly above R.  **Only 39% say it is "Necessary"** and **8% say it is "Unnecessary"**
+* 63.6% say **Python** is "Necessary"
+* 39% say **Data Visualization** is "Necessary"
+* 35% say **R** is "Necessary"
 
 ```{r echo=FALSE}
 plot(learner.JSL)
@@ -820,11 +822,8 @@ plot(learner.JSL)
 
 ### Work Tools Frequency
 
-**75.4%** say that they use **Python** either "Often" or "Most of the time" 
-
-**63.6%** say that they use **R** either "Often" or "Most of the time"
-
-2 of the the top three tools used in the field aren't even on the list of Job Skills 'Learners' were asked to evaluate
+* **75.4%** use **Python** either "Often" or "Most of the time" 
+* **63.6%** use **R** either "Often" or "Most of the time"
 
 ```{r echo=FALSE, fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE}
 plot(employed.WTL)
@@ -836,11 +835,10 @@ plot(employed.WTL)
 
 **Data Visualization** is at the **top of the list**
 
-0% say that they use it "Rarely" and only 8.5% say that they only use it "Sometimes"
+* 0% use it "Rarely" 
+* 8.5% use it "Sometimes"
 
-**Data Visualization is by far the most frequently used method or tool** for working Data Science Professionals 
-
-**Only 38.8% of 'Learners' said that they thought Visualizations were a "Necessary" job skill to learn!**
+**Only 38.8% of 'Learners' said Visualizations were a "Necessary" job skill to learn!**
 
 ```{r echo=FALSE}
 plot(employed.WML)
