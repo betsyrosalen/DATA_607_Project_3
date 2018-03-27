@@ -295,28 +295,33 @@ First we plot the distribution of formal education in the dataset
 
 ```{r, echo=FALSE}
 
-subset %>%
+a<-subset %>%
         ggplot(aes(x = FormalEducation, y = ..prop.., group = 1, fill="red") )+
         geom_bar(show.legend = FALSE,color = "red") +
         coord_flip() +
         labs (y="Proportion", x="Formal Education" , title="Distribution of Formal Education")
-
+ ggplotly(a)
 
 ```
 
 The data set predominantly contains candidates with Master's degrees which are followed by Bachelor's then doctoral degrees.   
 
+# What do Data Scientists Want to Learn?
+
 Now let's look at the different Machine Learning/Data Science methods in the dataset.
+
 
 ```{r, echo=FALSE}
 kable(unique(subset$MLMethodNextYearSelect), col.names = c("Machine Learning/Data Science"), "html") %>%
   kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
 ```
 
+# What do Data Scientists Want to Learn?
+
 Now we can plot the distribution of Machine Learning/Data Science methods with formal education.
 
-```{r, fig.height = 17, fig.width = 17, fig.align = "center" , message= FALSE, echo=FALSE}
-subset %>%
+```{r, fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE, echo=FALSE}
+b<-subset %>%
         ggplot() + 
         geom_bar(mapping = aes(x = MLMethodNextYearSelect, fill = MLMethodNextYearSelect)) +
                  coord_flip() + 
@@ -324,6 +329,8 @@ subset %>%
                  facet_wrap (~FormalEducation)+
                  theme(axis.text.x = element_text(angle = 90), legend.position = 'none') +
                  labs (x="ML Method ", y="count " , title="Formal Education vs Machine Learning/Data Science method excited about learning next year")
+
+ggplotly(b)
 ```
 ```{r, echo=FALSE}
 result <- subset %>%
@@ -334,20 +341,14 @@ result <- subset %>%
         filter(rank %in% c(1,2,3)) %>%
         select(-count, -rank) %>%
         arrange(FormalEducation, desc(percentage)) 
-datatable(result, colnames=c("Formal Education", "Machine Learning/Data Science method excited about learning next year", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 8, dom = 'tip'))
 ```
 
 # What do Data Scientists Want to Learn?
 
-Our results revealed that *Deep Learning* is the top most Machine Learning/Data Science method among the Kaggle survey takers regardless of their earned formal education. Interestingly, both 40% of respondents who had earned bachelor degree and 40% of survey takers with earned master’s degree stated that Deep Learning is the technique that they are most excited about learning in the next year. Similarly, 39% of the respondents with high school degree reported to learn Deep Learning as their top desired Machine Learning/Data Science method.
+```{r}
+datatable(result, colnames=c("Formal Education", "Machine Learning/Data Science method excited about learning next year", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 8, dom = 'tip'))
+```
 
-Following Deep Learning, *Neural Nets* emerged as the second top Machine Learning/Data Science method that Data Scientists have the desire to learn next year. Intriguingly, College Dropouts have highest percentage in the distribution in learning Neural Nets.
-
-*Time Series Analysis* was found to be the third Machine Learning/Data Science method of interest. High school graduates want to learn Genetic & Evolutionary Algorithms as their third choice. 
-
-Among doctoral survey takers, *Bayesian Methods* is the third preference. This particular  Machine Learning/Data Science method was not choice for others but only with PhDs. 
-
-The results are suggesting that there is a clear trend among the data scientists that Deep Learning is the Machine Learning/Data Science method they want to learn. As to the global research question of interest what data science skills are valued the most, the results from this insight suggest that aspiring data scientists should consider learning Deep Learning.
 
 <br>
 
@@ -880,8 +881,6 @@ plot(employed.WML)
 
 The most frequently used of the programming languages are R and Python. But do those that use R recommend R or Python?  And do those that use Python recommend R or Python?  In other words, do those survey takers feel that others should first and foremost study the languages they themselves have taken up, or perhaps with their insight, know to suggest the language of the two they themselves did not learn?
 
-# R vs. Python
-
 Thus the following questions were explored:
  
 1. What is the distribution of following programming languages Kaggle survey takers used in the past year:  
@@ -908,11 +907,6 @@ There are 2 variables used in this section of the analysis :
 
 2. WorkToolsSelect= For work, which data science/analytics tools, technologies, and languages have you used in the past year? (Select all that apply) - Selected Choice  
 
-# R vs. Python
-
-## Manipulating data
-
-The major task in this part of the analysis was to create a tidy data structure  This can be accomplished using Select function calls and the required variables for the analysis. Because the respondents were provided the option of choosing anything that applied to them, the data for the languages were captured as strings as opposed to having one language as a column for each respondent.
 
 # R vs. Python
 
@@ -999,8 +993,7 @@ labs (x="Language ", y="The distribution of R and Python among their users (%) "
       title="Bar Graph of R and Python users") +
 theme(axis.text.x = element_text(angle = 90), legend.position = 'none') +
 scale_y_continuous (breaks=seq(0,100,10), limits = c(0,100))
-p
-# ggplotly(p)
+ ggplotly(p)
 
 
 
@@ -1074,21 +1067,7 @@ ggplotly(p1)
 
 ```
 
-# R vs. Python
 
-## Results of Exploring R vs. Python:
-
-We found that *a little below the half of the survey takers* (N=3540, 44.5%) reported to use both R and Python. The take home message for aspiring data scientists is that a substantial majority of the Kaggle survey takers are using both languages--both languages are used widely. Among the remaining half of the respondents, a small portion of them (N=714, 8.98%) are using neither Python nor R. The rest of the survey takers are using either R or Python. In particular, 2533 (31.84%) indicated using only Python while only 1168 (14.68%) of them reported using R Only.
-
-The story of this contentious debate on R vs Python gets more interesting when comparing their used languages with their recommended languages. Specifically, it is plausible to assume that Python users will recommend Python while R users will recommend R. We explore this hypothesis by comparing the difference of R users recommending R and Python and the difference of Python users recommending R and Python.
-
-Our results revealed that 72.17 % of the Python users recommended Python while 53.77% of R users recommended R. This result is not surprising--there are more Python only users than R only users in this sample, it makes sense to have differences in their recommendations since a different proportion of each know only the one language. However, what is surprising is the degree of difference in their recommendation for the other language: 15.92 % of the R users recommend Python whereas only 1.42 % of the Python users recommend R. 
-
-
-However, these results should be interpreted carefully because there are survey takers who did not make any recommendation. For instance 18.87% of the sample who are Python users did not respond to this question. Similarly, 17.55% of R users did not leave any opinion on their recommended languages. This is a sizable portion of the sample and if these users were to make recommendations, it's possible that more Python users would be recommending R.
-
-
-Since half the sample included respondeds who are both R and Python users, their recommendation is particularly valuable since they have experience with both languages. Of this subset, 51.72% of them recommend Python while 25.65% of them recommend R. A quarter of the users that use both reccomend R over Python.
 
 <br>
 
