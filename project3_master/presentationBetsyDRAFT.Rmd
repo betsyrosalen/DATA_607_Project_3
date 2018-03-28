@@ -969,7 +969,7 @@ filter (id %in% c(1:10))
 datatable(tb4)
 ```
 
-# R vs. Python
+
 
 ```{r}
 #computing percentages
@@ -979,7 +979,7 @@ summarize (total_count = n()) %>%
 mutate(percent = ((total_count / sum(total_count)) * 100), percent=round(percent, digit=2))
 
  #checking
-datatable(df4, colnames=c("Programming Language Survey takers use", "Count", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 4, dom = 'tip'))
+# datatable(df4, colnames=c("Programming Language Survey takers use", "Count", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 4, dom = 'tip'))
 ```
 
 # R vs. Python
@@ -1000,15 +1000,14 @@ scale_y_continuous (breaks=seq(0,100,10), limits = c(0,100))
 
 Let's examine the above graph of LanguageRecommendationSelect
 
-# R vs. Python
 
 ```{r ,fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE}
 
  #check 
-tb5<-df1 %>%
-  select (id, WorkToolsSelect,work_tools, LanguageRecommendationSelect) %>%
-  filter (id %in% c(1:3))
-   datatable(tb5)
+# tb5<-df1 %>%
+#   select (id, WorkToolsSelect,work_tools, LanguageRecommendationSelect) %>%
+#   filter (id %in% c(1:3))
+#    datatable(tb5)
 
  df5<-df1  %>%
  group_by(id, work_tools,LanguageRecommendationSelect) %>%
@@ -1043,13 +1042,6 @@ summarize (total_count = n()) %>%
 mutate(percent = ((total_count / sum(total_count)) * 100), percent=round(percent, digit=2))
 ```
 
-# R vs. Python
-
-```{r}
-#checking
-datatable(df6, colnames=c("Programming Language Survey takers use", "Programming Language Survey takers recommend"
-                          ,"Count", "Percent"),class = 'cell-border stripe',caption = 'Table 2: Descriptive Statistics',options = list(pageLength = 4, dom = 'tip'))
-```
 
 # R vs. Python
 
