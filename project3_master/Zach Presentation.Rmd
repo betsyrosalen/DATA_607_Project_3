@@ -1,5 +1,5 @@
 ---
-title: "DATA 607 Project 3 Presentation"
+title: "DATA607 Project 3 Presentation"
 author: "Gabrielle Bartomeo, Binish Chandy, Zach Dravis, Burcu Kaniskan, Niteen Kumar, Betsy Rosalen"
 date: "March 25, 2018"
 output: 
@@ -32,21 +32,24 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Research Question
 
-<br>
+**Which are the most valued data science skills?**  
 
-## **Which are the most valued data science skills?**  
-
-
-# Importing data
-
-## [Kaggle ML and Data Science Survey, 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017)
+- This question has multiple possible interpretations
+- Multiple different methods to answer this question
+- We chose the Kaggle Survey to explore the views of professionals in the field
 
 <br>
 
-The survey data included:
+## Importing data
 
-  1. free-response items
-  2. **multiple choice items**
+We used survey data from the [Kaggle ML and Data Science Survey, 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017).
+
+The survey data included 2 different csv files consisting of:
+
+  1. multiple choice items
+  2. free-response items
+  
+We chose to focus on the multiple choice data only.  
 
 ```{r message=FALSE, warning=FALSE}
 linkMC<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/multipleChoiceResponses.csv"
@@ -71,22 +74,7 @@ MC$id <- seq.int(nrow(MC))
 # conversion$id <- seq.int(nrow(conversion))
 ```
 
-# Agenda
-
-### A Day in a Data Scientist's Life
-
-### What do Data Scientists Want to Learn?
-
-### Data Science Methods
-
-### Learners vs. Employed Data Scientists
-
-### R vs. Python
-
-### Salary Comparison for Python vs. R
-
-### Conclusion
-
+<br>
 
 # A Day in a Data Scientist's Life
 
@@ -94,7 +82,7 @@ MC$id <- seq.int(nrow(MC))
 
 Variables: Country, GenderSelect & Age <br>
 
-Demographics Insight:
+Domographics Insight:
 
   1. **Number of Respondents** - 16716  
   1. **Country** - 50+
@@ -282,23 +270,21 @@ theme_bw()+
 theme(axis.text.x = element_text(angle = 65, hjust = 1),axis.text.y=element_blank(),axis.ticks.y=element_blank())
 ```
 
+
 # What do Data Scientists Want to Learn?
 
-<br>
+Next, we examine what these survey takers of various educational backgrounds find themselves excited to learn. Due to the ever-evolving nature of technology and, by extension, data science, it is imperative that they remain relevant in their field and are passionate in their pursuit for relevance.  Understanding what working professionals want to learn could give us insight into what skills are most valued in the field.
 
-## Does survey takers' formal education have any relationship to the Machine Learning/Data Science method he or she is most excited about learning in the next year?
-
-<br>
-
-Understanding what working professionals want to learn could give us insight into what skills are most valued in the field.
-
+Does survey takers' formal education have any relationship to the Machine Learning/Data Science method he or she is most excited about learning in the next year?
 
 # What do Data Scientists Want to Learn?
 
 ## Variables and their definition 
 
-1. FormalEducation: Which level of formal education have you attained?
-2. MLMethodNextYearSelect : Which Machine Learning/Data Science method are you most excited about learning in the next year?
+To do the analysis, we concentrate on two columns in the dataset 
+
+  1. FormalEducation: Which level of formal education have you attained?
+  2. MLMethodNextYearSelect : Which Machine Learning/Data Science method are you most excited about learning in the next year?
 
 These questions were asked to all participants.
 
@@ -326,7 +312,7 @@ subset <- MC %>%
 
 ## Exploratory Data Analysis (EDA)
 
-Mostly Master's degrees followed by Bachelor's then doctoral degrees. 
+First we plot the distribution of formal education in the dataset
 
 ```{r, echo=FALSE}
 
@@ -338,9 +324,12 @@ subset %>%
  #ggplotly(a)
 ```
 
+The data set predominantly contains candidates with Master's degrees which are followed by Bachelor's then doctoral degrees.   
+
 # What do Data Scientists Want to Learn?
 
-Let's look at the different Machine Learning/Data Science methods.
+Now let's look at the different Machine Learning/Data Science methods in the dataset.
+
 
 ```{r, echo=FALSE}
 kable(unique(subset$MLMethodNextYearSelect), col.names = c("Machine Learning/Data Science"), "html") %>%
@@ -349,7 +338,7 @@ kable(unique(subset$MLMethodNextYearSelect), col.names = c("Machine Learning/Dat
 
 # What do Data Scientists Want to Learn?
 
-Distribution of Machine Learning/Data Science methods with formal education.
+Now we can plot the distribution of Machine Learning/Data Science methods with formal education.
 
 ```{r, fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE, echo=FALSE}
 subset %>%
@@ -380,6 +369,8 @@ result <- subset %>%
 datatable(result, colnames=c("Formal Education", "Machine Learning/Data Science method excited about learning next year", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 8, dom = 'tip'))
 ```
 
+
+<br>
 
 # Data Science Methods
 
@@ -613,6 +604,7 @@ kable(Top3EachDegree, "html") %>%
 - Implications for students of data science
 - Consider data visualization and the other aforementioned skills as critical
 
+
 # Learners vs. Employed Data Scientists
 
 ```{r message=FALSE ,warning=FALSE, echo=FALSE}
@@ -796,7 +788,7 @@ employed.WML <- likert(data.frame(employed.WM))
 
 <br>
 
-Learners - **Top 3 ways to learn data science**:
+Learners - Top 3 ways to learn data science:
 
   1. **Courses**
   2. **Projects**
@@ -814,10 +806,13 @@ plot(learner.LPL)
 
 <br>
 
-- **Projects** and **Courses** belong in the top 3, but **College is in 5th place**
-- Much greater importance on **Friends**...
-- **46.5%** say Friends are "Very useful"
-- **97.5%** say Friends are "Somewhat useful" or "Very useful"
+**Projects** and **Courses** belong in the top 3, but **College is in 5th place**
+
+Much greater importance on **Friends**...
+
+**46.5%** say Friends are "Very useful"
+
+**97.5%** say Friends are "Somewhat useful" or "Very useful"
 
 ```{r echo=FALSE}
 plot(employed.LPL)
@@ -829,9 +824,11 @@ plot(employed.LPL)
 
 <br>
 
-- **63.6%** say **Python** is "Necessary"
-- **39%** say **Data Visualization** is "Necessary"
-- **35%** say **R** is "Necessary"
+**63.6%** say **Python** is "Necessary"
+
+**39%** say **Data Visualization** is "Necessary"
+
+**35%** say **R** is "Necessary"
 
 ```{r echo=FALSE}
 plot(learner.JSL)
@@ -843,8 +840,9 @@ plot(learner.JSL)
 
 <br>
 
-- **75.4%** use **Python** either "Often" or "Most of the time" 
-- **63.6%** use **R** either "Often" or "Most of the time"
+**75.4%** use **Python** either "Often" or "Most of the time" 
+
+**63.6%** use **R** either "Often" or "Most of the time"
 
 ```{r echo=FALSE, fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE}
 plot(employed.WTL)
@@ -858,8 +856,9 @@ plot(employed.WTL)
 
 **Data Visualization** is at the **top of the list**.
 
-- **91%** use it "Often" or "Most of the time"
-- **0%** use it "Rarely" 
+**91%** use it "Often" or "Most of the time"
+
+**0%** use it "Rarely" 
 
 **Only 38.8% of Learners said Visualizations were a "Necessary" job skill to learn!**
 
@@ -867,7 +866,7 @@ plot(employed.WTL)
 plot(employed.WML)
 ```
 
-
+<br>
 
 # R vs. Python
 
@@ -1123,6 +1122,8 @@ knitr::kable(RQ6.summary, "html") %>%
   kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
 ```
 
+<br>
+
 # Conclusion
 
 **On the contentious debate on which Machine Learning/Data Science methods Data Scientists are most excited about learning in the next year as the most valued Data Science Skills**
@@ -1131,8 +1132,6 @@ knitr::kable(RQ6.summary, "html") %>%
 + *Time Series Analysis* as the third Machine Learning/Data Science method. High school graduates want to learn Genetic & Evolutionary Algorithms as their third choice. 
 + Among doctoral survey takers, *Bayesian Methods* is the third preference.
 
-# Conclusion
-
 **On Data Science Methods Used on the Job**
 
 + *Data Visualization* is a remarkably popular data science method.  It is the most endorsed by *nearly all education attainment levels*.
@@ -1140,7 +1139,6 @@ knitr::kable(RQ6.summary, "html") %>%
 + These are not just short but required or essential tasks--not only do so many of those writing code use data visualization, but they also use it quite frequently
 + The data suggest that data science methods do *not* differ much between formal educational attainment groups.
 
-# Conclusion
 
 **Learners vs. Employed Data Scientists**
 
@@ -1149,14 +1147,10 @@ knitr::kable(RQ6.summary, "html") %>%
 + Learners place a higher importance on Python vs. R as compared with employed Data Scientists
 + Data Visualization is the top used skill for working Data Scientists even though learners put relatively little importance on it as a Job Skill
 
-# Conclusion
-
 **On Data Science Activities**
 
 + *Gathering Data* is the main activity where data scientists spend most of their time followed by model building. 
 + *Personal projects and Online Courses* appear to be very useful learning platforms.
-
-# Conclusion
 
 **On the contentious debate on R vs Python as the most valued Data Science Skills**  
 
@@ -1165,3 +1159,6 @@ knitr::kable(RQ6.summary, "html") %>%
 + More R users recommended Python than the Python users recommended R   
 + Both users recommendations in Python is more than their recommendation in R   
 + R users are more likely to have a higher base salary, but Python users have the greater potential for wage growth
+
+
+
