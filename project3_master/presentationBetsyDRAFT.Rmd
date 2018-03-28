@@ -78,7 +78,7 @@ MC$id <- seq.int(nrow(MC))
 
 ## Demographics Information
 
-Variables: GenderSelect & Age <br>
+Variables: Country, GenderSelect & Age <br>
 
 Domographics Insight:
 
