@@ -81,12 +81,12 @@ MC$id <- seq.int(nrow(MC))
 <tr>
 <td>
 
-  - 16716 total Kaggle respondents
-  - 13610 males (84%)
-  - 2778 females (16%)
-  - About 5 (~4.8) times as many males as females
-  - Age peak at 25 for both males and females
-  - Median at about 30
+- 16716 total Kaggle respondents
+- 13610 males (84%)
+- 2778 females (16%)
+- About 5 (~4.8) times as many males as females
+- Age peak at 25 for both males and females
+- Median at about 30
   
 </td>
 <td>
@@ -153,19 +153,19 @@ ggplot(data = survey.dem.age.plot,
 
 Kaggle captured data about time spent in different activities:
 
-  - Time Gathering Data 
-  - Time Model Building 
-  - Time Production 
-  - Time Visualizing 
-  - Time Finding Insights
+- Time Gathering Data 
+- Time Model Building 
+- Time Production 
+- Time Visualizing 
+- Time Finding Insights
 
 # A Day in a Data Scientist's Life
 
 ## Exploratory Data Analysis (EDA)
 
-  - 37.75% of time spent in Data Acquisition
-  - 19.23% on Model Building (2nd highest)
-  - only 10.23% in production activities
+- 37.75% of time spent in Data Acquisition
+- 19.23% on Model Building (2nd highest)
+- only 10.23% in production activities
 
 
 ```{r niteen02, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
@@ -298,8 +298,8 @@ Understanding what working professionals want to learn could give us insight int
 
 ## Variables and their definition 
 
-  1. FormalEducation: Which level of formal education have you attained?
-  2. MLMethodNextYearSelect : Which Machine Learning/Data Science method are you most excited about learning in the next year?
+1. FormalEducation: Which level of formal education have you attained?
+2. MLMethodNextYearSelect : Which Machine Learning/Data Science method are you most excited about learning in the next year?
 
 These questions were asked to all participants.
 
@@ -410,36 +410,36 @@ One additional variable: Formal Education.
 
 Response options were: Rarely, Sometimes, Often, Most of the time
 
-  - WorkMethodsFrequencyA/B
-  - WorkMethodsFrequencyAssociationRules
-  - WorkMethodsFrequencyBayesian
-  - WorkMethodsFrequencyCNNs
-  - WorkMethodsFrequencyCollaborativeFiltering
-  - WorkMethodsFrequencyCross-Validation
-  - WorkMethodsFrequencyDataVisualization
-  - WorkMethodsFrequencyDecisionTrees
-  - WorkMethodsFrequencyEnsembleMethods
-  - WorkMethodsFrequencyEvolutionaryApproaches
-  - WorkMethodsFrequencyGANs
-  - WorkMethodsFrequencyGBM
-  - WorkMethodsFrequencyHMMs
-  - WorkMethodsFrequencyKNN
-  - WorkMethodsFrequencyLiftAnalysis
-  - WorkMethodsFrequencyLogisticRegression
-  - WorkMethodsFrequencyMLN
-  - WorkMethodsFrequencyNaiveBayes
-  - WorkMethodsFrequencyNLP
-  - WorkMethodsFrequencyNeuralNetworks
-  - WorkMethodsFrequencyPCA
-  - WorkMethodsFrequencyPrescriptiveModeling
-  - WorkMethodsFrequencyRandomForests
-  - WorkMethodsFrequencyRecommenderSystems
-  - WorkMethodsFrequencyRNNs
-  - WorkMethodsFrequencySegmentation
-  - WorkMethodsFrequencySimulation
-  - WorkMethodsFrequencySVMs
-  - WorkMethodsFrequencyTextAnalysis
-  - WorkMethodsFrequencyTimeSeriesAnalysis
+- WorkMethodsFrequencyA/B
+- WorkMethodsFrequencyAssociationRules
+- WorkMethodsFrequencyBayesian
+- WorkMethodsFrequencyCNNs
+- WorkMethodsFrequencyCollaborativeFiltering
+- WorkMethodsFrequencyCross-Validation
+- WorkMethodsFrequencyDataVisualization
+- WorkMethodsFrequencyDecisionTrees
+- WorkMethodsFrequencyEnsembleMethods
+- WorkMethodsFrequencyEvolutionaryApproaches
+- WorkMethodsFrequencyGANs
+- WorkMethodsFrequencyGBM
+- WorkMethodsFrequencyHMMs
+- WorkMethodsFrequencyKNN
+- WorkMethodsFrequencyLiftAnalysis
+- WorkMethodsFrequencyLogisticRegression
+- WorkMethodsFrequencyMLN
+- WorkMethodsFrequencyNaiveBayes
+- WorkMethodsFrequencyNLP
+- WorkMethodsFrequencyNeuralNetworks
+- WorkMethodsFrequencyPCA
+- WorkMethodsFrequencyPrescriptiveModeling
+- WorkMethodsFrequencyRandomForests
+- WorkMethodsFrequencyRecommenderSystems
+- WorkMethodsFrequencyRNNs
+- WorkMethodsFrequencySegmentation
+- WorkMethodsFrequencySimulation
+- WorkMethodsFrequencySVMs
+- WorkMethodsFrequencyTextAnalysis
+- WorkMethodsFrequencyTimeSeriesAnalysis
 
 # Data Science Methods
 
@@ -447,9 +447,9 @@ Response options were: Rarely, Sometimes, Often, Most of the time
 
 Filtered the dataset down to only those who were:
 
-  - classified as code writers
-  - employed in some capacity working in data science
-  - endorsed at least one data science skill on the question, "At work, which data science methods do you use?
+- classified as code writers
+- employed in some capacity working in data science
+- endorsed at least one data science skill on the question, "At work, which data science methods do you use?
 
 Endorsed data science methods were aggregated and plotted for frequency.
 
@@ -548,14 +548,22 @@ DoctoralEducation <- MethodFrequencyFunction(DoctoralEducation)
 
 ### Frequency with which data science methods were endorsed by a total of 7,773 respondents.  
 
-  - Nearly 2/3 endorsed the first place skill, data visualization
-  - Over half endorse logistic regression
-  - Just shy of half endorse cross-validation and decision trees
+<table>
+<tr>
+<td valign="top">
+- Nearly 2/3 endorsed the first place skill, data visualization
+- Over half endorse logistic regression
+- Just shy of half endorse cross-validation and decision trees
+</td>
+<td>
 
 ```{r}
 kable(MethodsFrequency, "html") %>%
   kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
 ```
+</td>
+</tr>
+</table>
 
 # Data Science Methods
 
@@ -577,11 +585,17 @@ MethodsFrequencyPlot
 
 ### "Frequency Score" for the Top Five most endorsed data science methods.
 
+<table>
+<tr>
+<td>
 Are there rare but essential methods in data science?
 
 Respondents were asked if they use each method Rarely, Sometimes, Often, or Most of the time.  We converted these to numeric values in order to graph a score and average the categorical responses.
 
 Data visualization was the skill indicated to be used the most frequently.
+
+</td>
+<td>
 
 ```{r}
 Top5EndorsedFreqScorePlot <- ggplot(Top5FreqScore, aes(x = reorder(Method, -FrequencyScore), y = FrequencyScore, fill = Method)) +
@@ -593,6 +607,10 @@ Top5EndorsedFreqScorePlot <- ggplot(Top5FreqScore, aes(x = reorder(Method, -Freq
 
 Top5EndorsedFreqScorePlot
 ```
+
+</td>
+</tr>
+</table>
 
 # Data Science Methods
 
@@ -854,7 +872,7 @@ employed.WML <- likert(data.frame(employed.WM))
 
 <br>
 
-Learners - Top 3 ways to learn data science:
+Learners - **Top 3 ways to learn data science**:
 
   1. **Courses**
   2. **Projects**
@@ -872,13 +890,10 @@ plot(learner.LPL)
 
 <br>
 
-**Projects** and **Courses** belong in the top 3, but **College is in 5th place**
-
-Much greater importance on **Friends**...
-
-**46.5%** say Friends are "Very useful"
-
-**97.5%** say Friends are "Somewhat useful" or "Very useful"
+- **Projects** and **Courses** belong in the top 3, but **College is in 5th place**
+- Much greater importance on **Friends**...
+- **46.5%** say Friends are "Very useful"
+- **97.5%** say Friends are "Somewhat useful" or "Very useful"
 
 ```{r echo=FALSE}
 plot(employed.LPL)
@@ -890,11 +905,9 @@ plot(employed.LPL)
 
 <br>
 
-**63.6%** say **Python** is "Necessary"
-
-**39%** say **Data Visualization** is "Necessary"
-
-**35%** say **R** is "Necessary"
+- **63.6%** say **Python** is "Necessary"
+- **39%** say **Data Visualization** is "Necessary"
+- **35%** say **R** is "Necessary"
 
 ```{r echo=FALSE}
 plot(learner.JSL)
@@ -906,9 +919,8 @@ plot(learner.JSL)
 
 <br>
 
-**75.4%** use **Python** either "Often" or "Most of the time" 
-
-**63.6%** use **R** either "Often" or "Most of the time"
+- **75.4%** use **Python** either "Often" or "Most of the time" 
+- **63.6%** use **R** either "Often" or "Most of the time"
 
 ```{r echo=FALSE, fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE}
 plot(employed.WTL)
@@ -922,9 +934,8 @@ plot(employed.WTL)
 
 **Data Visualization** is at the **top of the list**.
 
-**91%** use it "Often" or "Most of the time"
-
-**0%** use it "Rarely" 
+- **91%** use it "Often" or "Most of the time"
+- **0%** use it "Rarely" 
 
 **Only 38.8% of Learners said Visualizations were a "Necessary" job skill to learn!**
 
@@ -932,7 +943,6 @@ plot(employed.WTL)
 plot(employed.WML)
 ```
 
-<br>
 
 # R vs. Python
 
@@ -1027,7 +1037,7 @@ filter (id %in% c(1:10))
 datatable(tb4)
 ```
 
-# R vs. Python
+
 
 ```{r}
 #computing percentages
@@ -1037,7 +1047,7 @@ summarize (total_count = n()) %>%
 mutate(percent = ((total_count / sum(total_count)) * 100), percent=round(percent, digit=2))
 
  #checking
-datatable(df4, colnames=c("Programming Language Survey takers use", "Count", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 4, dom = 'tip'))
+# datatable(df4, colnames=c("Programming Language Survey takers use", "Count", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 4, dom = 'tip'))
 ```
 
 # R vs. Python
@@ -1058,15 +1068,14 @@ scale_y_continuous (breaks=seq(0,100,10), limits = c(0,100))
 
 Let's examine the above graph of LanguageRecommendationSelect
 
-# R vs. Python
 
 ```{r ,fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE}
 
  #check 
-tb5<-df1 %>%
-  select (id, WorkToolsSelect,work_tools, LanguageRecommendationSelect) %>%
-  filter (id %in% c(1:3))
-   datatable(tb5)
+# tb5<-df1 %>%
+#   select (id, WorkToolsSelect,work_tools, LanguageRecommendationSelect) %>%
+#   filter (id %in% c(1:3))
+#    datatable(tb5)
 
  df5<-df1  %>%
  group_by(id, work_tools,LanguageRecommendationSelect) %>%
@@ -1101,12 +1110,6 @@ summarize (total_count = n()) %>%
 mutate(percent = ((total_count / sum(total_count)) * 100), percent=round(percent, digit=2))
 ```
 
-# R vs. Python
-
-```{r}
-#checking
-datatable(df6, colnames=c("Programming Language Survey takers use", "Count", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 4, dom = 'tip'))
-```
 
 # R vs. Python
 
@@ -1124,9 +1127,6 @@ ggplotly(p1)
 
 ```
 
-
-
-<br>
 
 # Salary Comparison for Python vs. R
 
@@ -1205,6 +1205,8 @@ knitr::kable(RQ6.summary, "html") %>%
 + *Time Series Analysis* as the third Machine Learning/Data Science method. High school graduates want to learn Genetic & Evolutionary Algorithms as their third choice. 
 + Among doctoral survey takers, *Bayesian Methods* is the third preference.
 
+# Conclusion
+
 **On Data Science Methods Used on the Job**
 
 + *Data Visualization* is a remarkably popular data science method.  It is the most endorsed by *nearly all education attainment levels*.
@@ -1212,6 +1214,7 @@ knitr::kable(RQ6.summary, "html") %>%
 + These are not just short but required or essential tasks--not only do so many of those writing code use data visualization, but they also use it quite frequently
 + The data suggest that data science methods do *not* differ much between formal educational attainment groups.
 
+# Conclusion
 
 **Learners vs. Employed Data Scientists**
 
@@ -1220,10 +1223,14 @@ knitr::kable(RQ6.summary, "html") %>%
 + Learners place a higher importance on Python vs. R as compared with employed Data Scientists
 + Data Visualization is the top used skill for working Data Scientists even though learners put relatively little importance on it as a Job Skill
 
+# Conclusion
+
 **On Data Science Activities**
 
 + *Gathering Data* is the main activity where data scientists spend most of their time followed by model building. 
 + *Personal projects and Online Courses* appear to be very useful learning platforms.
+
+# Conclusion
 
 **On the contentious debate on R vs Python as the most valued Data Science Skills**  
 

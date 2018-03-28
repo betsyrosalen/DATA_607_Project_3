@@ -815,7 +815,7 @@ employed.WML <- likert(data.frame(employed.WM))
 
 <br>
 
-Learners - Top 3 ways to learn data science:
+Learners - **Top 3 ways to learn data science**:
 
   1. **Courses**
   2. **Projects**
@@ -833,13 +833,10 @@ plot(learner.LPL)
 
 <br>
 
-**Projects** and **Courses** belong in the top 3, but **College is in 5th place**
-
-Much greater importance on **Friends**...
-
-**46.5%** say Friends are "Very useful"
-
-**97.5%** say Friends are "Somewhat useful" or "Very useful"
+- **Projects** and **Courses** belong in the top 3, but **College is in 5th place**
+- Much greater importance on **Friends**...
+- **46.5%** say Friends are "Very useful"
+- **97.5%** say Friends are "Somewhat useful" or "Very useful"
 
 ```{r echo=FALSE}
 plot(employed.LPL)
@@ -851,11 +848,9 @@ plot(employed.LPL)
 
 <br>
 
-**63.6%** say **Python** is "Necessary"
-
-**39%** say **Data Visualization** is "Necessary"
-
-**35%** say **R** is "Necessary"
+- **63.6%** say **Python** is "Necessary"
+- **39%** say **Data Visualization** is "Necessary"
+- **35%** say **R** is "Necessary"
 
 ```{r echo=FALSE}
 plot(learner.JSL)
@@ -867,9 +862,8 @@ plot(learner.JSL)
 
 <br>
 
-**75.4%** use **Python** either "Often" or "Most of the time" 
-
-**63.6%** use **R** either "Often" or "Most of the time"
+- **75.4%** use **Python** either "Often" or "Most of the time" 
+- **63.6%** use **R** either "Often" or "Most of the time"
 
 ```{r echo=FALSE, fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE}
 plot(employed.WTL)
@@ -883,9 +877,8 @@ plot(employed.WTL)
 
 **Data Visualization** is at the **top of the list**.
 
-**91%** use it "Often" or "Most of the time"
-
-**0%** use it "Rarely" 
+- **91%** use it "Often" or "Most of the time"
+- **0%** use it "Rarely" 
 
 **Only 38.8% of Learners said Visualizations were a "Necessary" job skill to learn!**
 
@@ -893,7 +886,7 @@ plot(employed.WTL)
 plot(employed.WML)
 ```
 
-<br>
+
 
 # R vs. Python
 
