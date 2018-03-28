@@ -295,13 +295,12 @@ First we plot the distribution of formal education in the dataset
 
 ```{r, echo=FALSE}
 
-a<-subset %>%
+subset %>%
         ggplot(aes(x = FormalEducation, y = ..prop.., group = 1, fill="red") )+
         geom_bar(show.legend = FALSE,color = "red") +
         coord_flip() +
         labs (y="Proportion", x="Formal Education" , title="Distribution of Formal Education")
- ggplotly(a)
-
+ #ggplotly(a)
 ```
 
 The data set predominantly contains candidates with Master's degrees which are followed by Bachelor's then doctoral degrees.   
@@ -321,7 +320,7 @@ kable(unique(subset$MLMethodNextYearSelect), col.names = c("Machine Learning/Dat
 Now we can plot the distribution of Machine Learning/Data Science methods with formal education.
 
 ```{r, fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE, echo=FALSE}
-b<-subset %>%
+subset %>%
         ggplot() + 
         geom_bar(mapping = aes(x = MLMethodNextYearSelect, fill = MLMethodNextYearSelect)) +
                  coord_flip() + 
@@ -330,7 +329,7 @@ b<-subset %>%
                  theme(axis.text.x = element_text(angle = 90), legend.position = 'none') +
                  labs (x="ML Method ", y="count " , title="Formal Education vs Machine Learning/Data Science method excited about learning next year")
 
-ggplotly(b)
+#ggplotly(b)
 ```
 ```{r, echo=FALSE}
 result <- subset %>%
