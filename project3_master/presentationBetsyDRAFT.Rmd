@@ -1,5 +1,5 @@
 ---
-title: "DATA607 Project 3 Presentation"
+title: "DATA 607 Project 3 Presentation"
 author: "Gabrielle Bartomeo, Binish Chandy, Zach Dravis, Burcu Kaniskan, Niteen Kumar, Betsy Rosalen"
 date: "March 25, 2018"
 output: 
@@ -32,13 +32,14 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Research Question
 
-**Which are the most valued data science skills?**  
-
-While the answer to the question is by definition subjective, the Kaggle Survey provides a good starting point for exploring the views of professionals in the field and what they value.
+## **Which are the most valued data science skills?**  
 
 <br>
 
-## Importing data
+While the answer to the question is by definition subjective, the Kaggle Survey provides a good starting point for exploring the views of professionals in the field and what they value.
+
+
+# Importing data
 
 We used survey data from the [Kaggle ML and Data Science Survey, 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017).
 
