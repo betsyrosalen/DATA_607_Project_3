@@ -1,0 +1,1237 @@
+---
+title: "DATA 607 Project 3 Presentation"
+author: "Gabrielle Bartomeo, Binish Chandy, Zach Dravis, Burcu Kaniskan, Niteen Kumar, Betsy Rosalen"
+date: "March 25, 2018"
+output: 
+  slidy_presentation:
+    theme: cerulean
+    css: ./lab.css
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r global_options, echo=FALSE}
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE)
+```
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+library(DT)
+library(kableExtra)
+library(lubridate)
+library(janitor)
+library(likert)
+library(reshape)
+library(plotly)
+library(scales)
+library(grid)
+library(gridExtra)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Research Question
+
+<br>
+
+## **Which are the most valued data science skills?**  
+
+
+# Importing data
+
+## [Kaggle ML and Data Science Survey, 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017)
+
+<br>
+
+The survey data included:
+
+  1. free-response items
+  2. **multiple choice items**
+
+```{r message=FALSE, warning=FALSE}
+linkMC<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/multipleChoiceResponses.csv"
+#importing MC items
+MC<-read_csv (linkMC)
+```
+
+```{r}
+survey.data <- MC
+#lets create a unique ID variable 
+MC$id <- seq.int(nrow(MC))
+```
+
+```{r message=FALSE, warning=FALSE}
+# Ignore this code Importing conversion rates data incase we want to do analyses 
+
+# link_conversion<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/conversionRates.csv"
+# #importing MC items
+# conversion<-read_csv (link_conversion)
+# dim(conversion)
+# #lets create a unique ID variable 
+# conversion$id <- seq.int(nrow(conversion))
+```
+
+<br>
+
+# A Day in a Data Scientist's Life
+
+## Variables and their definition 
+
+<table>
+<tr>
+<td>
+
+  - 16716 total Kaggle respondents
+  - 13610 males (84%)
+  - 2778 females (16%)
+  - About 5 (~4.8) times as many males as females
+  - Age peak at 25 for both males and females
+  - Median at about 30
+  
+</td>
+<td>
+```{r niteen01, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
+
+survey.demographics <- survey.data%>%
+  select(GenderSelect,Country,Age,EmploymentStatus) %>%
+  filter(Country!='NA',trimws(Country)!='',Age!='NA',trimws(GenderSelect) %in% c('Male','Female'))
+
+survey.dem.age.plot <- survey.demographics %>%
+    group_by(Age,GenderSelect) %>%
+    summarise(count=n()) %>%
+    arrange(desc(count))
+
+survey.dem.plot <- survey.demographics %>%
+  group_by(Age,Country,GenderSelect,EmploymentStatus) %>%
+  summarise(count=n()) %>%
+  arrange(desc(count))
+
+```
+
+```{r figds01,  echo=FALSE,warning=FALSE,}
+library(ggplot2)
+ggplot(data = survey.dem.age.plot, 
+       mapping = aes(x = Age, fill = GenderSelect, 
+                     y = ifelse(test = GenderSelect == "Male", 
+                                yes = -count, no = count)))+
+  geom_bar(stat = "identity") +
+  scale_y_continuous(labels = abs, limits = max(survey.dem.age.plot$count) * c(-1,1)) +
+  labs(y = "Count") +
+  coord_flip()+
+  theme_bw()
+
+``` 
+</td>
+</tr>
+</table>
+
+# A Day in a Data Scientist's Life
+
+## What does a data scientist do?
+
+<table>
+<tr>
+<td>
+  1. Gathering Data
+  2. Finding Insights
+  3. Model Building
+  4. Visualizing
+  5. Production 
+</td>
+<td>
+<div id="midcenter" style="margin-left:auto; margin-top:auto;">
+  
+   <img> ![ ](./dsact.jpg) </img>
+</div>
+</td>
+</tr>
+</table>
+
+# A Day in a Data Scientist's Life
+
+## Manipulating data - DS Activities
+
+Kaggle captured data about time spent in different activities:
+
+  - Time Gathering Data 
+  - Time Model Building 
+  - Time Production 
+  - Time Visualizing 
+  - Time Finding Insights
+
+# A Day in a Data Scientist's Life
+
+## Exploratory Data Analysis (EDA)
+
+  - 37.75% of time spent in Data Acquisition
+  - 19.23% on Model Building (2nd highest)
+  - only 10.23% in production activities
+
+
+```{r niteen02, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
+
+survey.data.ds.activities <- survey.data %>%
+    select(GenderSelect,Country,Age,EmploymentStatus,PublicDatasetsSelect,FormalEducation,MajorSelect,
+           DataScienceIdentitySelect,CurrentJobTitleSelect,
+          TimeGatheringData,TimeModelBuilding,TimeProduction,TimeVisualizing,TimeFindingInsights) %>%
+          filter(Age!='NA',Country!='NA',Country!='',GenderSelect %in% c('Male', 'Female'),
+          TimeGatheringData!='NA',TimeModelBuilding!='NA',TimeProduction!='NA',TimeVisualizing!='NA',
+          TimeFindingInsights!='NA',MajorSelect!='',PublicDatasetsSelect!='NA',
+          FormalEducation %in% c('Master\'s degree', 'Doctoral degree', 'Bachelor\'s degree')
+          )
+
+survey.data.ds.activities$dsid <- seq.int(nrow(survey.data.ds.activities))
+
+ds.act.tidy <- survey.data.ds.activities %>%
+          gather( DSActivity,act_count,TimeGatheringData:TimeFindingInsights) %>%
+          arrange(dsid)
+ds.act.df <- ds.act.tidy %>%
+    select(dsid,Country,EmploymentStatus,DSActivity,act_count) %>%
+    group_by(DSActivity)
+
+#kable(head(ds.act.df))
+
+ds.act.us <- filter(ds.act.df,Country=='United States')
+ds.act.us.plot <- ds.act.us %>%
+    group_by(DSActivity) %>%
+    summarise(mean_precent=mean(act_count))
+
+ds.act.us.plot.df <-  ds.act.us.plot %>%   
+  arrange(desc(mean_precent))
+kable(ds.act.us.plot.df, "html") %>%
+  kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
+      
+```
+
+# A Day in a Data Scientist's Life
+
+```{r fig01, fig.height = 7, fig.width = 9, fig.align = "center" , message= FALSE, echo=FALSE}
+ggplot(data = ds.act.us.plot,aes(DSActivity,mean_precent))+
+  geom_bar(stat = 'identity',aes(fill=DSActivity))+  
+  geom_text(aes(x = DSActivity, y = mean_precent, label = paste(round(mean_precent,2),'%'),
+                                    group = DSActivity,vjust = -0.2))+
+  labs(title = "Comparing Data Science Activities (Country:US)",x = "Data Science Activities", y = "Time Spent in %") +
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 65, hjust = 1),legend.position = 'none')
+```
+
+# A Day in a Data Scientist's Life
+
+## Manipulating data - Learning Platforms and Learners Sentiments
+
+18 Learning Platforms  | 
+---------- | ----------
+Arxiv | Blogs
+College  | Company
+Conferences | Friends
+Kaggle | Newsletters
+Communities | Documentation
+Courses | Projects
+Podcasts | SO
+Textbook | TradeBook
+Tutoring | YouTube
+
+# A Day in a Data Scientist's Life
+
+## Exploratory Data Analysis (EDA)
+
+```{r niteen04, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
+survey.data.learning <- survey.data %>%
+    select(GenderSelect,Country,Age,EmploymentStatus,StudentStatus,LearningDataScience,CareerSwitcher,PublicDatasetsSelect,
+           FormalEducation,MajorSelect,DataScienceIdentitySelect,CurrentJobTitleSelect,WorkChallengesSelect,
+           LearningPlatformSelect,LearningPlatformUsefulnessArxiv,LearningPlatformUsefulnessBlogs,LearningPlatformUsefulnessCollege,
+           LearningPlatformUsefulnessCompany,LearningPlatformUsefulnessConferences,LearningPlatformUsefulnessFriends,
+           LearningPlatformUsefulnessKaggle,LearningPlatformUsefulnessNewsletters,LearningPlatformUsefulnessCommunities,
+           LearningPlatformUsefulnessDocumentation,LearningPlatformUsefulnessCourses,LearningPlatformUsefulnessProjects,
+           LearningPlatformUsefulnessPodcasts,LearningPlatformUsefulnessSO,LearningPlatformUsefulnessTextbook,
+           LearningPlatformUsefulnessTradeBook,LearningPlatformUsefulnessTutoring,LearningPlatformUsefulnessYouTube,
+           BlogsPodcastsNewslettersSelect,LearningDataScienceTime) %>%
+    filter(Age!='NA',Country!='NA',Country!='',GenderSelect %in% c('Male', 'Female'))
+survey.data.learning$lid <- seq.int(nrow(survey.data.learning))
+
+survey.data.learning.tidy <- gather(survey.data.learning, LPlatform,LP_count,
+                                    LearningPlatformUsefulnessArxiv:LearningPlatformUsefulnessYouTube) %>%
+                          arrange(lid)
+
+survey.data.learn.df  <- survey.data.learning.tidy %>%
+    select(lid,Country,EmploymentStatus,LPlatform,LP_count) %>%
+    group_by(LPlatform)
+
+learn.df <- survey.data.learn.df %>%
+    filter(LP_count!='NA', LP_count!='')
+
+#learn.df <- rename(learn.df,LearnerRemarks=LP_count)
+
+ds.learn.us <- filter(learn.df,Country=='United States')
+ds.learn.us.plot <- ds.learn.us %>%
+    group_by(LPlatform) 
+ds.learn.us.plot.df <- ds.learn.us.plot %>%
+    mutate(LearningPlatform=substr(LPlatform,27,length(LPlatform))) 
+kable(head(ds.learn.us.plot.df), "html") %>%
+  kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
+```
+<br> 
+
+```{r fig02,  fig.height = 7, fig.width = 8 , fig.align = "center" , message= FALSE, echo=FALSE}
+ggplot(data = ds.learn.us.plot.df,aes(LearningPlatform,LP_count))+
+  geom_bar(stat = 'identity',aes(fill=LP_count))+  
+    labs(title = "Learning Platform Usage and Remarks (Country:US)", 
+                         x = "Learning Platform Type", 
+                         y = "Learners Sentiments") +
+theme_bw()+
+theme(axis.text.x = element_text(angle = 65, hjust = 1),axis.text.y=element_blank(),axis.ticks.y=element_blank())
+```
+
+
+# What do Data Scientists Want to Learn?
+
+<br>
+
+## Does survey takers' formal education have any relationship to the Machine Learning/Data Science method he or she is most excited about learning in the next year?
+
+<br>
+
+Understanding what working professionals want to learn could give us insight into what skills are most valued in the field.
+
+
+# What do Data Scientists Want to Learn?
+
+## Variables and their definition 
+
+  1. FormalEducation: Which level of formal education have you attained?
+  2. MLMethodNextYearSelect : Which Machine Learning/Data Science method are you most excited about learning in the next year?
+
+These questions were asked to all participants.
+
+```{r, echo=FALSE}
+# removing NAs as they are not meaningful
+subset <- MC %>%
+        filter(!is.na(FormalEducation), !is.na(MLMethodNextYearSelect)) %>%
+        select(FormalEducation, MLMethodNextYearSelect) %>%
+        filter(FormalEducation != "I prefer not to answer") %>%
+        mutate (FormalEducation=as.factor(FormalEducation)) %>%
+        mutate (FormalEducation=recode_factor(FormalEducation,
+                "Bachelor's degree"='Bachelor',
+      "Some college/university study without earning a bachelor's degree"=
+                                                      'College Dropout',
+                                              'Doctoral degree'='Doctoral',
+                                              "Master's degree"='Masters',
+                                              'Professional degree'=
+                                                      'Professional' ,
+                'I did not complete any formal education past high school'=
+                                                      'High School'))
+
+```
+
+# What do Data Scientists Want to Learn?
+
+## Exploratory Data Analysis (EDA)
+
+Mostly Master's degrees followed by Bachelor's then doctoral degrees. 
+
+```{r, echo=FALSE}
+
+subset %>%
+        ggplot(aes(x = FormalEducation, y = ..prop.., group = 1, fill="red") )+
+        geom_bar(show.legend = FALSE,color = "red") +
+        coord_flip() +
+        labs (y="Proportion", x="Formal Education" , title="Distribution of Formal Education")
+ #ggplotly(a)
+```
+
+# What do Data Scientists Want to Learn?
+
+Let's look at the different Machine Learning/Data Science methods.
+
+```{r, echo=FALSE}
+kable(unique(subset$MLMethodNextYearSelect), col.names = c("Machine Learning/Data Science"), "html") %>%
+  kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
+```
+
+# What do Data Scientists Want to Learn?
+
+Distribution of Machine Learning/Data Science methods with formal education.
+
+```{r, fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE, echo=FALSE}
+subset %>%
+        ggplot() + 
+        geom_bar(mapping = aes(x = MLMethodNextYearSelect, fill = MLMethodNextYearSelect)) +
+                 coord_flip() + 
+                 theme(legend.position="bottom")+
+                 facet_wrap (~FormalEducation)+
+                 theme(axis.text.x = element_text(angle = 90), legend.position = 'none') +
+                 labs (x="ML Method ", y="count " , title="Formal Education vs Machine Learning/Data Science method excited about learning next year")
+
+#ggplotly(b)
+```
+```{r, echo=FALSE}
+result <- subset %>%
+        group_by(FormalEducation, MLMethodNextYearSelect) %>%
+        summarise(count = n()) %>%
+        mutate(percentage = round(count / sum(count), 2)) %>%
+         mutate(rank = min_rank(desc(percentage))) %>%  
+        filter(rank %in% c(1,2,3)) %>%
+        select(-count, -rank) %>%
+        arrange(FormalEducation, desc(percentage)) 
+```
+
+# What do Data Scientists Want to Learn?
+
+```{r}
+datatable(result, colnames=c("Formal Education", "Machine Learning/Data Science method excited about learning next year", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 8, dom = 'tip'))
+```
+
+
+# Data Science Methods
+
+<br>
+
+## What are the most frequently used data science (DS) methods by those writing code in DS professions? 
+
+<br>
+
+## Do those relate to formal educational attainment?
+
+<br>
+
+In the previous section, we examined what data science methods learners are most excited about and working on.  
+
+In this section, we'll look at which data science methods are the most frequently used and if that has any relationship to educational attainment.
+
+May indicate whether or not certain methods require advanced academic training.
+
+# Data Science Methods
+
+## Variables and their definition 
+
+The variables listed below indicate how often the respondents use each of these data science methods.  
+
+One additional variable: Formal Education.
+
+Response options were: Rarely, Sometimes, Often, Most of the time
+
+  - WorkMethodsFrequencyA/B
+  - WorkMethodsFrequencyAssociationRules
+  - WorkMethodsFrequencyBayesian
+  - WorkMethodsFrequencyCNNs
+  - WorkMethodsFrequencyCollaborativeFiltering
+  - WorkMethodsFrequencyCross-Validation
+  - WorkMethodsFrequencyDataVisualization
+  - WorkMethodsFrequencyDecisionTrees
+  - WorkMethodsFrequencyEnsembleMethods
+  - WorkMethodsFrequencyEvolutionaryApproaches
+  - WorkMethodsFrequencyGANs
+  - WorkMethodsFrequencyGBM
+  - WorkMethodsFrequencyHMMs
+  - WorkMethodsFrequencyKNN
+  - WorkMethodsFrequencyLiftAnalysis
+  - WorkMethodsFrequencyLogisticRegression
+  - WorkMethodsFrequencyMLN
+  - WorkMethodsFrequencyNaiveBayes
+  - WorkMethodsFrequencyNLP
+  - WorkMethodsFrequencyNeuralNetworks
+  - WorkMethodsFrequencyPCA
+  - WorkMethodsFrequencyPrescriptiveModeling
+  - WorkMethodsFrequencyRandomForests
+  - WorkMethodsFrequencyRecommenderSystems
+  - WorkMethodsFrequencyRNNs
+  - WorkMethodsFrequencySegmentation
+  - WorkMethodsFrequencySimulation
+  - WorkMethodsFrequencySVMs
+  - WorkMethodsFrequencyTextAnalysis
+  - WorkMethodsFrequencyTimeSeriesAnalysis
+
+# Data Science Methods
+
+## Manipulating data
+
+Filtered the dataset down to only those who were:
+
+  - classified as code writers
+  - employed in some capacity working in data science
+  - endorsed at least one data science skill on the question, "At work, which data science methods do you use?
+
+Endorsed data science methods were aggregated and plotted for frequency.
+
+Top five given a frequency score for frequently of use.
+
+Grouped by formal education to identify the most frequently endorsed data science methods for each group.  
+
+May help identify if those writing certain types of code and using certain data analyses are potentially benefitted by pursuing advanced education.
+
+```{r}
+#Subset Data
+MethodsData <- MC %>%
+  select(FormalEducation, contains("WorkMethods"))
+
+#Filter data based on who answered the methods questions, which were only given to coding workers employed in some capacity
+MethodsData <- MethodsData[!is.na(MethodsData$WorkMethodsSelect),]
+
+#Most popular techniques that respondents report using at least rarely
+MasterString <- MethodsData$WorkMethodsSelect
+Options <- str_c(MasterString, collapse = "")
+Options <- unlist(str_split(MasterString, pattern = ","))
+Options <- as.data.frame(table(Options))
+MethodsFrequency <- arrange(Options, desc(Freq))
+
+#Find out when one knows a technique, how frequently they use it
+#Rarely, Sometimes, Often, Most of the time
+MethodsScored <- MethodsData %>%
+  select(-c(WorkMethodsSelect))
+MethodsScored[MethodsScored=="Rarely"]<-1
+MethodsScored[MethodsScored=="Sometimes"]<-2
+MethodsScored[MethodsScored=="Often"]<-3
+MethodsScored[MethodsScored=="Most of the time"]<-4
+
+MethodsScored$WorkMethodsFrequencyDataVisualization <- as.integer(MethodsScored$WorkMethodsFrequencyDataVisualization)
+AvgFreqDataVis <- sum(MethodsScored$WorkMethodsFrequencyDataVisualization, na.rm = T) / sum(!is.na(MethodsScored$WorkMethodsFrequencyDataVisualization))
+
+MethodsScored$WorkMethodsFrequencyLogisticRegression <- as.integer(MethodsScored$WorkMethodsFrequencyLogisticRegression)
+AvgFreqLogRegress <- sum(MethodsScored$WorkMethodsFrequencyLogisticRegression, na.rm = T) / sum(!is.na(MethodsScored$WorkMethodsFrequencyLogisticRegression))
+
+MethodsScored$`WorkMethodsFrequencyCross-Validation` <- as.integer(MethodsScored$`WorkMethodsFrequencyCross-Validation`)
+AvgFreqCrossValid <- sum(MethodsScored$`WorkMethodsFrequencyCross-Validation`, na.rm = T) / sum(!is.na(MethodsScored$`WorkMethodsFrequencyCross-Validation`))
+
+MethodsScored$WorkMethodsFrequencyDecisionTrees <- as.integer(MethodsScored$WorkMethodsFrequencyDecisionTrees)
+AvgFreqDecisionTrees <- sum(MethodsScored$WorkMethodsFrequencyDecisionTrees, na.rm = T) / sum(!is.na(MethodsScored$WorkMethodsFrequencyDecisionTrees))
+
+MethodsScored$WorkMethodsFrequencyRandomForests <- as.integer(MethodsScored$WorkMethodsFrequencyRandomForests)
+AvgFreqRandomForest <- sum(MethodsScored$WorkMethodsFrequencyRandomForests, na.rm = T) / sum(!is.na(MethodsScored$WorkMethodsFrequencyRandomForests))
+
+Top5FreqScore <- data.frame(Method = c("Data Visualization", "Logistic Regression", "Cross Validation", "Decision Trees", "Random Forests"), FrequencyScore = c(AvgFreqDataVis, AvgFreqLogRegress, AvgFreqCrossValid, AvgFreqDecisionTrees, AvgFreqRandomForest))
+
+#Group and create methods frequency for each level of educational attainment
+EducationData <- MethodsData %>%
+  select(FormalEducation, WorkMethodsSelect) %>%
+  filter(FormalEducation != "I prefer not to answer") %>%
+  na.omit()
+
+HighSchoolEducation <- EducationData %>%
+  filter(FormalEducation == "I did not complete any formal education past high school")
+
+SomePostSecondaryEducation <- EducationData %>%
+  filter(FormalEducation == "Some college/university study without earning a bachelor\'s degree")
+
+ProfessionalEducation <- EducationData %>%
+  filter(FormalEducation == "Professional degree")
+
+BachelorsEducation <- EducationData %>%
+  filter(FormalEducation == "Bachelor's degree")
+
+MastersEducation <- EducationData %>%
+  filter(FormalEducation == "Master's degree")
+
+DoctoralEducation <- EducationData %>%
+  filter(FormalEducation == "Doctoral degree")
+
+MethodFrequencyFunction <- function(x){
+  BigString <- x$WorkMethodsSelect
+  Selections <- str_c(BigString, collapse = "")
+  Selections <- unlist(str_split(BigString, pattern = ","))
+  TempDF <- as.data.frame(table(Selections))
+  TempDF <- TempDF %>%
+    mutate(RelativeFreq = Freq / sum(Freq))
+  return(TempDF)
+}
+
+HighSchoolEducation <- MethodFrequencyFunction(HighSchoolEducation)
+SomePostSecondaryEducation <- MethodFrequencyFunction(SomePostSecondaryEducation)
+ProfessionalEducation <- MethodFrequencyFunction(ProfessionalEducation)
+BachelorsEducation <- MethodFrequencyFunction(BachelorsEducation)
+MastersEducation <- MethodFrequencyFunction(MastersEducation)
+DoctoralEducation <- MethodFrequencyFunction(DoctoralEducation)
+```
+
+# Data Science Methods
+
+## Exploratory Data Analysis (EDA)
+
+### Frequency with which data science methods were endorsed by a total of 7,773 respondents.  
+
+  - Nearly 2/3 endorsed the first place skill, data visualization
+  - Over half endorse logistic regression
+  - Just shy of half endorse cross-validation and decision trees
+
+```{r}
+kable(MethodsFrequency, "html") %>%
+  kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
+```
+
+# Data Science Methods
+
+### Frequency of endorsements for the data science methods
+
+```{r}
+MethodsFrequencyPlot <- ggplot(MethodsFrequency, aes(x = reorder(Options, -Freq), y = Freq, fill = Options)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("Frequency of Enodrsements for DS Methods") + 
+  xlab("Number of Endorsements") +
+  ylab("Data Science Method") +
+  guides(fill = F)
+
+MethodsFrequencyPlot
+```
+
+# Data Science Methods
+
+### "Frequency Score" for the Top Five most endorsed data science methods.
+
+Are there rare but essential methods in data science?
+
+Respondents were asked if they use each method Rarely, Sometimes, Often, or Most of the time.  We converted these to numeric values in order to graph a score and average the categorical responses.
+
+Data visualization was the skill indicated to be used the most frequently.
+
+```{r}
+Top5EndorsedFreqScorePlot <- ggplot(Top5FreqScore, aes(x = reorder(Method, -FrequencyScore), y = FrequencyScore, fill = Method)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("Average Frequency Scores for Top 5 Endorsed DS Methods") + 
+  xlab("Average Frequency Score") +
+  ylab("Data Science Method")
+
+Top5EndorsedFreqScorePlot
+```
+
+# Data Science Methods
+
+We see that in the majority of educational attainment brackets, data visualization remains the most frequently endorsed data science method.
+
+```{r, fig.height = 15, fig.width = 15, fig.align = "center"}
+HighSchoolPlot <- ggplot(HighSchoolEducation, aes(x = Selections, y = RelativeFreq, fill = Selections)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("High School Education Methods Usage") +
+  guides(fill = F)
+
+SomeSchoolPlot <- ggplot(SomePostSecondaryEducation, aes(x = Selections, y = RelativeFreq, fill = Selections)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("Some Post Secondary Education Methods Usage") +
+  guides(fill = F)
+
+ProfessionalPlot <- ggplot(ProfessionalEducation, aes(x = Selections, y = RelativeFreq, fill = Selections)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("Professional Education Methods Usage") +
+  guides(fill = F)
+
+BachelorsPlot <- ggplot(BachelorsEducation, aes(x = Selections, y = RelativeFreq, fill = Selections)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("Bachelor's Education Methods Usage") +
+  guides(fill = F)
+
+MastersPlot <- ggplot(MastersEducation, aes(x = Selections, y = RelativeFreq, fill = Selections)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("Master's Education Methods Usage") +
+  guides(fill = F)
+
+DoctoralPlot <- ggplot(DoctoralEducation, aes(x = Selections, y = RelativeFreq, fill = Selections)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggtitle("Doctoral Education Methods Usage") +
+  guides(fill = F)
+
+grid.arrange(HighSchoolPlot, SomeSchoolPlot, ProfessionalPlot, BachelorsPlot, MastersPlot, DoctoralPlot, nrow = 2)
+```
+
+# Data Science Methods
+
+```{r}
+HighSchoolEducation$Degree <- "High School Education"
+SomePostSecondaryEducation$Degree <- "Some Post Secondary Education"
+ProfessionalEducation$Degree <- "Professional Education"
+BachelorsEducation$Degree <- "Bachelor's Education"
+MastersEducation$Degree <- "Master's Education"
+DoctoralEducation$Degree <- "Doctoral Education"
+
+AllEducations <- rbind(HighSchoolEducation, SomePostSecondaryEducation, ProfessionalEducation, BachelorsEducation, MastersEducation, DoctoralEducation)
+
+Top3EachDegree <- AllEducations %>%
+  group_by(Degree) %>%
+  arrange(desc(RelativeFreq)) %>%
+  slice(1:3)
+
+kable(Top3EachDegree, "html") %>%
+  kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
+```
+
+# Data Science Methods
+
+Data visualization, logistic regression, cross-validation, decision trees, and random forests are not only frequently endorsed methods, but methods that are essential even if only used in small ways.  
+
+It seems like across data science code writers, these methods are popular and then for individual data science code writers, they are used frequently.
+
+- Data science methods used by code writers does not seem to differ given the educational level.  
+- Data visualization remains the most frequently endorsed data science method for the majority of educational groups. 
+
+This has important implications for students of data science in understanding that certain popular job functions are not only performed by those with advanced degrees.  
+
+
+# Learners vs. Employed Data Scientists
+
+```{r message=FALSE ,warning=FALSE, echo=FALSE}
+#Re-import MC items using read.csv so that I can use the likert package
+MC2<-read.csv(linkMC, stringsAsFactors = FALSE)
+#lets create a unique ID variable 
+MC2$id <- seq.int(nrow(MC2))
+```
+
+<br>
+
+## Is there a difference between what **Learners** think are the important skills to learn...
+
+<br>
+
+## ...and what employed **Data Scientists** say are the skills and tools they use?
+
+
+# Learners vs. Employed Data Scientists
+
+## Variables and Manipulating Data - Likert Scales
+
+<br>
+
+**105 variables** in **4 likert scale categories**
+
+- **Learning Platform Usefulness** - _learners and data scientists_
+    - Not Useful &emsp; Somewhat useful &emsp; Very useful
+- **Job Skill Importance** - _learners_
+    - Unnecessary &emsp; Nice to have &emsp; Necessary
+- **Work Tools Frequency** - _data scientists_
+    - Rarely &emsp; Sometimes &emsp; Often &emsp; Most of the time
+- **WorkMethodsFrequency** - _data scientists_
+    - Rarely &emsp; Sometimes &emsp; Often &emsp; Most of the time
+
+Plus a few basic demographic fields
+
+
+```{r, echo=FALSE}
+# Select only variables that seem most related to “Which are the most valued data science skills?”
+# Filter for US Only
+USOnly <- MC2 %>%
+  select(-c(56:73, 76:79, 167:196, 198:228)) %>%
+  filter(Country=='United States')
+
+cols <- str_replace(names(USOnly), "LearningPlatformUsefulness", "LPU-")
+cols <- str_replace(cols, "JobSkillImportance", "JSI-")
+cols <- str_replace(cols, "WorkToolsFrequency", "WTF-")
+cols <- str_replace(cols, "WorkMethodsFrequency", "WMF-")
+names(USOnly) <- cols
+remove(MC2)
+```
+
+```{r warning=FALSE, include=FALSE}
+# Separate those employed in Data Science from those who are not.
+
+# Filter for Employed only, TitleFit better than 'Poorly', and CodeWriters only
+# Remove those that said they are "Employed by a company that doesn't perform advanced analytics"
+employed <- USOnly %>%
+  filter(!grepl('Not employed',EmploymentStatus), 
+         TitleFit!="Poorly",
+         !grepl('doesn\'t perform advanced analytics',CurrentEmployerType),
+         CodeWriter=="Yes",
+         JobFunctionSelect != 'Build and/or run the data infrastructure')
+  
+# Filter for Data Science Learners who are not employed.  
+# The Survey failed to capture those who are employed and ALSO students or learners!!!  
+# Didn't bother to ask employed respondents if they were also sudying Data Science.
+learner <- USOnly %>%
+  filter(grepl('Not employed',EmploymentStatus),
+         grepl('Yes',LearningDataScience))
+
+# Change empty strings to NA
+is.na(employed) <- employed == ""
+is.na(learner) <- learner == ""
+
+# Get rid of empty columns 
+employed <- remove_empty(employed, c("cols"))
+learner <- remove_empty(learner, c("cols"))
+glimpse(employed)
+glimpse(learner)
+```
+
+```{r, include=FALSE}
+# Change columns to factors
+
+flevels <- function(x){
+  factor(x, order=TRUE, levels=c("Not Useful", "Somewhat useful", "Very useful"))
+}
+flevels2 <- function(x){
+  factor(x, order=TRUE, levels=c("Rarely", "Sometimes", "Often", "Most of the time"))
+}
+flevels3 <- function(x){
+  factor(x, order=TRUE, levels=c("Unnecessary", "Nice to have", "Necessary"))
+}
+
+employed[,14:31] <- lapply(employed[,14:31], flevels)
+employed[,39:86] <- lapply(employed[,39:86], flevels2)
+employed[,91:120] <- lapply(employed[,91:120], flevels2)
+
+learner[,12:28] <- lapply(learner[,12:28], flevels)
+learner[,31:40] <- lapply(learner[,31:40], flevels3)
+
+employed.LP <- employed[,14:31]
+employed.WT <- employed[,39:86]
+employed.WM <- employed[,91:120]
+
+learner.LP <- learner[,12:28]
+learner.JS <- learner[,31:40]
+```
+
+# Learners vs. Employed Data Scientists
+
+## Employed Data Scientists - Demographics
+
+<br>
+
+**30%** go by **"Data Scientist"** 
+
+**20%** go by **"Scientist/Researcher"** or **"Software Developer/Software Engineer"**
+
+```{r echo=FALSE}
+# Take a peek at the demographics of those who are employed...
+kable(employed %>% 
+  group_by(CurrentJobTitleSelect) %>%
+  summarise(total = n()) %>%
+  mutate(percent = round(total / sum(total), 4)*100) %>%
+  arrange(desc(total)), "html") %>%
+  kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
+
+# Need to Tidy this data so that each response is in a separate row rather than all in one
+# employed %>% 
+#  group_by(CurrentEmployerType) %>%
+#  summarise(total = n()) %>%
+#  arrange(desc(total))
+```
+
+# Learners vs. Employed Data Scientists
+
+## Learners - Demographics
+
+<br>
+
+About **73% are college students**
+
+```{r echo=FALSE}
+# Take a peek at the demographics of those who are learners...
+kable(learner %>% 
+  group_by(StudentStatus) %>%
+  summarise(total = n()) %>%
+  mutate(percent = round(total / sum(total), 4)*100) %>%
+  arrange(desc(total)), "html") %>%
+  kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
+```
+
+**55% are "focused on learning mostly data science skills"** regardless of academic status.
+
+```{r echo=FALSE}
+# Take a peek at the demographics of those who are learners...
+kable(learner %>% 
+  group_by(StudentStatus, LearningDataScience) %>%
+  summarise(total = n()) %>%
+  mutate(percent = round(total / sum(total), 4)*100) %>%
+  arrange(desc(total)), "html") %>%
+  kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
+
+learner.LPL <- likert(data.frame(learner.LP))
+learner.JSL <- likert(data.frame(learner.JS))
+
+employed.LPL <- likert(data.frame(employed.LP))
+employed.WTL <- likert(data.frame(employed.WT))
+employed.WML <- likert(data.frame(employed.WM))
+```
+
+# Learners vs. Employed Data Scientists
+
+## Learning Platform Usefulness - Learners
+
+<br>
+
+Learners - Top 3 ways to learn data science:
+
+  1. **Courses**
+  2. **Projects**
+  3. **College**  
+
+Friends are the least useful learning platform.
+
+```{r echo=FALSE}
+plot(learner.LPL)
+```
+
+# Learners vs. Employed Data Scientists
+
+## Learning Platform Usefulness - Employed Data Scientists
+
+<br>
+
+**Projects** and **Courses** belong in the top 3, but **College is in 5th place**
+
+Much greater importance on **Friends**...
+
+**46.5%** say Friends are "Very useful"
+
+**97.5%** say Friends are "Somewhat useful" or "Very useful"
+
+```{r echo=FALSE}
+plot(employed.LPL)
+```
+
+# Learners vs. Employed Data Scientists
+
+## Job Skills Importance to Learners
+
+<br>
+
+**63.6%** say **Python** is "Necessary"
+
+**39%** say **Data Visualization** is "Necessary"
+
+**35%** say **R** is "Necessary"
+
+```{r echo=FALSE}
+plot(learner.JSL)
+```
+
+# Learners vs. Employed Data Scientists
+
+## Work Tools Frequency
+
+<br>
+
+**75.4%** use **Python** either "Often" or "Most of the time" 
+
+**63.6%** use **R** either "Often" or "Most of the time"
+
+```{r echo=FALSE, fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE}
+plot(employed.WTL)
+```
+
+# Learners vs. Employed Data Scientists
+
+## Work Methods Frequency
+
+<br>
+
+**Data Visualization** is at the **top of the list**.
+
+**91%** use it "Often" or "Most of the time"
+
+**0%** use it "Rarely" 
+
+**Only 38.8% of Learners said Visualizations were a "Necessary" job skill to learn!**
+
+```{r echo=FALSE}
+plot(employed.WML)
+```
+
+<br>
+
+# R vs. Python
+
+The most frequently used of the programming languages are R and Python. But do those that use R recommend R or Python?  And do those that use Python recommend R or Python?  In other words, do those survey takers feel that others should first and foremost study the languages they themselves have taken up, or perhaps with their insight, know to suggest the language of the two they themselves did not learn?
+
+Thus the following questions were explored:
+ 
+1. What is the distribution of following programming languages Kaggle survey takers used in the past year:  
+
+   + R Only
+   + Python only
+   + Both Python and R
+   + Neither Python nor R
+    
+2. What is the distribution of programming language recommendations by following programming languages Kaggle survey takers used in the past year:   
+
+   + Using R Only
+   + Using Python only
+   + Using Both Python and R
+   + Using Neither Python nor R
+
+# R vs. Python
+
+## Variables and their definition 
+
+There are 2 variables used in this section of the analysis :
+
+1. LanguageRecommendationSelect=(What programming language would you recommend a new data scientist learn first? (Select one option) - Selected Choice)  
+
+2. WorkToolsSelect= For work, which data science/analytics tools, technologies, and languages have you used in the past year? (Select all that apply) - Selected Choice  
+
+
+# R vs. Python
+
+## Exploratory Data Analysis (EDA)
+
+```{r ,fig.height = 8, fig.width = 8, fig.align = "center" , message= FALSE}
+dim(MC)
+tb1<-MC %>%
+  select (id, WorkToolsSelect) %>%
+  filter (id %in% c(1:6))
+   datatable(tb1)
+```
+
+# R vs. Python
+
+```{r}
+#removing NAs and empty values in  column=WorkToolsSelect
+df <- MC[!(MC$WorkToolsSelect == "" | is.na(MC$WorkToolsSelect)), ]
+dim(df)
+tb2<-df %>%
+  select (id, WorkToolsSelect) %>%
+  filter (id %in% c(1:6))
+   datatable(tb2)
+```
+   
+# R vs. Python
+   
+```{r}
+#creating a new variable called work_tools where the original column values are split 
+#please note that this code will generate long data   
+df1<-df %>%
+  mutate(work_tools = strsplit(as.character(WorkToolsSelect), ",")) %>%
+  unnest(work_tools)
+
+  #check 
+tb3<-df1 %>%
+  select (id, WorkToolsSelect,work_tools) %>%
+  filter (id %in% c(1:3))
+   datatable(tb3)
+```
+   
+# R vs. Python
+
+```{r}
+ df2<-df1  %>%
+ group_by(id, work_tools) %>%
+  summarize (total_count = n())   %>%
+    spread( work_tools, total_count, fill=0) 
+
+
+df3<-df2 %>%
+ mutate(lang_use = case_when (
+               (R==1 & Python==0) ~ "Using R Only",
+               (R==0 & Python==1) ~ "Using Python only",
+               (R==1 & Python==1) ~ "Using Both Python and R",
+               (R==0 & Python==0) ~ "Using Neither Python nor R"))%>%
+  select (id, R, Python, lang_use)
+
+tb4<-df3 %>%
+filter (id %in% c(1:10))
+datatable(tb4)
+```
+
+# R vs. Python
+
+```{r}
+#computing percentages
+df4<-df3 %>%
+group_by(lang_use) %>%
+summarize (total_count = n()) %>%
+mutate(percent = ((total_count / sum(total_count)) * 100), percent=round(percent, digit=2))
+
+ #checking
+datatable(df4, colnames=c("Programming Language Survey takers use", "Count", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 4, dom = 'tip'))
+```
+
+# R vs. Python
+
+```{r}
+
+p<-ggplot (df4, aes(x=lang_use,y=percent,fill=lang_use )) +
+geom_bar(stat="identity", width =.5) +
+labs (x="Language ", y="The distribution of R and Python among their users (%) " ,
+      title="Bar Graph of R and Python users") +
+theme(axis.text.x = element_text(angle = 90), legend.position = 'none') +
+scale_y_continuous (breaks=seq(0,100,10), limits = c(0,100))
+ ggplotly(p)
+
+
+
+```
+
+Let's examine the above graph of LanguageRecommendationSelect
+
+# R vs. Python
+
+```{r ,fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE}
+
+ #check 
+tb5<-df1 %>%
+  select (id, WorkToolsSelect,work_tools, LanguageRecommendationSelect) %>%
+  filter (id %in% c(1:3))
+   datatable(tb5)
+
+ df5<-df1  %>%
+ group_by(id, work_tools,LanguageRecommendationSelect) %>%
+  summarize (total_count = n())   %>%
+    spread( work_tools, total_count, fill=0) %>%
+ mutate(lang_use = case_when (
+               (R==1 & Python==0) ~ "Using R Only",
+               (R==0 & Python==1) ~ "Using Python only",
+               (R==1 & Python==1) ~ "Using Both Python and R",
+               (R==0 & Python==0) ~ "Using Neither Python nor R"),
+        lang_rec = case_when (
+               (LanguageRecommendationSelect=="R") ~ "Recommending R ",
+               (LanguageRecommendationSelect=="Python" ) ~ "Recommending Python ",
+               (LanguageRecommendationSelect!="R" |LanguageRecommendationSelect!="Python") ~ "Recommending Neither Python nor R",
+               (LanguageRecommendationSelect=="NA"|LanguageRecommendationSelect==" " ) ~ "Recommending Nothing"))%>%
+select (id, R, Python, lang_use,lang_rec )
+```
+
+# R vs. Python
+ 
+```{r}
+ dim(df5)
+ 
+tb6<-df5 %>%
+filter (id %in% c(1:10))
+datatable(tb6)
+
+ #computing percentages
+df6<-df5 %>%
+group_by(lang_use,lang_rec) %>%
+summarize (total_count = n()) %>%
+mutate(percent = ((total_count / sum(total_count)) * 100), percent=round(percent, digit=2))
+```
+
+# R vs. Python
+
+```{r}
+#checking
+datatable(df6, colnames=c("Programming Language Survey takers use", "Count", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 4, dom = 'tip'))
+```
+
+# R vs. Python
+
+```{r}
+p1<-ggplot (df6, aes(x=lang_use,y=percent,fill=lang_use )) +
+geom_bar(stat="identity", width =.5) +
+labs (x="Language ", y="The distribution of R and Python among their users (%) " ,
+title="Bar Graph of R and Python users and their recommended language") +
+theme(axis.text.x = element_text(angle = 90)) +
+scale_y_continuous (breaks=seq(0,100,10), limits = c(0,100))+
+  facet_wrap(~lang_rec)+
+  theme(legend.position = 'none')
+
+ggplotly(p1)
+
+```
+
+
+
+<br>
+
+# Salary Comparison for Python vs. R
+
+Finally, true to the word "value," considerations have to be made regarding pay. The compensation received by survey takers for their work in either R or Python needs quantification to discover which language earns a data scientist more overall and in general.
+
+# Salary Comparison for Python vs. R
+
+## Contributing Variables
+
+Three variables were used:
+
+* __WorkToolsSelect__: a "select all that apply" variable with a list of various data science tools, technologies, and languages
+* __CompensationAmount__: a numerical value to indicate their annual pay
+* __CompensationCurrency__: a character string that indicated currency of annual pay
+
+There was also the variable "id" that was created for the purpose of this report, acting as a way to identify each individual survey taker, and the variable "work_tools" which was a derivative of WorkToolsSelect, breaking the lists down into their individual components.
+
+```{r}
+RQ6 <- MC %>%
+  mutate(work_tools = strsplit(as.character(WorkToolsSelect), ",")) %>% 
+  unnest(work_tools)
+
+RQ6 <- RQ6 %>%
+  filter(!is.na(WorkToolsSelect)) %>%  # Filters out all columns with NA in the WorkToolsSelect column
+  filter(CompensationCurrency == "USD") %>% # Makes sure to only use rows whose currency is in USD
+  filter(work_tools == "Python" | work_tools == "R") %>% # The work tools are R or Python, period.
+  select(id, work_tools, CompensationAmount) # Only have three rows to work with
+RQ6_ids <- select(filter(as.data.frame(table(RQ6$id)), Freq == 1), Var1) # Only want people who use R or Python EXCLUSIVELY, not R and/or Python
+RQ6_ids <- droplevels(RQ6_ids)$Var1 # Removed the levels so we can actually get the IDs
+RQ6 <- filter(RQ6, id %in% RQ6_ids) # Only keep those rows whose id are inside of list of ids with R or Python exclusively used at work
+RQ6 <- select(RQ6, -id) # No use for the ID anymore, it's done its job
+RQ6$CompensationAmount <- gsub(",", "", RQ6$CompensationAmount) # Removed the commas from the compensation amount to prep for numeric transformation
+RQ6$CompensationAmount <- as.numeric(RQ6$CompensationAmount) # made the column into a numeric for easier mathematical comparison and sorting
+RQ6 <- filter(RQ6, CompensationAmount < 9999999) # ... let's just be a little realistic, nobody is earning more than fifteen million a year at this point in time or prior to it, and this one-dollar-off-from-a-million entry is an anomaly in the data set
+RQ6.summary <- rbind(summary(select(filter(RQ6, work_tools=="Python"), CompensationAmount)[[1]]), summary(select(filter(RQ6, work_tools=="R"), CompensationAmount)[[1]])) # Summary of the data
+RQ6.summary <- as.data.frame(RQ6.summary)
+colnames(RQ6.summary) <- c("Minimum", "1st Quartile", "Median", "Mean", "3rd Quartile", "Maximum") # Renamed the columns
+RQ6.summary["Standard Deviation"] <- c( sd(filter(RQ6, work_tools == "Python")$CompensationAmount), sd(filter(RQ6, work_tools == "R")$CompensationAmount) )
+RQ6.summary <- as.data.frame(sapply(RQ6.summary, function (x) paste("$", formatC(x, digits=2, format="f", big.mark=","), sep="") )) # Made all of the items in the data frame into dollar format
+rownames(RQ6.summary) <- c("Python", "R") # Applied the rownames
+rm(RQ6_ids) # remove the now-unused variable to save memory
+```
+
+# Salary Comparison for Python vs. R
+
+## Exploration and Review of Compensations
+
+```{r}
+RQ6_boxplot <- ggplot(RQ6) +
+  geom_boxplot( aes(x = factor(work_tools), 
+                    y = CompensationAmount,
+                    fill = factor(work_tools)
+                     )
+                  ) +
+  scale_y_continuous(breaks=seq(0,2000000,25000)) +
+  labs( x = "Programming Language",
+        y = "Annual Compensation in USD",
+        fill = "Programming Language")
+RQ6_boxplot_ylim <- boxplot.stats(RQ6$CompensationAmount)$stats[c(1, 5)]
+RQ6_boxplot <- RQ6_boxplot + coord_cartesian(ylim = RQ6_boxplot_ylim*1.05)
+RQ6_boxplot
+```
+
+```{r}
+knitr::kable(RQ6.summary, "html") %>%
+  kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
+```
+
+<br>
+
+# Conclusion
+
+**On the contentious debate on which Machine Learning/Data Science methods Data Scientists are most excited about learning in the next year as the most valued Data Science Skills**
+
++ *Deep Learning* is the top most Machine Learning/Data Science method in all categories of formal education followed by *Neural Nets* except High school graduates, all others wants to learn
++ *Time Series Analysis* as the third Machine Learning/Data Science method. High school graduates want to learn Genetic & Evolutionary Algorithms as their third choice. 
++ Among doctoral survey takers, *Bayesian Methods* is the third preference.
+
+**On Data Science Methods Used on the Job**
+
++ *Data Visualization* is a remarkably popular data science method.  It is the most endorsed by *nearly all education attainment levels*.
++ *Cross validation, random forests, logistic regression, and decision trees* are also heavily endorsed.
++ These are not just short but required or essential tasks--not only do so many of those writing code use data visualization, but they also use it quite frequently
++ The data suggest that data science methods do *not* differ much between formal educational attainment groups.
+
+
+**Learners vs. Employed Data Scientists**
+
++ Both Learners and employed Data Scientists agree that Courses, Projects and College are in the top three ways to learn Data Science
++ Learners place much less importance on Friends for learning than employed Data Scientists do
++ Learners place a higher importance on Python vs. R as compared with employed Data Scientists
++ Data Visualization is the top used skill for working Data Scientists even though learners put relatively little importance on it as a Job Skill
+
+**On Data Science Activities**
+
++ *Gathering Data* is the main activity where data scientists spend most of their time followed by model building. 
++ *Personal projects and Online Courses* appear to be very useful learning platforms.
+
+**On the contentious debate on R vs Python as the most valued Data Science Skills**  
+
++ Half of the sample uses both R and Python    
++ R only to Python only users are in 1:2 ratio    
++ More R users recommended Python than the Python users recommended R   
++ Both users recommendations in Python is more than their recommendation in R   
++ R users are more likely to have a higher base salary, but Python users have the greater potential for wage growth
+
+
+
