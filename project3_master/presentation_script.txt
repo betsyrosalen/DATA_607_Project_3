@@ -20,7 +20,7 @@
 
 
 
-====(WHAT DO DATA SCIENTISTS WANT TO LEARN? by Binish, mins, words)====
+====(WHAT DO DATA SCIENTISTS WANT TO LEARN? by Binish, 1.9 mins, 245 words)====
 Our results revealed that *Deep Learning* is the top most Machine Learning/Data Science method among the Kaggle survey takers regardless of their earned formal education. Interestingly, both 40% of respondents who had earned bachelor degree and 40% of survey takers with earned master’s degree stated that Deep Learning is the technique that they are most excited about learning in the next year. Similarly, 39% of the respondents with high school degree reported to learn Deep Learning as their top desired Machine Learning/Data Science method.
 
 Following Deep Learning, *Neural Nets* emerged as the second top Machine Learning/Data Science method that Data Scientists have the desire to learn next year. Intriguingly, College Dropouts have highest percentage in the distribution in learning Neural Nets.
