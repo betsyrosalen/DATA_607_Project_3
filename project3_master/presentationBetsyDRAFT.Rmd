@@ -1047,7 +1047,8 @@ mutate(percent = ((total_count / sum(total_count)) * 100), percent=round(percent
 
 ```{r}
 #checking
-datatable(df6, colnames=c("Programming Language Survey takers use", "Count", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 4, dom = 'tip'))
+datatable(df6, colnames=c("Programming Language Survey takers use", "Programming Language Survey takers recommend"
+                          ,"Count", "Percent"),class = 'cell-border stripe',caption = 'Table 2: Descriptive Statistics',options = list(pageLength = 4, dom = 'tip'))
 ```
 
 # R vs. Python
