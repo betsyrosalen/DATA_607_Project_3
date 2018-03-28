@@ -268,21 +268,23 @@ theme_bw()+
 theme(axis.text.x = element_text(angle = 65, hjust = 1),axis.text.y=element_blank(),axis.ticks.y=element_blank())
 ```
 
-
 # What do Data Scientists Want to Learn?
 
-Next, we examine what these survey takers of various educational backgrounds find themselves excited to learn. Due to the ever-evolving nature of technology and, by extension, data science, it is imperative that they remain relevant in their field and are passionate in their pursuit for relevance.  Understanding what working professionals want to learn could give us insight into what skills are most valued in the field.
+<br>
 
-Does survey takers' formal education have any relationship to the Machine Learning/Data Science method he or she is most excited about learning in the next year?
+## Does survey takers' formal education have any relationship to the Machine Learning/Data Science method he or she is most excited about learning in the next year?
+
+<br>
+
+Understanding what working professionals want to learn could give us insight into what skills are most valued in the field.
+
 
 # What do Data Scientists Want to Learn?
 
 ## Variables and their definition 
 
-To do the analysis, we concentrate on two columns in the dataset 
-
-  1. FormalEducation: Which level of formal education have you attained?
-  2. MLMethodNextYearSelect : Which Machine Learning/Data Science method are you most excited about learning in the next year?
+1. FormalEducation: Which level of formal education have you attained?
+2. MLMethodNextYearSelect : Which Machine Learning/Data Science method are you most excited about learning in the next year?
 
 These questions were asked to all participants.
 
@@ -310,7 +312,7 @@ subset <- MC %>%
 
 ## Exploratory Data Analysis (EDA)
 
-First we plot the distribution of formal education in the dataset
+Mostly Master's degrees followed by Bachelor's then doctoral degrees. 
 
 ```{r, echo=FALSE}
 
@@ -322,12 +324,9 @@ subset %>%
  #ggplotly(a)
 ```
 
-The data set predominantly contains candidates with Master's degrees which are followed by Bachelor's then doctoral degrees.   
-
 # What do Data Scientists Want to Learn?
 
-Now let's look at the different Machine Learning/Data Science methods in the dataset.
-
+Let's look at the different Machine Learning/Data Science methods.
 
 ```{r, echo=FALSE}
 kable(unique(subset$MLMethodNextYearSelect), col.names = c("Machine Learning/Data Science"), "html") %>%
@@ -336,7 +335,7 @@ kable(unique(subset$MLMethodNextYearSelect), col.names = c("Machine Learning/Dat
 
 # What do Data Scientists Want to Learn?
 
-Now we can plot the distribution of Machine Learning/Data Science methods with formal education.
+Distribution of Machine Learning/Data Science methods with formal education.
 
 ```{r, fig.height = 10, fig.width = 10, fig.align = "center" , message= FALSE, echo=FALSE}
 subset %>%
@@ -367,8 +366,6 @@ result <- subset %>%
 datatable(result, colnames=c("Formal Education", "Machine Learning/Data Science method excited about learning next year", "Percent"),class = 'cell-border stripe',caption = 'Table 1: Descriptive Statistics',options = list(pageLength = 8, dom = 'tip'))
 ```
 
-
-<br>
 
 # Data Science Methods
 
