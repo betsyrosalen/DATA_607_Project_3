@@ -1,5 +1,5 @@
 ---
-title: "DATA607 Project 3 Presentation"
+title: "DATA 607 Project 3 Presentation"
 author: "Gabrielle Bartomeo, Binish Chandy, Zach Dravis, Burcu Kaniskan, Niteen Kumar, Betsy Rosalen"
 date: "March 25, 2018"
 output: 
@@ -32,22 +32,21 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Research Question
 
-**Which are the most valued data science skills?**  
+<br>
 
-While the answer to the question is by definition subjective, the Kaggle Survey provides a good starting point for exploring the views of professionals in the field and what they value.
+## **Which are the most valued data science skills?**  
+
+
+# Importing data
+
+## [Kaggle ML and Data Science Survey, 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017)
 
 <br>
 
-## Importing data
+The survey data included:
 
-We used survey data from the [Kaggle ML and Data Science Survey, 2017](https://www.kaggle.com/kaggle/kaggle-survey-2017).
-
-The survey data included 2 different csv files consisting of:
-
-  1. multiple choice items
-  2. free-response items
-  
-We chose to focus on the multiple choice data only.  
+  1. free-response items
+  2. **multiple choice items**
 
 ```{r message=FALSE, warning=FALSE}
 linkMC<-"https://raw.githubusercontent.com/betsyrosalen/DATA_607_Project_3/master/project3_master/rawdata/multipleChoiceResponses.csv"
@@ -72,7 +71,22 @@ MC$id <- seq.int(nrow(MC))
 # conversion$id <- seq.int(nrow(conversion))
 ```
 
-<br>
+# Agenda
+
+### A Day in a Data Scientist's Life
+
+### What do Data Scientists Want to Learn?
+
+### Data Science Methods
+
+### Learners vs. Employed Data Scientists
+
+### R vs. Python
+
+### Salary Comparison for Python vs. R
+
+### Conclusion
+
 
 # A Day in a Data Scientist's Life
 
@@ -80,7 +94,7 @@ MC$id <- seq.int(nrow(MC))
 
 Variables: Country, GenderSelect & Age <br>
 
-Domographics Insight:
+Demographics Insight:
 
   1. **Number of Respondents** - 16716  
   1. **Country** - 50+
@@ -422,7 +436,7 @@ In order to answer the question of which methods are most popular among code wri
 
 Once filtered, the endorsed data science methods were aggregated and plotted for frequency (see Exploratory Data Analysis below).  The top five most frequent data science methods endorsed were then selected and given a frequency score to represent among those who endorse using them to some extent, how frequently they use that tool.
 
-The final transformation performed on the data was grouping by formal education level attainment and then identifying the most frequently endorsed data science methods for each group.  This can help identify if those writing certain types of code and using certain data analyses are potentially benefitted by pursuing advanced education--a valuable insight for potential data science pupils.
+The final transformation performed on the data was grouping by formal education level attainment and then identifying the most frequently endorsed data science methods for each group.  This can help identify if those writing certain types of code and using certain data analyses are potentially benefited by pursuing advanced education--a valuable insight for potential data science pupils.
 
 ```{r}
 #Subset Data
@@ -1139,8 +1153,6 @@ knitr::kable(RQ6.summary, "html") %>%
   kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
 ```
 
-<br>
-
 # Conclusion
 
 **On the contentious debate on which Machine Learning/Data Science methods Data Scientists are most excited about learning in the next year as the most valued Data Science Skills**
@@ -1149,6 +1161,8 @@ knitr::kable(RQ6.summary, "html") %>%
 + *Time Series Analysis* as the third Machine Learning/Data Science method. High school graduates want to learn Genetic & Evolutionary Algorithms as their third choice. 
 + Among doctoral survey takers, *Bayesian Methods* is the third preference.
 
+# Conclusion
+
 **On Data Science Methods Used on the Job**
 
 + *Data Visualization* is a remarkably popular data science method.  It is the most endorsed by *nearly all education attainment levels*.
@@ -1156,6 +1170,7 @@ knitr::kable(RQ6.summary, "html") %>%
 + These are not just short but required or essential tasks--not only do so many of those writing code use data visualization, but they also use it quite frequently
 + The data suggest that data science methods do *not* differ much between formal educational attainment groups.
 
+# Conclusion
 
 **Learners vs. Employed Data Scientists**
 
@@ -1164,10 +1179,14 @@ knitr::kable(RQ6.summary, "html") %>%
 + Learners place a higher importance on Python vs. R as compared with employed Data Scientists
 + Data Visualization is the top used skill for working Data Scientists even though learners put relatively little importance on it as a Job Skill
 
+# Conclusion
+
 **On Data Science Activities**
 
 + *Gathering Data* is the main activity where data scientists spend most of their time followed by model building. 
 + *Personal projects and Online Courses* appear to be very useful learning platforms.
+
+# Conclusion
 
 **On the contentious debate on R vs Python as the most valued Data Science Skills**  
 
@@ -1176,6 +1195,3 @@ knitr::kable(RQ6.summary, "html") %>%
 + More R users recommended Python than the Python users recommended R   
 + Both users recommendations in Python is more than their recommendation in R   
 + R users are more likely to have a higher base salary, but Python users have the greater potential for wage growth
-
-
-
