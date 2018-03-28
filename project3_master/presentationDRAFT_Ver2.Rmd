@@ -71,7 +71,6 @@ MC$id <- seq.int(nrow(MC))
 # conversion$id <- seq.int(nrow(conversion))
 ```
 
-<br>
 
 # A Day in a Data Scientist's Life
 
