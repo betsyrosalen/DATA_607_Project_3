@@ -76,11 +76,18 @@ MC$id <- seq.int(nrow(MC))
 
 # A Day in a Data Scientist's Life
 
-
-## Variables and their definition 
+## Demographics Information
 
 Variables: GenderSelect & Age <br>
-Analysis: It appears that out of 16716 global Kaggle respondents there are 13610 males (84%) and 2778 females (16%). In this subset male respondents are almost 5 (~4.8) times more than female respondents. Also, from the plot below it is pretty evident that repondents' age peaks at 25 for both males and females whereas the median age for overall population is about 30.
+
+Domographics Insight:
+
+  1. **Number of Respondents** - 16716  
+  1. **Country** - 50+
+  2. **Gender** - 13610 males (84%), 2778 females (16%).
+  3. **Median Age** - 30
+
+<br>
 
 ```{r niteen01, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
 
@@ -98,7 +105,32 @@ survey.dem.plot <- survey.demographics %>%
   summarise(count=n()) %>%
   arrange(desc(count))
 
+survey.demographics.country <- survey.demographics %>%
+  group_by(Country)%>%
+    summarise(count=n()) %>%
+    arrange(desc(count))
+
+survey.demographics.country.gender <- survey.demographics %>%
+  group_by(Country,GenderSelect)%>%
+    summarise(count=n()) %>%
+    arrange(desc(count))
+
+kable(head(survey.demographics.country), "html") %>%
+  kable_styling(bootstrap_options = c("striped","bordered", "condensed"), font_size =20, full_width = F, position = "float_left") %>%
+  add_header_above(c(" ", "Top 5" = 1))
+
+kable(tail(survey.demographics.country), "html") %>%
+  kable_styling(bootstrap_options = c("striped","bordered", "condensed"), font_size =20, full_width = F, position = "float_left") %>%
+  add_header_above(c(" ", "Bottom 5" = 1))
+
+kable(head(survey.demographics.country.gender), "html") %>%
+  kable_styling(bootstrap_options = c("striped","bordered", "condensed"), font_size =20, full_width = F, position = "float_left") %>%
+ add_header_above(c(" ", "Top 5 Respondents" = 2))
+
 ```
+
+# A Day in a Data Scientist's Life
+## Exploratory Data Analysis (EDA) - Demographics
 
 ```{r figds01,  echo=FALSE,warning=FALSE,}
 library(ggplot2)
@@ -125,25 +157,14 @@ ggplot(data = survey.dem.age.plot,
 </div>
 
 
-The day typically starts with a question or business problem and invloves following activties/ tasks:
-
-1. **GatheringData** 
-2. **FindingInsights** 
-3. **ModelBuilding**
-4. **Visualizing**
-5. **Production** 
 
 # A Day in a Data Scientist's Life
 
 ## Manipulating data - DS Activities
 
-Kaggle successfully captured repondents' data about time spent in different activities. <br>
 Key Attributes: TimeGatheringData, TimeModelBuilding, TimeProduction, TimeVisualizing, and TimeFindingInsights.
 
 ## Exploratory Data Analysis (EDA)
-
-After analyzing data for US repondents it appears that data cquisition  or gathering data is the main activitiy, at 37.75%.  This is where data scientists spent most of their time. Model building ranks 2nd, at 19.23%, followed by time spent in finding insights and data visualization. Only 10.23% of their total time appears to be taken by production activities. 
-
 
 ```{r niteen02, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
 
@@ -175,8 +196,9 @@ ds.act.us.plot <- ds.act.us %>%
 
 ds.act.us.plot.df <-  ds.act.us.plot %>%   
   arrange(desc(mean_precent))
-kable(ds.act.us.plot.df, "html") %>%
-  kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
+
+#kable(ds.act.us.plot.df, "html") %>%
+ # kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
       
 ```
 
@@ -195,12 +217,9 @@ ggplot(data = ds.act.us.plot,aes(DSActivity,mean_precent))+
 
 ## Manipulating data - Learning Platforms and Learners Sentiments
 
-In order to determining usefulness of learners platfom we tidy the data for 18 learning platform attributes present in the data set and perform the analysis on long data type.  <br>
 Key Attributes: 18 Learning Platforms (Arxiv,Blogs,College,Company,Conferences,Friends,Kaggle,Newsletters,Communities,Documentation,Courses,Projects,Podcasts,SO,Textbook,TradeBook,Tutoring,YouTube)
 
 ## Exploratory Data Analysis (EDA)
-
-After analyzing respondents take on different learning platforms it appears that learners mostly benefited from personal projects as majority of resonses indicate projects as being very useful. Online courses appears to be 2nd, followed by StackOverflow and Kaggle. Blogs,textbooks and college also appear to be very userful whereas newsletters, podcasts and tradebook rank low. 
 
 ```{r niteen04, echo=FALSE,warning=FALSE, cache=FALSE, message=FALSE}
 survey.data.learning <- survey.data %>%
@@ -234,8 +253,8 @@ ds.learn.us.plot <- ds.learn.us %>%
     group_by(LPlatform) 
 ds.learn.us.plot.df <- ds.learn.us.plot %>%
     mutate(LearningPlatform=substr(LPlatform,27,length(LPlatform))) 
-kable(head(ds.learn.us.plot.df), "html") %>%
-  kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
+#kable(head(ds.learn.us.plot.df), "html") %>%
+ # kable_styling(bootstrap_options = "striped", font_size =20, full_width = F, position = "left")
 ```
 <br> 
 
