@@ -78,7 +78,7 @@ MC$id <- seq.int(nrow(MC))
 
 <table>
 <tr>
-<td>
+<td valign="top">
 
 - 16716 total Kaggle respondents
 - 13610 males (84%)
@@ -130,7 +130,7 @@ ggplot(data = survey.dem.age.plot,
 
 <table>
 <tr>
-<td>
+<td valign="top">
   1. Gathering Data
   2. Finding Insights
   3. Model Building
@@ -586,7 +586,7 @@ MethodsFrequencyPlot
 
 <table>
 <tr>
-<td>
+<td valign="top">
 Are there rare but essential methods in data science?
 
 Respondents were asked if they use each method Rarely, Sometimes, Often, or Most of the time.  We converted these to numeric values in order to graph a score and average the categorical responses.
